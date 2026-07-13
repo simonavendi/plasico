@@ -231,13 +231,45 @@ def catalog_page_config(category: dict, products: list[dict] | None = None) -> d
     }
 
 
-def customize_catalog_head(head: str, title: str, description: str) -> str:
+def customize_catalog_head(
+    head: str,
+    title: str,
+    description: str,
+    page_path: str | None = None,
+) -> str:
     head = re.sub(r"<title>.*?</title>", f"<title>{escape(title)}</title>", head, flags=re.DOTALL)
     head = re.sub(
         r'<meta name="description" content="[^"]*"',
         f'<meta name="description" content="{escape(description)}"',
         head,
     )
+    if page_path:
+        og_url = f"https://plasico.vercel.app/{page_path.replace(chr(92), '/')}"
+        head = re.sub(
+            r'<meta property="og:title" content="[^"]*"',
+            f'<meta property="og:title" content="{escape(title)}"',
+            head,
+        )
+        head = re.sub(
+            r'<meta property="og:description" content="[^"]*"',
+            f'<meta property="og:description" content="{escape(description)}"',
+            head,
+        )
+        head = re.sub(
+            r'<meta property="og:url" content="[^"]*"',
+            f'<meta property="og:url" content="{escape(og_url)}"',
+            head,
+        )
+        head = re.sub(
+            r'<meta name="twitter:title" content="[^"]*"',
+            f'<meta name="twitter:title" content="{escape(title)}"',
+            head,
+        )
+        head = re.sub(
+            r'<meta name="twitter:description" content="[^"]*"',
+            f'<meta name="twitter:description" content="{escape(description)}"',
+            head,
+        )
     if 'data-redesign="spatial-minimalism"' not in head:
         head = head.replace('class="dark"', 'class="dark" data-redesign="spatial-minimalism"')
     return head
@@ -267,6 +299,7 @@ def build_page(
         adapt_shell_part(shell["head"], link_map, page_path),
         title,
         description,
+        page_path=page_path,
     )
     header = adapt_shell_part(shell["header"], link_map, page_path)
     footer = adapt_shell_part(shell["footer"], link_map, page_path)
