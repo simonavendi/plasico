@@ -192,6 +192,7 @@ HEADER_CATEGORIES_SCRIPT = r"""
         desktopToggle?.classList.remove('is-open');
       }
       function openHeaderCategories(source) {
+        window.__closeHeaderAuth?.();
         const useDesktop = source === 'desktop' || (window.matchMedia('(min-width: 1024px)').matches && source !== 'mobile');
         if (useDesktop && desktopPanel) {
           desktopPanel.classList.add('is-open');
@@ -383,9 +384,112 @@ HEADER_CATEGORIES_SCRIPT = r"""
     })();
 """
 
+HEADER_AUTH_SCRIPT = r"""
+    (function initHeaderAuth() {
+      const root = document.getElementById('header-auth');
+      const toggle = document.getElementById('header-auth-toggle');
+      const panel = document.getElementById('header-auth-panel');
+      const backdrop = document.getElementById('header-auth-backdrop');
+      if (!root || !toggle || !panel) return;
+
+      const OAUTH_URLS = {
+        facebook: 'https://plasico.bg/oauth_dialog?oauth=facebook',
+        google: 'https://plasico.bg/oauth_dialog?oauth=google'
+      };
+
+      let isOpen = false;
+      let lastFocused = null;
+
+      function openOAuthPopup(url) {
+        const w = 640;
+        const h = 480;
+        const left = (screen.width / 2) - (w / 2);
+        const top = (screen.height / 2) - (h / 2);
+        const popup = window.open(
+          url,
+          '',
+          'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left
+        );
+        if (popup) popup.focus();
+      }
+
+      function closeAuth() {
+        if (!isOpen) return;
+        isOpen = false;
+        root.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        panel.setAttribute('aria-hidden', 'true');
+        panel.hidden = true;
+        if (backdrop) {
+          backdrop.classList.remove('is-visible');
+          backdrop.setAttribute('aria-hidden', 'true');
+        }
+        document.removeEventListener('keydown', onKeydown);
+        if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+      }
+
+      function openAuth() {
+        if (isOpen) return;
+        window.__closeHeaderCategories?.();
+        window.__closeHeaderCategoriesPanel?.();
+        window.__closeCartDrawer?.();
+        isOpen = true;
+        lastFocused = document.activeElement;
+        root.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+        panel.hidden = false;
+        panel.setAttribute('aria-hidden', 'false');
+        if (backdrop) {
+          backdrop.classList.add('is-visible');
+          backdrop.setAttribute('aria-hidden', 'false');
+        }
+        requestAnimationFrame(() => {
+          const first = panel.querySelector('a, button');
+          if (first) first.focus();
+        });
+        document.addEventListener('keydown', onKeydown);
+      }
+
+      function onKeydown(e) {
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeAuth();
+        }
+      }
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isOpen) closeAuth();
+        else openAuth();
+      });
+
+      backdrop?.addEventListener('click', closeAuth);
+
+      document.addEventListener('click', (e) => {
+        if (!isOpen) return;
+        if (root.contains(e.target)) return;
+        closeAuth();
+      });
+
+      panel.querySelectorAll('[data-oauth]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const provider = btn.getAttribute('data-oauth');
+          const url = OAUTH_URLS[provider];
+          if (url) openOAuthPopup(url);
+          closeAuth();
+        });
+      });
+
+      window.__closeHeaderAuth = closeAuth;
+      window.__openHeaderAuth = openAuth;
+    })();
+"""
+
 CONTENT_PAGE_SCRIPTS = (
   "  <script>\n"
   + HEADER_CATEGORIES_SCRIPT
+  + HEADER_AUTH_SCRIPT
   + """
     (function initBackToTop() {
       const btn = document.getElementById('back-to-top');
@@ -613,7 +717,6 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
     )
 
     if active_utility:
-        slug = active_utility.replace(".html", "")
         for label, path in [
             ("Магазини", "magazini.html"),
             ("Сервиз", "serviz.html"),
@@ -626,6 +729,20 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
                     rf'<a href="{rel_href(path, from_page)}" class="header-utility-link text-apricot" aria-current="page">{label}</a>',
                     part,
                     count=1,
+                )
+                part = re.sub(
+                    rf'(<div class="header-cat-mega-cell)(?![^"]*panel-utility-mega-cell--sale)(">\s*<a href="[^"]*" class="header-cat-mega-parent">\s*<span class="header-cat-mega-parent__icon"[^>]*>.*?</span>\s*<span class="header-cat-mega-parent__label">{re.escape(label)}</span>)',
+                    r'\1 is-active\2',
+                    part,
+                    count=1,
+                    flags=re.DOTALL,
+                )
+                part = re.sub(
+                    rf'(<div class="header-cat-mega-cell is-active">\s*<a href=")([^"]*)(" class="header-cat-mega-parent)(">\s*<span class="header-cat-mega-parent__icon"[^>]*>.*?</span>\s*<span class="header-cat-mega-parent__label">{re.escape(label)}</span>)',
+                    rf'\1{rel_href(path, from_page)}\3 aria-current="page"\4',
+                    part,
+                    count=1,
+                    flags=re.DOTALL,
                 )
 
     campaign_home = link_map.get("campaignHome", "hot-summer-sale-2026.html")
@@ -649,6 +766,24 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
         patch_sale_cta,
         part,
     )
+    part = re.sub(
+        r'<a href="[^"]*" class="(header-cat-mega-parent panel-utility-mega-parent--sale[^"]*)"(.*?)>',
+        patch_sale_cta,
+        part,
+    )
+
+    if is_campaign_page:
+        part = part.replace(
+            'panel-utility-mega-cell--sale"',
+            'panel-utility-mega-cell--sale is-active"',
+            1,
+        )
+    else:
+        part = part.replace(
+            'panel-utility-mega-cell--sale is-active"',
+            'panel-utility-mega-cell--sale"',
+            1,
+        )
 
     part = patch_header_site_home_links(part)
 
