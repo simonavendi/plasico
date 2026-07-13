@@ -102,6 +102,12 @@ NEW_HEADER = '''  <header id="site-header" class="fixed top-0 w-full z-50 font-s
                   <span class="header-cat-mega-parent__label">0700 20 810</span>
                 </a>
               </div>
+              <div class="header-cat-mega-cell">
+                <a href="https://plasico.bg/account" class="header-cat-mega-parent" aria-label="Потребителски профил" title="Вход">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">person</span></span>
+                  <span class="header-cat-mega-parent__label">Потребителски профил</span>
+                </a>
+              </div>
               <div class="header-cat-mega-cell panel-utility-mega-cell--sale is-active">
                 <a href="hot-summer-sale-2026.html" class="header-cat-mega-parent panel-utility-mega-parent--sale" aria-label="Разпродажба Hot Summer Sale 2026" aria-current="page">
                   <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">local_fire_department</span></span>
@@ -110,6 +116,7 @@ NEW_HEADER = '''  <header id="site-header" class="fixed top-0 w-full z-50 font-s
               </div>
             </div>
           </nav>
+          <div id="site-categories-panel-mobile" class="mb-4"></div>
           <div id="campaign-categories-panel"></div>
         </div>
       </div>
@@ -304,7 +311,7 @@ INIT_HEADER_JS_NEW = r"""(function initHeaderCategories() {
           parent.type = 'button';
           parent.addEventListener('click', () => {
             const wasOpen = cell.classList.contains('is-open');
-            parent.closest('.header-cat-mega-grid, #campaign-categories-panel')
+            parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile, #campaign-categories-panel')
               ?.querySelectorAll('.header-cat-mega-cell.is-open')
               .forEach(node => { if (node !== cell) node.classList.remove('is-open'); });
             cell.classList.toggle('is-open', !wasOpen);
@@ -337,7 +344,25 @@ INIT_HEADER_JS_NEW = r"""(function initHeaderCategories() {
         return cell;
       }
 
+      function renderSiteCategories(siteCategories) {
+        const root = document.getElementById('site-categories-panel-mobile');
+        if (!root) return;
+        root.innerHTML = '<p class="header-cat-section-title">ПРОДУКТОВИ КАТЕГОРИИ</p>';
+        const grid = document.createElement('div');
+        grid.className = 'header-cat-mega-grid';
+        (siteCategories || []).forEach(cat => grid.appendChild(buildMegaCell(cat, {})));
+        root.appendChild(grid);
+      }
+
+      window.__renderHeaderSiteCategories = renderSiteCategories;
       window.__buildHeaderMegaCell = buildMegaCell;
+
+      fetch(mapUrl)
+        .then(res => (res.ok ? res.json() : null))
+        .then(map => {
+          if (map?.siteCategories) renderSiteCategories(map.siteCategories);
+        })
+        .catch(() => {});
     })();"""
 
 
