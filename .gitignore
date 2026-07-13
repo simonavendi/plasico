@@ -29,3 +29,4 @@ verify-*.js
 test-filter.js
 tag-upgraded.js
 fix-badges.js
+.vercel
