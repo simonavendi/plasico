@@ -7751,7 +7751,13 @@
       if (!grid || !categoryMap?.categories) return;
 
       grid.innerHTML = '';
-      if (panel) panel.innerHTML = '';
+      if (panel) {
+        panel.innerHTML = '';
+        const sectionTitle = document.createElement('p');
+        sectionTitle.className = 'header-cat-section-title';
+        sectionTitle.textContent = 'ПРОДУКТОВИ КАТЕГОРИИ';
+        panel.appendChild(sectionTitle);
+      }
       if (megaGrid) megaGrid.innerHTML = '';
 
       const headerOptions = {
