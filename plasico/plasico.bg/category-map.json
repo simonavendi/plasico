@@ -9,6 +9,147 @@
     "business",
     "ultrabook"
   ],
+  "siteCategories": [
+    {
+      "id": "promotsii",
+      "name": "Промоции",
+      "materialIcon": "local_offer",
+      "localUrl": "promotsii.html",
+      "url": "https://plasico.bg/promotsii"
+    },
+    {
+      "id": "game-zone",
+      "name": "Гейминг",
+      "materialIcon": "sports_esports",
+      "localUrl": "game-zone.html",
+      "url": "https://plasico.bg/game-zone"
+    },
+    {
+      "id": "kompyutri-i-syrvyri",
+      "name": "Компютри и сървъри",
+      "materialIcon": "desktop_windows",
+      "localUrl": "kompyutri-i-syrvyri.html",
+      "url": "https://plasico.bg/kompyutri-i-syrvyri"
+    },
+    {
+      "id": "laptopi-i-aksesoari",
+      "name": "Лаптопи и аксесоари",
+      "materialIcon": "laptop",
+      "localUrl": "laptopi-i-aksesoari.html",
+      "url": "https://plasico.bg/laptopi-i-aksesoari",
+      "subcategories": [
+        {
+          "name": "Лаптопи",
+          "url": "https://plasico.bg/laptopi-i-aksesoari/laptopi",
+          "action": "external"
+        },
+        {
+          "name": "Аксесоари за лаптоп",
+          "url": "https://plasico.bg/laptopi-i-aksesoari/aksesoari",
+          "action": "external"
+        }
+      ]
+    },
+    {
+      "id": "komponenti",
+      "name": "Компоненти",
+      "materialIcon": "memory",
+      "localUrl": "komponenti.html",
+      "url": "https://plasico.bg/komponenti",
+      "subcategories": [
+        {
+          "name": "Видео карти",
+          "url": "https://plasico.bg/komponenti/video-karti",
+          "action": "external"
+        },
+        {
+          "name": "Процесори",
+          "url": "https://plasico.bg/komponenti/procesori",
+          "action": "external"
+        },
+        {
+          "name": "Дънни платки",
+          "url": "https://plasico.bg/komponenti/dynni-platki",
+          "action": "external"
+        },
+        {
+          "name": "RAM памети",
+          "url": "https://plasico.bg/komponenti/ram-pameti",
+          "action": "external"
+        }
+      ]
+    },
+    {
+      "id": "monitori-i-proektori",
+      "name": "Монитори и проектори",
+      "materialIcon": "monitor",
+      "localUrl": "monitori-i-proektori.html",
+      "url": "https://plasico.bg/monitori-i-proektori"
+    },
+    {
+      "id": "videonablyudenie",
+      "name": "Видеонаблюдение",
+      "materialIcon": "videocam",
+      "localUrl": "videonablyudenie.html",
+      "url": "https://plasico.bg/videonablyudenie"
+    },
+    {
+      "id": "upotrebyavana-tehnika",
+      "name": "Употребявана техника",
+      "materialIcon": "devices",
+      "localUrl": "upotrebyavana-tehnika.html",
+      "url": "https://plasico.bg/upotrebyavana-tehnika"
+    },
+    {
+      "id": "aksesoari",
+      "name": "Аксесоари",
+      "materialIcon": "gamepad",
+      "localUrl": "aksesoari.html",
+      "url": "https://plasico.bg/aksesoari"
+    },
+    {
+      "id": "stolove",
+      "name": "Столове",
+      "materialIcon": "chair",
+      "localUrl": "stolove.html",
+      "url": "https://plasico.bg/stolove"
+    },
+    {
+      "id": "ofis",
+      "name": "Офис техника и обзавеждане",
+      "materialIcon": "print",
+      "localUrl": "ofis.html",
+      "url": "https://plasico.bg/ofis"
+    },
+    {
+      "id": "printers",
+      "name": "Принтери и скенери",
+      "materialIcon": "scanner",
+      "url": "https://plasico.bg/printeri",
+      "external": true
+    },
+    {
+      "id": "mrezhovo-oborudvane",
+      "name": "Мрежово оборудване",
+      "materialIcon": "wifi",
+      "localUrl": "mrezhovo-oborudvane.html",
+      "url": "https://plasico.bg/mrezhovo-oborudvane"
+    },
+    {
+      "id": "software",
+      "name": "Софтуер",
+      "materialIcon": "apps",
+      "localUrl": "software.html",
+      "url": "https://plasico.bg/software"
+    },
+    {
+      "id": "smartfoni-i-tableti",
+      "name": "Смартфони и таблети",
+      "materialIcon": "smartphone",
+      "localUrl": "smartfoni-i-tableti.html",
+      "url": "https://plasico.bg/smartfoni-i-tableti"
+    }
+  ],
   "categories": [
     {
       "id": "laptopi",
@@ -27,9 +168,12 @@
           "anchorId": "laptopi",
           "url": "https://plasico.bg/hot-summer-sale-2026#laptopi",
           "action": "scroll",
-          "filterTag": "laptopi"
+          "filterTag": "laptopi",
+          "productCount": 144
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026.html#laptopi",
+      "productCount": 144
     },
     {
       "id": "computers",
@@ -39,26 +183,30 @@
       "icon": "pc",
       "materialIcon": "desktop_windows",
       "dataFilter": "computers",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Настолни Компютри",
           "anchor": "#nastolni-kompyutri",
           "anchorId": "nastolni-kompyutri",
-          "url": "https://plasico.bg/hot-summer-sale-2026/computers#nastolni-kompyutri",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/computers.html#nastolni-kompyutri",
+          "action": "local",
+          "filterTag": "nastolni-kompyutri",
+          "productCount": 769
         },
         {
           "name": "All in One",
           "anchor": "#all-in-one",
           "anchorId": "all-in-one",
-          "url": "https://plasico.bg/hot-summer-sale-2026/computers#all-in-one",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/computers.html#all-in-one",
+          "action": "local",
+          "filterTag": "all-in-one",
+          "productCount": 2
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/computers.html",
+      "productCount": 771
     },
     {
       "id": "components",
@@ -68,98 +216,111 @@
       "icon": "components",
       "materialIcon": "memory",
       "dataFilter": "components",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Хард дискове втора ръка",
           "anchor": "#hard-diskove-vtora-ryka",
           "anchorId": "hard-diskove-vtora-ryka",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#hard-diskove-vtora-ryka",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#hard-diskove-vtora-ryka",
+          "action": "local",
+          "filterTag": "hard-diskove-vtora-ryka",
+          "productCount": 1
         },
         {
           "name": "Видео карти",
           "anchor": "#video-karti",
           "anchorId": "video-karti",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#video-karti",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#video-karti",
+          "action": "local",
+          "filterTag": "video-karti",
+          "productCount": 43
         },
         {
           "name": "Процесори",
           "anchor": "#protsesori",
           "anchorId": "protsesori",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#protsesori",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#protsesori",
+          "action": "local",
+          "filterTag": "protsesori",
+          "productCount": 48
         },
         {
           "name": "Дънни платки",
           "anchor": "#dynni-platki",
           "anchorId": "dynni-platki",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#dynni-platki",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#dynni-platki",
+          "action": "local",
+          "filterTag": "dynni-platki",
+          "productCount": 29
         },
         {
           "name": "РАМ ПАМЕТ ЗА КОМПЮТРИ И ЛАПТОПИ",
           "anchor": "#ram-pamet-za-kompyutri-i-laptopi",
           "anchorId": "ram-pamet-za-kompyutri-i-laptopi",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#ram-pamet-za-kompyutri-i-laptopi",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#ram-pamet-za-kompyutri-i-laptopi",
+          "action": "local",
+          "filterTag": "ram-pamet-za-kompyutri-i-laptopi",
+          "productCount": 7
         },
         {
           "name": "SSD дискове",
           "anchor": "#ssd-diskove",
           "anchorId": "ssd-diskove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#ssd-diskove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#ssd-diskove",
+          "action": "local",
+          "filterTag": "ssd-diskove",
+          "productCount": 22
         },
         {
           "name": "Хард Дискове",
           "anchor": "#hard-diskove",
           "anchorId": "hard-diskove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#hard-diskove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#hard-diskove",
+          "action": "local",
+          "filterTag": "hard-diskove",
+          "productCount": 42
         },
         {
           "name": "Компоненти втора ръка",
           "anchor": "#komponenti-vtora-ryka",
           "anchorId": "komponenti-vtora-ryka",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#komponenti-vtora-ryka",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#komponenti-vtora-ryka",
+          "action": "local",
+          "filterTag": "komponenti-vtora-ryka",
+          "productCount": 1
         },
         {
           "name": "PSU захранвания",
           "anchor": "#psu-zahranvaniya",
           "anchorId": "psu-zahranvaniya",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#psu-zahranvaniya",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#psu-zahranvaniya",
+          "action": "local",
+          "filterTag": "psu-zahranvaniya",
+          "productCount": 63
         },
         {
           "name": "Кутии",
           "anchor": "#kutii",
           "anchorId": "kutii",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#kutii",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#kutii",
+          "action": "local",
+          "filterTag": "kutii",
+          "productCount": 21
         },
         {
           "name": "Охладители",
           "anchor": "#ohladiteli",
           "anchorId": "ohladiteli",
-          "url": "https://plasico.bg/hot-summer-sale-2026/components#ohladiteli",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/components.html#ohladiteli",
+          "action": "local",
+          "filterTag": "ohladiteli",
+          "productCount": 38
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/components.html",
+      "productCount": 315
     },
     {
       "id": "monitors",
@@ -169,42 +330,48 @@
       "icon": "monitors",
       "materialIcon": "monitor",
       "dataFilter": "monitors",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Монитори",
           "anchor": "#monitori",
           "anchorId": "monitori",
-          "url": "https://plasico.bg/hot-summer-sale-2026/monitors#monitori",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/monitors.html#monitori",
+          "action": "local",
+          "filterTag": "monitori",
+          "productCount": 119
         },
         {
           "name": "Стойки",
           "anchor": "#stoyki",
           "anchorId": "stoyki",
-          "url": "https://plasico.bg/hot-summer-sale-2026/monitors#stoyki",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/monitors.html#stoyki",
+          "action": "local",
+          "filterTag": "stoyki",
+          "productCount": 43
         },
         {
           "name": "Почистващи",
           "anchor": "#pochistvashti",
           "anchorId": "pochistvashti",
-          "url": "https://plasico.bg/hot-summer-sale-2026/monitors#pochistvashti",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/monitors.html#pochistvashti",
+          "action": "local",
+          "filterTag": "pochistvashti",
+          "productCount": 3
         },
         {
           "name": "Почистващи продукти",
           "anchor": "#pochistvashti-produkti",
           "anchorId": "pochistvashti-produkti",
-          "url": "https://plasico.bg/hot-summer-sale-2026/monitors#pochistvashti-produkti",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/monitors.html#pochistvashti-produkti",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/monitors.html",
+      "productCount": 165
     },
     {
       "id": "used",
@@ -214,34 +381,39 @@
       "icon": "second",
       "materialIcon": "devices",
       "dataFilter": "used",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Лаптопи втора употреба",
           "anchor": "#laptopi-vtora-upotreba",
           "anchorId": "laptopi-vtora-upotreba",
-          "url": "https://plasico.bg/hot-summer-sale-2026/used#laptopi-vtora-upotreba",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/used.html#laptopi-vtora-upotreba",
+          "action": "local",
+          "filterTag": "laptopi-vtora-upotreba",
+          "productCount": 52
         },
         {
           "name": "Компютри втора употреба",
           "anchor": "#kompyutri-vtora-upotreba",
           "anchorId": "kompyutri-vtora-upotreba",
-          "url": "https://plasico.bg/hot-summer-sale-2026/used#kompyutri-vtora-upotreba",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/used.html#kompyutri-vtora-upotreba",
+          "action": "local",
+          "filterTag": "kompyutri-vtora-upotreba",
+          "productCount": 10
         },
         {
           "name": "Монитори втора Употреба",
           "anchor": "#monitori-vtora-upotreba",
           "anchorId": "monitori-vtora-upotreba",
-          "url": "https://plasico.bg/hot-summer-sale-2026/used#monitori-vtora-upotreba",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/used.html#monitori-vtora-upotreba",
+          "action": "local",
+          "filterTag": "monitori-vtora-upotreba",
+          "productCount": 10
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/used.html",
+      "productCount": 72
     },
     {
       "id": "office-chairs",
@@ -251,74 +423,84 @@
       "icon": "ochairs",
       "materialIcon": "chair",
       "dataFilter": "office-chairs",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Офис Столове",
           "anchor": "#ofis-stolove",
           "anchorId": "ofis-stolove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/office-chairs#ofis-stolove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/office-chairs.html#ofis-stolove",
+          "action": "local",
+          "filterTag": "ofis-stolove",
+          "productCount": 232
         },
         {
           "name": "Охладители за лаптоп",
           "anchor": "#ohladiteli-za-laptop",
           "anchorId": "ohladiteli-za-laptop",
-          "url": "https://plasico.bg/hot-summer-sale-2026/office-chairs#ohladiteli-za-laptop",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/office-chairs.html#ohladiteli-za-laptop",
+          "action": "local",
+          "filterTag": "ohladiteli-za-laptop",
+          "productCount": 1
         },
         {
           "name": "Геймърски столове",
           "anchor": "#geymyrski-stolove",
           "anchorId": "geymyrski-stolove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/office-chairs#geymyrski-stolove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/office-chairs.html#geymyrski-stolove",
+          "action": "local",
+          "filterTag": "geymyrski-stolove",
+          "productCount": 3
         },
         {
           "name": "Детски столове",
           "anchor": "#detski-stolove",
           "anchorId": "detski-stolove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/office-chairs#detski-stolove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/office-chairs.html#detski-stolove",
+          "action": "local",
+          "filterTag": "detski-stolove",
+          "productCount": 29
         },
         {
           "name": "Офис бюра",
           "anchor": "#ofis-byura",
           "anchorId": "ofis-byura",
-          "url": "https://plasico.bg/hot-summer-sale-2026/office-chairs#ofis-byura",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/office-chairs.html#ofis-byura",
+          "action": "local",
+          "filterTag": "ofis-byura",
+          "productCount": 74
         },
         {
           "name": "Геймърски бюра",
           "anchor": "#geymyrski-byura",
           "anchorId": "geymyrski-byura",
-          "url": "https://plasico.bg/hot-summer-sale-2026/office-chairs#geymyrski-byura",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/office-chairs.html#geymyrski-byura",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Трапезни столове",
           "anchor": "#trapezni-stolove",
           "anchorId": "trapezni-stolove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/office-chairs#trapezni-stolove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/office-chairs.html#trapezni-stolove",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Закачалки за дрехи",
           "anchor": "#zakachalki-za-drehi",
           "anchorId": "zakachalki-za-drehi",
-          "url": "https://plasico.bg/hot-summer-sale-2026/office-chairs#zakachalki-za-drehi",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/office-chairs.html#zakachalki-za-drehi",
+          "action": "local",
+          "filterTag": "zakachalki-za-drehi",
+          "productCount": 9
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/office-chairs.html",
+      "productCount": 348
     },
     {
       "id": "gchairs",
@@ -328,50 +510,57 @@
       "icon": "gchairs",
       "materialIcon": "sports_esports",
       "dataFilter": "gchairs",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Гейм Контролери",
           "anchor": "#geym-kontroleri",
           "anchorId": "geym-kontroleri",
-          "url": "https://plasico.bg/hot-summer-sale-2026/gchairs#geym-kontroleri",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/gchairs.html#geym-kontroleri",
+          "action": "local",
+          "filterTag": "geym-kontroleri",
+          "productCount": 2
         },
         {
           "name": "Геймърски столове",
           "anchor": "#geymyrski-stolove",
           "anchorId": "geymyrski-stolove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/gchairs#geymyrski-stolove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/gchairs.html#geymyrski-stolove",
+          "action": "local",
+          "filterTag": "geymyrski-stolove",
+          "productCount": 96
         },
         {
           "name": "Детски столове",
           "anchor": "#detski-stolove",
           "anchorId": "detski-stolove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/gchairs#detski-stolove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/gchairs.html#detski-stolove",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Офис бюра",
           "anchor": "#ofis-byura",
           "anchorId": "ofis-byura",
-          "url": "https://plasico.bg/hot-summer-sale-2026/gchairs#ofis-byura",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/gchairs.html#ofis-byura",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Геймърски бюра",
           "anchor": "#geymyrski-byura",
           "anchorId": "geymyrski-byura",
-          "url": "https://plasico.bg/hot-summer-sale-2026/gchairs#geymyrski-byura",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/gchairs.html#geymyrski-byura",
+          "action": "local",
+          "filterTag": "geymyrski-byura",
+          "productCount": 44
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/gchairs.html",
+      "productCount": 142
     },
     {
       "id": "audio",
@@ -381,42 +570,48 @@
       "icon": "audio",
       "materialIcon": "headphones",
       "dataFilter": "audio",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Слушалки",
           "anchor": "#slushalki",
           "anchorId": "slushalki",
-          "url": "https://plasico.bg/hot-summer-sale-2026/audio#slushalki",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/audio.html#slushalki",
+          "action": "local",
+          "filterTag": "slushalki",
+          "productCount": 291
         },
         {
           "name": "Геймърски слушалки",
           "anchor": "#geymyrski-slushalki",
           "anchorId": "geymyrski-slushalki",
-          "url": "https://plasico.bg/hot-summer-sale-2026/audio#geymyrski-slushalki",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/audio.html#geymyrski-slushalki",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Тонколони",
           "anchor": "#tonkoloni",
           "anchorId": "tonkoloni",
-          "url": "https://plasico.bg/hot-summer-sale-2026/audio#tonkoloni",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/audio.html#tonkoloni",
+          "action": "local",
+          "filterTag": "tonkoloni",
+          "productCount": 62
         },
         {
           "name": "Геймърски тонколони",
           "anchor": "#geymyrski-tonkoloni",
           "anchorId": "geymyrski-tonkoloni",
-          "url": "https://plasico.bg/hot-summer-sale-2026/audio#geymyrski-tonkoloni",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/audio.html#geymyrski-tonkoloni",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/audio.html",
+      "productCount": 353
     },
     {
       "id": "bags",
@@ -426,18 +621,21 @@
       "icon": "bags",
       "materialIcon": "backpack",
       "dataFilter": "bags",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Чанти за лаптоп",
           "anchor": "#chanti-za-laptop",
           "anchorId": "chanti-za-laptop",
-          "url": "https://plasico.bg/hot-summer-sale-2026/bags#chanti-za-laptop",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/bags.html#chanti-za-laptop",
+          "action": "local",
+          "filterTag": "chanti-za-laptop",
+          "productCount": 49
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/bags.html",
+      "productCount": 49
     },
     {
       "id": "flash",
@@ -447,26 +645,30 @@
       "icon": "flash",
       "materialIcon": "sd_card",
       "dataFilter": "flash",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Карти памет",
           "anchor": "#karti-pamet",
           "anchorId": "karti-pamet",
-          "url": "https://plasico.bg/hot-summer-sale-2026/flash#karti-pamet",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/flash.html#karti-pamet",
+          "action": "local",
+          "filterTag": "karti-pamet",
+          "productCount": 7
         },
         {
           "name": "USB флаш памети",
           "anchor": "#usb-flash-pameti",
           "anchorId": "usb-flash-pameti",
-          "url": "https://plasico.bg/hot-summer-sale-2026/flash#usb-flash-pameti",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/flash.html#usb-flash-pameti",
+          "action": "local",
+          "filterTag": "usb-flash-pameti",
+          "productCount": 14
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/flash.html",
+      "productCount": 21
     },
     {
       "id": "external",
@@ -476,26 +678,30 @@
       "icon": "external",
       "materialIcon": "hard_drive",
       "dataFilter": "external",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "SSD дискове",
           "anchor": "#ssd-diskove",
           "anchorId": "ssd-diskove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/external#ssd-diskove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/external.html#ssd-diskove",
+          "action": "local",
+          "filterTag": "ssd-diskove",
+          "productCount": 25
         },
         {
           "name": "Външни дискове",
           "anchor": "#vynshni-diskove",
           "anchorId": "vynshni-diskove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/external#vynshni-diskove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/external.html#vynshni-diskove",
+          "action": "local",
+          "filterTag": "vynshni-diskove",
+          "productCount": 9
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/external.html",
+      "productCount": 34
     },
     {
       "id": "printers",
@@ -505,26 +711,30 @@
       "icon": "printers",
       "materialIcon": "print",
       "dataFilter": "printers",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Мултифункционални устройства",
           "anchor": "#multifunktsionalni-ustroystva",
           "anchorId": "multifunktsionalni-ustroystva",
-          "url": "https://plasico.bg/hot-summer-sale-2026/printers#multifunktsionalni-ustroystva",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/printers.html#multifunktsionalni-ustroystva",
+          "action": "local",
+          "filterTag": "multifunktsionalni-ustroystva",
+          "productCount": 24
         },
         {
           "name": "Принтери",
           "anchor": "#printeri",
           "anchorId": "printeri",
-          "url": "https://plasico.bg/hot-summer-sale-2026/printers#printeri",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/printers.html#printeri",
+          "action": "local",
+          "filterTag": "printeri",
+          "productCount": 9
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/printers.html",
+      "productCount": 33
     },
     {
       "id": "accessories",
@@ -534,122 +744,138 @@
       "icon": "accs",
       "materialIcon": "gamepad",
       "dataFilter": "accessories",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "eBook четeц",
           "anchor": "#ebook-chetets",
           "anchorId": "ebook-chetets",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#ebook-chetets",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#ebook-chetets",
+          "action": "local",
+          "filterTag": "ebook-chetets",
+          "productCount": 2
         },
         {
           "name": "Гейм Контролери",
           "anchor": "#geym-kontroleri",
           "anchorId": "geym-kontroleri",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#geym-kontroleri",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#geym-kontroleri",
+          "action": "local",
+          "filterTag": "geym-kontroleri",
+          "productCount": 20
         },
         {
           "name": "Геймърски столове",
           "anchor": "#geymyrski-stolove",
           "anchorId": "geymyrski-stolove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#geymyrski-stolove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#geymyrski-stolove",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Клавиатури",
           "anchor": "#klaviaturi",
           "anchorId": "klaviaturi",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#klaviaturi",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#klaviaturi",
+          "action": "local",
+          "filterTag": "klaviaturi",
+          "productCount": 134
         },
         {
           "name": "Геймърски клавиатури",
           "anchor": "#geymyrski-klaviaturi",
           "anchorId": "geymyrski-klaviaturi",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#geymyrski-klaviaturi",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#geymyrski-klaviaturi",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Мишки",
           "anchor": "#mishki",
           "anchorId": "mishki",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#mishki",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#mishki",
+          "action": "local",
+          "filterTag": "mishki",
+          "productCount": 156
         },
         {
           "name": "Геймърски мишки",
           "anchor": "#geymyrski-mishki",
           "anchorId": "geymyrski-mishki",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#geymyrski-mishki",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#geymyrski-mishki",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Подложки за мишка",
           "anchor": "#podlozhki-za-mishka",
           "anchorId": "podlozhki-za-mishka",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#podlozhki-za-mishka",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#podlozhki-za-mishka",
+          "action": "local",
+          "filterTag": "podlozhki-za-mishka",
+          "productCount": 36
         },
         {
           "name": "Геймърски микрофони",
           "anchor": "#geymyrski-mikrofoni",
           "anchorId": "geymyrski-mikrofoni",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#geymyrski-mikrofoni",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#geymyrski-mikrofoni",
+          "action": "local",
+          "filterTag": "geymyrski-mikrofoni",
+          "productCount": 6
         },
         {
           "name": "Web Камери",
           "anchor": "#web-kameri",
           "anchorId": "web-kameri",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#web-kameri",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#web-kameri",
+          "action": "local",
+          "filterTag": "web-kameri",
+          "productCount": 19
         },
         {
           "name": "Микрофони",
           "anchor": "#mikrofoni",
           "anchorId": "mikrofoni",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#mikrofoni",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#mikrofoni",
+          "action": "local",
+          "filterTag": "mikrofoni",
+          "productCount": 9
         },
         {
           "name": "Геймърски подложки",
           "anchor": "#geymyrski-podlozhki",
           "anchorId": "geymyrski-podlozhki",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#geymyrski-podlozhki",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#geymyrski-podlozhki",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Графични таблети",
           "anchor": "#grafichni-tableti",
           "anchorId": "grafichni-tableti",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#grafichni-tableti",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#grafichni-tableti",
+          "action": "local",
+          "filterTag": "grafichni-tableti",
+          "productCount": 3
         },
         {
           "name": "Безжични презентери",
           "anchor": "#bezzhichni-prezenteri",
           "anchorId": "bezzhichni-prezenteri",
-          "url": "https://plasico.bg/hot-summer-sale-2026/accessories#bezzhichni-prezenteri",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/accessories.html#bezzhichni-prezenteri",
+          "action": "local",
+          "filterTag": "bezzhichni-prezenteri",
+          "productCount": 3
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/accessories.html",
+      "productCount": 388
     },
     {
       "id": "cctv",
@@ -659,34 +885,39 @@
       "icon": "cctv",
       "materialIcon": "videocam",
       "dataFilter": "cctv",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Камери",
           "anchor": "#kameri",
           "anchorId": "kameri",
-          "url": "https://plasico.bg/hot-summer-sale-2026/cctv#kameri",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/cctv.html#kameri",
+          "action": "local",
+          "filterTag": "kameri",
+          "productCount": 495
         },
         {
           "name": "DVR и NVR Устройства",
           "anchor": "#dvr-i-nvr-ustroystva",
           "anchorId": "dvr-i-nvr-ustroystva",
-          "url": "https://plasico.bg/hot-summer-sale-2026/cctv#dvr-i-nvr-ustroystva",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/cctv.html#dvr-i-nvr-ustroystva",
+          "action": "local",
+          "filterTag": "dvr-i-nvr-ustroystva",
+          "productCount": 106
         },
         {
           "name": "Видеорегистратори",
           "anchor": "#videoregistratori",
           "anchorId": "videoregistratori",
-          "url": "https://plasico.bg/hot-summer-sale-2026/cctv#videoregistratori",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/cctv.html#videoregistratori",
+          "action": "local",
+          "filterTag": "videoregistratori",
+          "productCount": 7
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/cctv.html",
+      "productCount": 608
     },
     {
       "id": "network",
@@ -696,66 +927,75 @@
       "icon": "network",
       "materialIcon": "wifi",
       "dataFilter": "network",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Рутери",
           "anchor": "#ruteri",
           "anchorId": "ruteri",
-          "url": "https://plasico.bg/hot-summer-sale-2026/network#ruteri",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/network.html#ruteri",
+          "action": "local",
+          "filterTag": "ruteri",
+          "productCount": 49
         },
         {
           "name": "AP / Range Extenders",
           "anchor": "#ap-range-extenders",
           "anchorId": "ap-range-extenders",
-          "url": "https://plasico.bg/hot-summer-sale-2026/network#ap-range-extenders",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/network.html#ap-range-extenders",
+          "action": "local",
+          "filterTag": "ap-range-extenders",
+          "productCount": 31
         },
         {
           "name": "Мрежов адаптер",
           "anchor": "#mrezhov-adapter",
           "anchorId": "mrezhov-adapter",
-          "url": "https://plasico.bg/hot-summer-sale-2026/network#mrezhov-adapter",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/network.html#mrezhov-adapter",
+          "action": "local",
+          "filterTag": "mrezhov-adapter",
+          "productCount": 51
         },
         {
           "name": "Мрежов сторидж",
           "anchor": "#mrezhov-storidzh",
           "anchorId": "mrezhov-storidzh",
-          "url": "https://plasico.bg/hot-summer-sale-2026/network#mrezhov-storidzh",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/network.html#mrezhov-storidzh",
+          "action": "local",
+          "filterTag": "mrezhov-storidzh",
+          "productCount": 7
         },
         {
           "name": "Шкафове",
           "anchor": "#shkafove",
           "anchorId": "shkafove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/network#shkafove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/network.html#shkafove",
+          "action": "local",
+          "filterTag": "shkafove",
+          "productCount": 10
         },
         {
           "name": "Геймърски рутери",
           "anchor": "#geymyrski-ruteri",
           "anchorId": "geymyrski-ruteri",
-          "url": "https://plasico.bg/hot-summer-sale-2026/network#geymyrski-ruteri",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/network.html#geymyrski-ruteri",
+          "action": "local",
+          "filterTag": null,
+          "productCount": 0
         },
         {
           "name": "Суичове",
           "anchor": "#suichove",
           "anchorId": "suichove",
-          "url": "https://plasico.bg/hot-summer-sale-2026/network#suichove",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/network.html#suichove",
+          "action": "local",
+          "filterTag": "suichove",
+          "productCount": 56
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/network.html",
+      "productCount": 204
     },
     {
       "id": "hubs",
@@ -765,18 +1005,21 @@
       "icon": "hubs",
       "materialIcon": "usb",
       "dataFilter": "hubs",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "USB Hub",
           "anchor": "#usb-hub",
           "anchorId": "usb-hub",
-          "url": "https://plasico.bg/hot-summer-sale-2026/hubs#usb-hub",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/hubs.html#usb-hub",
+          "action": "local",
+          "filterTag": "usb-hub",
+          "productCount": 10
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/hubs.html",
+      "productCount": 10
     },
     {
       "id": "cables",
@@ -786,34 +1029,39 @@
       "icon": "cable",
       "materialIcon": "cable",
       "dataFilter": "cables",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Зарядни за лаптоп",
           "anchor": "#zaryadni-za-laptop",
           "anchorId": "zaryadni-za-laptop",
-          "url": "https://plasico.bg/hot-summer-sale-2026/cables#zaryadni-za-laptop",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/cables.html#zaryadni-za-laptop",
+          "action": "local",
+          "filterTag": "zaryadni-za-laptop",
+          "productCount": 2
         },
         {
           "name": "Зарядни / Power Bank",
           "anchor": "#zaryadni-power-bank",
           "anchorId": "zaryadni-power-bank",
-          "url": "https://plasico.bg/hot-summer-sale-2026/cables#zaryadni-power-bank",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/cables.html#zaryadni-power-bank",
+          "action": "local",
+          "filterTag": "zaryadni-power-bank",
+          "productCount": 22
         },
         {
           "name": "Кабели",
           "anchor": "#kabeli",
           "anchorId": "kabeli",
-          "url": "https://plasico.bg/hot-summer-sale-2026/cables#kabeli",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/cables.html#kabeli",
+          "action": "local",
+          "filterTag": "kabeli",
+          "productCount": 13
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/cables.html",
+      "productCount": 37
     },
     {
       "id": "ups",
@@ -823,26 +1071,30 @@
       "icon": "ups",
       "materialIcon": "battery_alert",
       "dataFilter": "ups",
-      "local": false,
-      "external": true,
+      "local": true,
+      "external": false,
       "subcategories": [
         {
           "name": "Разклонители",
           "anchor": "#razkloniteli",
           "anchorId": "razkloniteli",
-          "url": "https://plasico.bg/hot-summer-sale-2026/ups#razkloniteli",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/ups.html#razkloniteli",
+          "action": "local",
+          "filterTag": "razkloniteli",
+          "productCount": 17
         },
         {
           "name": "UPS устройства",
           "anchor": "#ups-ustroystva",
           "anchorId": "ups-ustroystva",
-          "url": "https://plasico.bg/hot-summer-sale-2026/ups#ups-ustroystva",
-          "action": "external",
-          "filterTag": null
+          "url": "hot-summer-sale-2026/ups.html#ups-ustroystva",
+          "action": "local",
+          "filterTag": "ups-ustroystva",
+          "productCount": 81
         }
-      ]
+      ],
+      "localUrl": "hot-summer-sale-2026/ups.html",
+      "productCount": 98
     }
   ],
   "connections": {
@@ -868,7 +1120,28 @@
         "hubs",
         "cables",
         "ups"
-      ]
+      ],
+      "totalProducts": 3792,
+      "productsByCategory": {
+        "laptopi": 144,
+        "computers": 771,
+        "components": 315,
+        "monitors": 165,
+        "used": 72,
+        "office-chairs": 348,
+        "gchairs": 142,
+        "audio": 353,
+        "bags": 49,
+        "flash": 21,
+        "external": 34,
+        "printers": 33,
+        "accessories": 388,
+        "cctv": 608,
+        "network": 204,
+        "hubs": 10,
+        "cables": 37,
+        "ups": 98
+      }
     },
     "localProductFilters": {
       "description": "Product data-tags on the laptops catalog page (redesign-only sub-filters, not in original sticky nav)",
@@ -992,5 +1265,27 @@
         "subcategories": 2
       }
     }
+  },
+  "linking": {
+    "updatedAt": "2026-07-13",
+    "localCampaignPages": [
+      "hot-summer-sale-2026/computers.html",
+      "hot-summer-sale-2026/components.html",
+      "hot-summer-sale-2026/monitors.html",
+      "hot-summer-sale-2026/used.html",
+      "hot-summer-sale-2026/office-chairs.html",
+      "hot-summer-sale-2026/gchairs.html",
+      "hot-summer-sale-2026/audio.html",
+      "hot-summer-sale-2026/bags.html",
+      "hot-summer-sale-2026/flash.html",
+      "hot-summer-sale-2026/external.html",
+      "hot-summer-sale-2026/printers.html",
+      "hot-summer-sale-2026/accessories.html",
+      "hot-summer-sale-2026/cctv.html",
+      "hot-summer-sale-2026/network.html",
+      "hot-summer-sale-2026/hubs.html",
+      "hot-summer-sale-2026/cables.html",
+      "hot-summer-sale-2026/ups.html"
+    ]
   }
 }

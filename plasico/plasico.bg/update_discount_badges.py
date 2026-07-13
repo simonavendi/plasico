@@ -2,10 +2,15 @@
 """Compute discount % for sale products and update badges + data attributes."""
 
 import re
+import sys
 from pathlib import Path
 
-CURRENT = Path(__file__).parent / "hot-summer-sale-2026.html"
-ORIGINAL = Path(__file__).parent / "hot-summer-sale-2026.original.html"
+DIR = Path(__file__).parent
+sys.path.insert(0, str(DIR))
+from scrape_live_campaign import make_discount_badge_html, SALE_BADGE_HREF_MAIN  # noqa: E402
+
+CURRENT = DIR / "hot-summer-sale-2026.html"
+ORIGINAL = DIR / "hot-summer-sale-2026.original.html"
 
 
 def parse_euro_price(text: str) -> float | None:
@@ -27,15 +32,39 @@ def calc_discount(old: float, new: float) -> int:
 def badge_classes(pct: int, is_promocode: bool) -> str:
     if pct <= 0:
         return ""
-    if is_promocode:
-        if pct >= 30:
-            return "bg-violet/25 text-violet border-violet/40"
-        return "bg-violet/15 text-violet border-violet/30"
     if pct >= 40:
         return "bg-apricot/25 text-apricot border-apricot/40"
     if pct >= 25:
-        return "bg-teal/20 text-teal border-teal/30"
-    return "bg-teal/10 text-teal border-teal/20"
+        return "bg-apricot/20 text-apricot border-apricot/30"
+    return "bg-apricot/10 text-apricot border-apricot/20"
+
+
+IMAGE_ZONE_RE = re.compile(
+    r'<a href="([^"]+)" class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">(.*?)</a>',
+    re.DOTALL,
+)
+
+DISCOUNT_BADGE_RE = re.compile(
+    r'\n\s*<(?:div|a) class="discount-badge[^"]*"[^>]*>.*?</(?:div|a)>',
+    re.DOTALL,
+)
+
+
+def restructure_image_zone(article: str) -> str:
+    """Move product image link inside a wrapper div so discount badge <a> is not nested."""
+
+    def replace_zone(match: re.Match) -> str:
+        product_url = match.group(1)
+        inner = DISCOUNT_BADGE_RE.sub("", match.group(2))
+        return (
+            '<div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">\n'
+            f'  <a href="{product_url}" class="block w-full h-full relative">{inner}</a>\n'
+            "</div>"
+        )
+
+    if '<div class="aspect-square bg-surface-container' in article:
+        return article
+    return IMAGE_ZONE_RE.sub(replace_zone, article, count=1)
 
 
 def parse_original_products(html: str) -> dict[str, dict]:
@@ -131,13 +160,7 @@ def parse_current_prices(article: str) -> tuple[float | None, float | None, bool
 
 
 def make_badge_html(pct: int, is_promocode: bool) -> str:
-    if pct <= 0:
-        return ""
-    classes = badge_classes(pct, is_promocode)
-    return (
-        f'    <div class="discount-badge absolute top-4 right-4 px-3 py-1 '
-        f"{classes} border rounded-full text-technical-sm font-bold\">-{pct}%</div>\n"
-    )
+    return make_discount_badge_html(pct, is_promocode, SALE_BADGE_HREF_MAIN)
 
 
 def update_article(article: str, orig: dict | None) -> tuple[str, int, bool]:
@@ -163,21 +186,19 @@ def update_article(article: str, orig: dict | None) -> tuple[str, int, bool]:
 
     article = re.sub(r"<article[^>]*>", patch_article_tag, article, count=1)
 
-    # Remove existing badge divs (ПРОМО, ОНЛАЙН ЦЕНА, or prior discount-badge)
-    article = re.sub(
-        r'\n\s*<div class="(?:discount-badge |absolute top-4 right-4)[^"]*"[^>]*>.*?</div>',
-        "",
-        article,
-        flags=re.DOTALL,
-    )
+    article = restructure_image_zone(article)
+
+    # Remove existing badge elements (ПРОМО, ОНЛАЙН ЦЕНА, or prior discount-badge)
+    article = DISCOUNT_BADGE_RE.sub("", article)
 
     badge = make_badge_html(pct, is_promocode)
     if badge:
         article = re.sub(
-            r"(<img[^>]*loading=\"lazy\"[^>]*/>\n)",
+            r'(<div class="aspect-square bg-surface-container[^>]*>\s*<a href="[^"]+" class="block w-full h-full relative">.*?</a>)',
             r"\1" + badge,
             article,
             count=1,
+            flags=re.DOTALL,
         )
 
     return article, pct, bool(badge)

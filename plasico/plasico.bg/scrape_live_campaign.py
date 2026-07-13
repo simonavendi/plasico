@@ -209,6 +209,13 @@ def merge_tags(product_id: str, inferred: list[str], existing_tags: dict[str, st
     return [t for t in merged if t != "upgraded"]
 
 
+def infer_os(title: str, specs: list[str]) -> str:
+    from detect_os import detect_os
+
+    block = "\n".join(specs)
+    return detect_os(block, title)
+
+
 def infer_tags(title: str) -> list[str]:
     tags = ["laptopi"]
     t = title.upper()
@@ -310,23 +317,37 @@ def parse_products(html: str, existing_tags: dict[str, str] | None = None) -> li
                 "promocode": is_promocode,
                 "tags": merge_tags(pid, infer_tags(title), existing_tags),
                 "specs": specs,
+                "os": infer_os(title, specs),
             }
         )
     return products
 
 
+SALE_BADGE_HREF_MAIN = "#laptopi"
+SALE_BADGE_HREF_SUBPAGE = "../hot-summer-sale-2026.html#laptopi"
+
+
 def badge_classes(pct: int, is_promocode: bool) -> str:
     if pct <= 0:
         return ""
-    if is_promocode:
-        if pct >= 30:
-            return "bg-violet/25 text-violet border-violet/40"
-        return "bg-violet/15 text-violet border-violet/30"
     if pct >= 40:
         return "bg-apricot/25 text-apricot border-apricot/40"
     if pct >= 25:
-        return "bg-teal/20 text-teal border-teal/30"
-    return "bg-teal/10 text-teal border-teal/20"
+        return "bg-apricot/20 text-apricot border-apricot/30"
+    return "bg-apricot/10 text-apricot border-apricot/20"
+
+
+def make_discount_badge_html(pct: int, is_promocode: bool, href: str) -> str:
+    if pct <= 0:
+        return ""
+    cls = badge_classes(pct, is_promocode)
+    label = "ПРОМО" if is_promocode else f"-{pct}%"
+    return (
+        f'\n    <a href="{href}" class="discount-badge absolute top-4 right-4 px-3 py-1 {cls} '
+        f"border rounded-full text-technical-sm font-bold cursor-pointer transition-transform "
+        f'duration-200 hover:scale-105 hover:brightness-110 z-10" '
+        f'aria-label="Виж разпродажата">{label}</a>'
+    )
 
 
 def truncate_title(title: str, max_len: int = 80) -> str:
@@ -335,12 +356,14 @@ def truncate_title(title: str, max_len: int = 80) -> str:
     return title[: max_len - 1].rstrip() + "…"
 
 
-def render_product(p: dict) -> str:
+def render_product(p: dict, sale_badge_href: str = SALE_BADGE_HREF_MAIN) -> str:
     tags = list(p["tags"])
     if p["upgraded"] and "upgraded" not in tags:
         tags.append("upgraded")
     tag_str = " ".join(tags)
+    os_val = p.get("os") or "unknown"
     attrs = [
+        f'data-os="{os_val}"',
         'class="group relative flex flex-col h-full"',
         f'data-tags="{tag_str}"',
         f'data-id="{p["id"]}"',
@@ -358,13 +381,17 @@ def render_product(p: dict) -> str:
 
     badge_html = ""
     if p["discount"] > 0:
-        cls = badge_classes(p["discount"], p["promocode"])
-        label = "ПРОМО" if p["promocode"] else f'-{p["discount"]}%'
-        badge_html = f'\n    <div class="discount-badge absolute top-4 right-4 px-3 py-1 {cls} border rounded-full text-technical-sm font-bold">{label}</div>'
+        badge_html = make_discount_badge_html(p["discount"], p["promocode"], sale_badge_href)
 
     upgraded_html = ""
     if p["upgraded"]:
         upgraded_html = '\n    <div class="upgraded-badge absolute top-4 left-4 px-2.5 py-0.5 bg-apricot/15 text-apricot border-apricot/35 border rounded-full text-technical-sm font-bold tracking-wide">UPGRADED</div>'
+
+    os_badge_html = ""
+    if os_val == "macos":
+        os_badge_html = '\n    <div class="os-badge absolute bottom-4 left-4 px-2.5 py-0.5 bg-violet/15 text-violet border-violet/35 border rounded-full text-technical-sm font-bold tracking-wide">macOS</div>'
+    elif os_val == "chromeos":
+        os_badge_html = '\n    <div class="os-badge absolute bottom-4 left-4 px-2.5 py-0.5 bg-teal/15 text-teal border-teal/35 border rounded-full text-technical-sm font-bold tracking-wide">Chrome OS</div>'
 
     price_html = f'<div class="text-secondary font-headline-md font-bold">{p["price"]:.2f} €</div>'
     old_html = ""
@@ -379,12 +406,14 @@ def render_product(p: dict) -> str:
         specs_html = f'\n  <ul class="flex-1 space-y-1 list-disc list-inside text-on-surface-variant">{items}</ul>'
 
     return f"""<article {" ".join(attrs)}>
-  <a href="{p["url"]}" class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="{title_esc}" src="{p["image"]}" loading="lazy"/>{badge_html}{upgraded_html}
+  <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
+  <a href="{p["url"]}" class="block w-full h-full relative">
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="{title_esc}" src="{p["image"]}" loading="lazy"/>{upgraded_html}{os_badge_html}
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
-  </a>
+  </a>{badge_html}
+  </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
         <a href="{p["url"]}" class="hover:text-apricot transition-colors">{short_esc}</a>

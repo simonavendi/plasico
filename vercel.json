@@ -5,11 +5,37 @@
   "outputDirectory": "plasico/plasico.bg",
   "rewrites": [
     { "source": "/", "destination": "/hot-summer-sale-2026.html" },
-    { "source": "/hot-summer-sale-2026", "destination": "/hot-summer-sale-2026.html" }
+    { "source": "/hot-summer-sale-2026", "destination": "/hot-summer-sale-2026.html" },
+    { "source": "/magazini", "destination": "/magazini.html" },
+    { "source": "/serviz", "destination": "/serviz.html" },
+    { "source": "/za-nas", "destination": "/za-nas.html" },
+    { "source": "/kontakti", "destination": "/kontakti.html" },
+    { "source": "/laptopi-i-aksesoari", "destination": "/laptopi-i-aksesoari.html" },
+    { "source": "/komponenti", "destination": "/komponenti.html" },
+    { "source": "/monitori-i-proektori", "destination": "/monitori-i-proektori.html" },
+    { "source": "/videonablyudenie", "destination": "/videonablyudenie.html" },
+    { "source": "/upotrebyavana-tehnika", "destination": "/upotrebyavana-tehnika.html" },
+    { "source": "/aksesoari", "destination": "/aksesoari.html" },
+    { "source": "/stolove", "destination": "/stolove.html" },
+    { "source": "/kompyutri-i-syrvyri", "destination": "/kompyutri-i-syrvyri.html" },
+    { "source": "/smartfoni-i-tableti", "destination": "/smartfoni-i-tableti.html" },
+    { "source": "/software", "destination": "/software.html" },
+    { "source": "/game-zone", "destination": "/game-zone.html" },
+    { "source": "/ofis", "destination": "/ofis.html" },
+    { "source": "/mrezhovo-oborudvane", "destination": "/mrezhovo-oborudvane.html" },
+    { "source": "/promotsii", "destination": "/promotsii.html" },
+    { "source": "/hot-summer-sale-2026/:slug", "destination": "/hot-summer-sale-2026/:slug.html" }
   ],
   "headers": [
     {
       "source": "/category-map.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=300" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/products-map.json",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=300" },
         { "key": "Access-Control-Allow-Origin", "value": "*" }
