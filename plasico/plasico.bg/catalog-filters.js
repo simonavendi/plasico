@@ -24,6 +24,14 @@
     return `${value.toLocaleString('bg-BG', { minimumFractionDigits: 0, maximumFractionDigits: 2 })} €`;
   }
 
+  function matchesSubcategory(product, filterId) {
+    if (filterId === 'all') return true;
+    const sub = product.dataset.subcategory;
+    if (sub) return sub === filterId;
+    const tags = (product.dataset.tags || '').split(/\s+/).filter(Boolean);
+    return tags.includes(filterId);
+  }
+
   function matchesTags(tags, filterId, localFilters) {
     if (filterId === 'all') return true;
     if (localFilters.has('laptopi') && (filterId === 'laptopi')) return true;
@@ -59,6 +67,8 @@
     const upgradedFilterCount = document.getElementById('upgraded-filter-count');
     const osFilterContainer = document.getElementById('catalog-os-filter');
     const subcategoryBar = document.getElementById('catalog-subcategory-filter');
+    const subcategoryBarWrap = document.getElementById('catalog-subcategory-bar');
+    let subcategoryPills = [];
 
     const products = Array.from(productGrid.querySelectorAll('article'));
     const observer = new IntersectionObserver((entries) => {
@@ -96,7 +106,7 @@
 
     function countForFilter(filterId) {
       if (filterId === 'all') return products.length;
-      return products.filter(p => matchesTags((p.dataset.tags || '').split(/\s+/), filterId, localFilters)).length;
+      return products.filter(p => matchesSubcategory(p, filterId)).length;
     }
 
     function countForOs(osId) {
@@ -143,41 +153,50 @@
     function buildSubcategoryBar() {
       if (!subcategoryBar || !config.subcategories) return;
       subcategoryBar.innerHTML = '';
-      subcategoryBar.hidden = false;
-      subcategoryBar.classList.add('is-visible');
+      subcategoryPills = [];
 
-      const label = document.createElement('span');
-      label.className = 'catalog-subcategory-label';
-      label.textContent = config.categoryName || '';
-      subcategoryBar.appendChild(label);
+      const subs = config.subcategories.filter(sub => {
+        const id = sub.anchorId || sub.filterTag;
+        return id && countForFilter(id) > 0;
+      });
 
-      const allChip = document.createElement('button');
-      allChip.type = 'button';
-      allChip.className = 'category-subchip';
-      allChip.dataset.filter = 'all';
-      allChip.textContent = `Всички (${products.length})`;
-      allChip.addEventListener('click', () => applyFilter('all', { scroll: true }));
-      subcategoryBar.appendChild(allChip);
+      if (subs.length === 0) {
+        if (subcategoryBarWrap) subcategoryBarWrap.hidden = true;
+        return;
+      }
+      if (subcategoryBarWrap) subcategoryBarWrap.hidden = false;
 
-      config.subcategories.forEach(sub => {
+      const allBtn = document.createElement('button');
+      allBtn.type = 'button';
+      allBtn.className = 'filter-sort-btn';
+      allBtn.dataset.subcategory = 'all';
+      allBtn.setAttribute('aria-pressed', activeFilter === 'all' ? 'true' : 'false');
+      allBtn.innerHTML = `Всички <span class="filter-count">(${products.length})</span>`;
+      allBtn.addEventListener('click', () => applyFilter('all', { scroll: true }));
+      subcategoryBar.appendChild(allBtn);
+      subcategoryPills.push(allBtn);
+
+      subs.forEach(sub => {
         const id = sub.anchorId || sub.filterTag;
         if (!id) return;
         const count = countForFilter(id);
-        const chip = document.createElement('button');
-        chip.type = 'button';
-        chip.className = 'category-subchip';
-        chip.dataset.filter = id;
-        chip.textContent = `${sub.name} (${count})`;
-        chip.addEventListener('click', () => applyFilter(id, { scroll: true }));
-        subcategoryBar.appendChild(chip);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'filter-sort-btn';
+        btn.dataset.subcategory = id;
+        btn.id = id;
+        btn.setAttribute('aria-pressed', activeFilter === id ? 'true' : 'false');
+        btn.innerHTML = `${sub.name} <span class="filter-count">(${count})</span>`;
+        btn.addEventListener('click', () => applyFilter(id, { scroll: true }));
+        subcategoryBar.appendChild(btn);
+        subcategoryPills.push(btn);
       });
     }
 
-    function syncSubcategoryChips() {
-      if (!subcategoryBar) return;
-      subcategoryBar.querySelectorAll('.category-subchip').forEach(chip => {
-        const match = chip.dataset.filter === activeFilter;
-        chip.classList.toggle('is-active', match);
+    function syncSubcategoryPills() {
+      subcategoryPills.forEach(btn => {
+        const id = btn.dataset.subcategory || 'all';
+        btn.setAttribute('aria-pressed', id === activeFilter ? 'true' : 'false');
       });
     }
 
@@ -259,11 +278,10 @@
       const hidden = [];
 
       products.forEach(product => {
-        const tags = (product.dataset.tags || categoryId).split(/\s+/);
         const price = parseFloat(product.dataset.price);
         const pct = parseInt(product.dataset.discountPercent || '0', 10);
         const show =
-          matchesTags(tags, activeFilter, localFilters) &&
+          matchesSubcategory(product, activeFilter) &&
           (Number.isNaN(price) || (price >= priceRange.min && price <= priceRange.max)) &&
           (activeDiscountMin <= 0 || pct >= activeDiscountMin) &&
           (!activeUpgradedOnly || product.dataset.upgraded === 'true') &&
@@ -316,11 +334,13 @@
       osFilterButtons.forEach(btn => {
         btn.setAttribute('aria-pressed', btn.dataset.osFilter === activeOsFilter ? 'true' : 'false');
       });
-      syncSubcategoryChips();
+      syncSubcategoryPills();
       updateResetButton();
       if (updateHash) updateHash(activeFilter);
       if (scroll) {
-        const target = document.getElementById(sectionId) || document.getElementById(activeFilter);
+        const target = activeFilter === 'all'
+          ? document.getElementById(sectionId)
+          : (document.getElementById(activeFilter) || document.getElementById('catalog-subcategory-bar') || document.getElementById(sectionId));
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
@@ -399,7 +419,7 @@
 
     if (activeFilter !== 'all') {
       setTimeout(() => {
-        const anchor = document.getElementById(activeFilter);
+        const anchor = document.getElementById(activeFilter) || document.getElementById('catalog-subcategory-bar');
         if (anchor) anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
     }

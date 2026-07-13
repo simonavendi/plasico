@@ -104,12 +104,7 @@ def catalog_filter_panel(show_os: bool = True, show_upgraded: bool = True) -> st
             <button type="button" id="filter-reset" class="text-technical-sm text-on-surface-variant hover:text-apricot transition-colors hidden">Изчисти филтрите</button>
           </div>
           <div id="catalog-filter-panel" class="squircle intelligent-edge bg-surface-container p-6 md:p-8" aria-hidden="true">
-            <div class="catalog-filter-layout grid grid-cols-1 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] xl:grid-cols-[minmax(280px,1.35fr)_minmax(260px,1fr)] gap-6 lg:gap-8 items-start">
-              <div class="catalog-filter-sidebar min-w-0">
-                <h3 class="filter-section-title">Подкатегории</h3>
-                <div id="catalog-subcategory-filter" class="catalog-subcategory-filter is-visible" role="group" aria-label="Подкатегории"></div>
-              </div>
-              <div class="catalog-filter-controls flex flex-col gap-6 min-w-0">
+            <div class="catalog-filter-controls flex flex-col gap-6 min-w-0">
                 <div>
                   <h3 class="filter-section-title">Отстъпка</h3>
                   <div id="catalog-discount-filter" class="flex flex-wrap gap-2" role="group" aria-label="Филтър по отстъпка">
@@ -149,7 +144,6 @@ def catalog_filter_panel(show_os: bool = True, show_upgraded: bool = True) -> st
                     <button type="button" class="filter-sort-btn" data-sort="price-desc" aria-pressed="false">Цена: висока → ниска</button>
                   </div>
                 </div>
-              </div>
             </div>
           </div>
         </div>"""
@@ -175,6 +169,7 @@ def product_to_render_dict(p: dict) -> dict:
         "tags": merged,
         "specs": p.get("specs") or [],
         "os": p.get("os") or "unknown",
+        "subcategory": p.get("subcategoryAnchor") or "",
     }
 
 
@@ -188,26 +183,15 @@ def render_product_grid(products: list[dict], category: dict) -> str:
             order.append(sub)
         by_sub[sub].append(p)
 
-    sub_names = {
-        (s.get("anchorId") or s.get("anchor", "").lstrip("#")): s["name"]
-        for s in category.get("subcategories", [])
-    }
-
     parts: list[str] = []
     for sub in order:
-        items = by_sub[sub]
-        title = sub_names.get(sub, sub.replace("-", " ").title())
-        parts.append(
-            f'<div id="{escape(sub)}" class="col-span-full scroll-mt-28 pt-4">'
-            f'<h2 class="font-headline-md text-headline-md font-semibold text-on-surface-variant mb-4">{escape(title)}'
-            f' <span class="text-technical-sm font-normal">({len(items)})</span></h2></div>'
-        )
-        parts.append("\n\n".join(render_product(product_to_render_dict(p)) for p in items))
+        for p in by_sub[sub]:
+            parts.append(render_product(product_to_render_dict(p)))
     return "\n\n".join(parts)
 
 
-def catalog_scripts_html(prefix: str, category: dict) -> str:
-    config = json.dumps(catalog_page_config(category), ensure_ascii=False)
+def catalog_scripts_html(prefix: str, category: dict, products: list[dict] | None = None) -> str:
+    config = json.dumps(catalog_page_config(category, products), ensure_ascii=False)
     return f"""  <script>
     window.CATALOG_PAGE = {config};
   </script>
@@ -215,17 +199,28 @@ def catalog_scripts_html(prefix: str, category: dict) -> str:
   <script src="{prefix}campaign-category-nav.js"></script>"""
 
 
-def catalog_page_config(category: dict) -> dict:
-    subcategories = [
-        {
+def catalog_page_config(category: dict, products: list[dict] | None = None) -> dict:
+    sub_counts: dict[str, int] = {}
+    if products:
+        for p in products:
+            sub = p.get("subcategoryAnchor") or ""
+            if sub:
+                sub_counts[sub] = sub_counts.get(sub, 0) + 1
+
+    subcategories = []
+    for s in category.get("subcategories", []):
+        anchor_id = s.get("anchorId") or s.get("anchor", "").lstrip("#")
+        if not anchor_id:
+            continue
+        count = sub_counts.get(anchor_id, s.get("productCount", 0))
+        if count <= 0:
+            continue
+        subcategories.append({
             "name": s["name"],
-            "anchorId": s.get("anchorId") or s.get("anchor", "").lstrip("#"),
-            "productCount": s.get("productCount", 0),
-        }
-        for s in category.get("subcategories", [])
-        if s.get("productCount", 0) > 0 or s.get("anchorId")
-    ]
-    sub_ids = [s["anchorId"] for s in subcategories if s.get("anchorId")]
+            "anchorId": anchor_id,
+            "productCount": count,
+        })
+    sub_ids = [s["anchorId"] for s in subcategories]
     return {
         "mode": "category",
         "categoryId": category["id"],
@@ -289,7 +284,7 @@ def build_page(
     show_os = cat_id in ("laptopi", "computers", "used")
     show_upgraded = cat_id in ("laptopi", "computers", "used")
     cards = render_product_grid(products, category)
-    page_config = json.dumps(catalog_page_config(category), ensure_ascii=False)
+    page_config = json.dumps(catalog_page_config(category, products), ensure_ascii=False)
 
     catalog = f"""
     <section id="catalog" class="py-stack-lg px-container-padding max-w-[1440px] mx-auto">
@@ -301,6 +296,9 @@ def build_page(
         <p id="catalog-subtitle" class="text-on-surface-variant mt-2">{count} продукта с летни отстъпки — налични за поръчка.</p>
       </div>
       {catalog_filter_panel(show_os=show_os, show_upgraded=show_upgraded)}
+      <div id="catalog-subcategory-bar" class="mb-stack-md scroll-mt-28">
+        <div id="catalog-subcategory-filter" class="flex flex-wrap gap-2" role="group" aria-label="Подкатегории"></div>
+      </div>
       <div id="catalog-empty" class="hidden text-center py-16 px-6 squircle intelligent-edge bg-surface-container" role="status">
         <span class="material-symbols-outlined text-apricot text-[48px] mb-4" aria-hidden="true">inventory_2</span>
         <h3 id="catalog-empty-title" class="font-headline-md text-headline-md font-bold mb-3">Няма продукти по избраните филтри</h3>
