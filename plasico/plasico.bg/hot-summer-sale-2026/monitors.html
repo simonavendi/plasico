@@ -282,9 +282,11 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background:
-        linear-gradient(105deg, rgba(10, 9, 16, 0.2) 0%, rgba(10, 9, 16, 0.48) 45%, rgba(10, 9, 16, 0.72) 100%),
-        radial-gradient(ellipse 100% 70% at 50% 110%, rgba(10, 9, 16, 0.55), transparent 55%);
+      background: linear-gradient(90deg, #FACC15, #FB923C, #F97316, #EF4444, #FACC15);
+      background-size: 200% auto;
+      opacity: 0.2;
+      mix-blend-mode: soft-light;
+      animation: shine 3s linear infinite;
     }
     .hero-bg::after {
       content: '';
@@ -292,7 +294,10 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background: radial-gradient(ellipse 90% 55% at 50% -10%, rgba(10, 9, 16, 0.25), transparent 50%);
+      background:
+        linear-gradient(105deg, rgba(10, 9, 16, 0.28) 0%, rgba(10, 9, 16, 0.52) 45%, rgba(10, 9, 16, 0.76) 100%),
+        radial-gradient(ellipse 100% 70% at 50% 110%, rgba(10, 9, 16, 0.55), transparent 55%),
+        radial-gradient(ellipse 90% 55% at 50% -10%, rgba(10, 9, 16, 0.25), transparent 50%);
     }
     .filter-pill {
       padding: 0.5rem 1.25rem;
