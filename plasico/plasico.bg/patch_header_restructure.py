@@ -135,88 +135,54 @@ PANEL_CSS = """
       font-size: 20px;
     }
     .panel-utility-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding-bottom: 12px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .panel-utility-nav__links {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    .panel-utility-mega-grid {
+      gap: 8px;
     }
     @media (min-width: 640px) {
-      .panel-utility-nav__links {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 4px;
-      }
+      .panel-utility-mega-grid { gap: 10px; }
     }
-    @media (min-width: 1024px) {
-      .panel-utility-nav__links {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+    .panel-utility-nav .header-cat-mega-cell.is-active {
+      border-color: rgba(251, 146, 60, 0.45);
+      background: rgba(251, 146, 60, 0.08);
     }
-    .panel-utility-nav__item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #c9c5cc;
-      text-decoration: none;
-      transition: color 0.2s ease, background-color 0.2s ease;
-    }
-    .panel-utility-nav__item:hover {
-      color: #e5e1e2;
-      background-color: rgba(255, 255, 255, 0.05);
-    }
-    .panel-utility-nav__item--home .header-utility-home-icon {
-      font-size: 20px;
-    }
-    .panel-utility-nav__item--sale {
-      justify-content: center;
-      margin-top: 2px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: #1a0f08;
-    }
-    .panel-utility-nav__item--sale:hover {
-      color: #1a0f08;
-      background: linear-gradient(135deg, #FB923C 0%, #F97316 50%, #EF4444 100%);
-      filter: brightness(1.08);
-    }
-    .panel-utility-nav__item--signup {
-      font-weight: 600;
-      color: rgba(229, 225, 226, 0.92);
-    }
-    .panel-utility-nav__item--signup:hover {
+    .panel-utility-nav .header-cat-mega-cell.is-active .header-cat-mega-parent {
       color: #FB923C;
     }
-    .panel-utility-auth {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      padding-top: 4px;
+    .panel-utility-nav .header-cat-mega-cell.is-active .header-cat-mega-parent__icon {
+      background: rgba(251, 146, 60, 0.14);
+      color: #FB923C;
     }
-    .panel-utility-auth-social {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      padding: 0 12px;
+    .panel-utility-mega-cell--sale {
+      border-color: rgba(255, 180, 120, 0.5);
+      background: linear-gradient(135deg, #FB923C 0%, #F97316 50%, #EF4444 100%);
+      box-shadow: 0 1px 8px rgba(251, 146, 60, 0.3);
     }
-    .panel-utility-auth-via {
+    .panel-utility-mega-cell--sale:hover {
+      border-color: rgba(255, 200, 140, 0.7);
+      filter: brightness(1.08);
+      box-shadow: 0 2px 14px rgba(251, 146, 60, 0.45);
+    }
+    .panel-utility-mega-cell--sale.is-active {
+      box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.45), 0 1px 8px rgba(251, 146, 60, 0.35);
+    }
+    .panel-utility-mega-parent--sale {
+      color: #1a0f08;
       font-size: 12px;
-      font-weight: 400;
-      color: rgba(201, 197, 204, 0.45);
-      letter-spacing: -0.005em;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .panel-utility-mega-parent--sale:hover { color: #1a0f08; }
+    .panel-utility-mega-cell--sale .header-cat-mega-parent__icon {
+      background: rgba(26, 15, 8, 0.12);
+    }
+    .panel-utility-mega-cell--sale .header-cat-mega-parent__icon .material-symbols-outlined {
+      color: #1a0f08;
+      font-variation-settings: 'FILL' 1;
     }"""
 
 INIT_HEADER_JS_NEW = r"""(function initHeaderCategories() {
@@ -383,7 +349,7 @@ INIT_HEADER_JS_NEW = r"""(function initHeaderCategories() {
 
 def patch_template_header(template_path: Path) -> bool:
     html = template_path.read_text(encoding="utf-8")
-    if "panel-utility-nav" in html and "header-utility-bar border-b" not in html:
+    if 'class="header-cat-mega-grid panel-utility-mega-grid"' in html and "header-utility-bar border-b" not in html:
         return False
 
     html = re.sub(

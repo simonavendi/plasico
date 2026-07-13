@@ -511,28 +511,28 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
             ("Контакти", "kontakti.html"),
         ]:
             if path == active_utility:
-                part = re.sub(
-                    rf'(<a href="[^"]*" class="panel-utility-nav__item">{label}</a>)',
-                    rf'<a href="{rel_href(path, from_page)}" class="panel-utility-nav__item text-apricot" aria-current="page">{label}</a>',
-                    part,
-                    count=1,
+                icon = {
+                    "Магазини": "storefront",
+                    "Сервиз": "handyman",
+                    "За нас": "groups",
+                    "Контакти": "mail",
+                }.get(label, "link")
+                active_cell = (
+                    f'<div class="header-cat-mega-cell is-active">\n'
+                    f'                <a href="{rel_href(path, from_page)}" class="header-cat-mega-parent" aria-current="page">\n'
+                    f'                  <span class="header-cat-mega-parent__icon" aria-hidden="true">'
+                    f'<span class="material-symbols-outlined">{icon}</span></span>\n'
+                    f'                  <span class="header-cat-mega-parent__label">{label}</span>\n'
+                    f'                </a>\n'
+                    f'              </div>'
                 )
                 part = re.sub(
-                    rf'(<a href="[^"]*" class="header-utility-link">{label}</a>)',
-                    rf'<a href="{rel_href(path, from_page)}" class="header-utility-link text-apricot" aria-current="page">{label}</a>',
-                    part,
-                    count=1,
-                )
-                part = re.sub(
-                    rf'(<div class="header-cat-mega-cell)(?![^"]*panel-utility-mega-cell--sale)(">\s*<a href="[^"]*" class="header-cat-mega-parent">\s*<span class="header-cat-mega-parent__icon"[^>]*>.*?</span>\s*<span class="header-cat-mega-parent__label">{re.escape(label)}</span>)',
-                    r'\1 is-active\2',
-                    part,
-                    count=1,
-                    flags=re.DOTALL,
-                )
-                part = re.sub(
-                    rf'(<div class="header-cat-mega-cell is-active">\s*<a href=")([^"]*)(" class="header-cat-mega-parent)(">\s*<span class="header-cat-mega-parent__icon"[^>]*>.*?</span>\s*<span class="header-cat-mega-parent__label">{re.escape(label)}</span>)',
-                    rf'\1{rel_href(path, from_page)}\3 aria-current="page"\4',
+                    rf'<div class="header-cat-mega-cell(?![^"]*panel-utility-mega-cell--sale)">\s*'
+                    rf'<a href="[^"]*" class="header-cat-mega-parent">\s*'
+                    rf'<span class="header-cat-mega-parent__icon"[^>]*>.*?</span>\s*'
+                    rf'<span class="header-cat-mega-parent__label">{re.escape(label)}</span>\s*'
+                    rf'</a>\s*</div>',
+                    active_cell,
                     part,
                     count=1,
                     flags=re.DOTALL,
