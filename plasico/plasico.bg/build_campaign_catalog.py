@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build campaign subpages with redesigned product catalog + filters from products-map."""
+"""Build campaign subpages with hero, category grid, and per-category product catalog."""
 
 from __future__ import annotations
 
@@ -13,11 +13,26 @@ DIR = Path(__file__).parent
 TEMPLATE = DIR / "hot-summer-sale-2026.html"
 PRODUCTS_MAP = DIR / "products-map.json"
 CATEGORY_MAP = DIR / "category-map.json"
+LINK_MAP = DIR / "link-map.json"
 CAMPAIGN_DIR = DIR / "hot-summer-sale-2026"
 
-# Import render helpers from scrape_live_campaign
 sys.path.insert(0, str(DIR))
-from scrape_live_campaign import badge_classes, render_product, SALE_BADGE_HREF_SUBPAGE  # noqa: E402
+from scrape_live_campaign import render_product  # noqa: E402
+
+
+def _template_helpers():
+    from apply_template import (  # noqa: E402
+        CONTENT_PAGE_SCRIPTS,
+        adapt_shell_part,
+        build_campaign_hero,
+        extract_shell,
+        load_json,
+    )
+    return CONTENT_PAGE_SCRIPTS, adapt_shell_part, build_campaign_hero, extract_shell, load_json
+
+
+def load_json(path: Path) -> dict:
+    return json.loads(path.read_text(encoding="utf-8"))
 
 CAMPAIGN_SLUGS = [
     "computers", "components", "monitors", "used", "office-chairs", "gchairs",
@@ -25,36 +40,39 @@ CAMPAIGN_SLUGS = [
     "cctv", "network", "hubs", "cables", "ups",
 ]
 
-
-def load_json(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-def extract_block(html: str, start_marker: str, end_marker: str) -> str:
-    start = html.index(start_marker)
-    end = html.index(end_marker, start)
-    return html[start:end]
+PAGE_PATH = "hot-summer-sale-2026/{slug}.html"
+PREFIX = "../"
 
 
-def extract_style_block(html: str) -> str:
-    m = re.search(r"(<style>.*?</style>)", html, re.DOTALL)
-    return m.group(1) if m else ""
+def extract_section(html: str, pattern: str, label: str) -> str:
+    match = re.search(pattern, html, re.DOTALL)
+    if not match:
+        raise SystemExit(f"Could not extract {label} from hot-summer-sale-2026.html")
+    return match.group(1)
 
 
-def extract_tailwind_config(html: str) -> str:
-    m = re.search(r'(<script id="tailwind-config">.*?</script>)', html, re.DOTALL)
-    return m.group(1) if m else ""
+def extract_categories_section(html: str) -> str:
+    return extract_section(
+        html,
+        r'(<section class="py-stack-lg px-container-padding max-w-\[1440px\] mx-auto">[\s\S]*?'
+        r'id="category-icon-grid"[\s\S]*?</section>)',
+        "categories section",
+    )
 
 
-def campaign_nav_strip(categories: list[dict], active_id: str) -> str:
-    links = ['<a href="../hot-summer-sale-2026.html">← Кампания</a>']
-    for cat in categories:
-        href = cat.get("localUrl") or f"hot-summer-sale-2026/{cat['slug']}.html"
-        if not href.startswith("../"):
-            href = f"../{href}" if "/" in href else f"../hot-summer-sale-2026/{cat['slug']}.html"
-        cls = ' class="is-active"' if cat["id"] == active_id else ""
-        links.append(f'<a href="{escape(href)}"{cls}>{escape(cat["name"])}</a>')
-    return f'<div class="campaign-nav-strip" aria-label="Категории от кампанията">{"".join(links)}</div>'
+def extract_newsletter_section(html: str) -> str:
+    return extract_section(
+        html,
+        r'(<section class="py-\[120px\] px-container-padding relative overflow-hidden">[\s\S]*?'
+        r'Абонирай се за офертите[\s\S]*?</section>)',
+        "newsletter section",
+    )
+
+
+def fix_subpage_cta_links(block: str) -> str:
+    block = block.replace('href="#laptopi"', 'href="#catalog"')
+    block = block.replace('href="../hot-summer-sale-2026.html#laptopi"', 'href="#catalog"')
+    return block
 
 
 def catalog_filter_panel(show_os: bool = True, show_upgraded: bool = True) -> str:
@@ -161,7 +179,6 @@ def product_to_render_dict(p: dict) -> dict:
 
 
 def render_product_grid(products: list[dict], category: dict) -> str:
-    """Group products by subcategory with anchor targets for hash navigation."""
     by_sub: dict[str, list[dict]] = {}
     order: list[str] = []
     for p in products:
@@ -185,13 +202,17 @@ def render_product_grid(products: list[dict], category: dict) -> str:
             f'<h2 class="font-headline-md text-headline-md font-semibold text-on-surface-variant mb-4">{escape(title)}'
             f' <span class="text-technical-sm font-normal">({len(items)})</span></h2></div>'
         )
-        parts.append(
-            "\n\n".join(
-                render_product(product_to_render_dict(p), sale_badge_href=SALE_BADGE_HREF_SUBPAGE)
-                for p in items
-            )
-        )
+        parts.append("\n\n".join(render_product(product_to_render_dict(p)) for p in items))
     return "\n\n".join(parts)
+
+
+def catalog_scripts_html(prefix: str, category: dict) -> str:
+    config = json.dumps(catalog_page_config(category), ensure_ascii=False)
+    return f"""  <script>
+    window.CATALOG_PAGE = {config};
+  </script>
+  <script src="{prefix}catalog-filters.js"></script>
+  <script src="{prefix}campaign-category-nav.js"></script>"""
 
 
 def catalog_page_config(category: dict) -> dict:
@@ -215,144 +236,127 @@ def catalog_page_config(category: dict) -> dict:
     }
 
 
-def catalog_scripts_html(prefix: str, category: dict) -> str:
-    config = json.dumps(catalog_page_config(category), ensure_ascii=False)
-    return f"""  <script>
-    window.CATALOG_PAGE = {config};
-  </script>
-  <script src="{prefix}catalog-filters.js"></script>"""
+def customize_catalog_head(head: str, title: str, description: str) -> str:
+    head = re.sub(r"<title>.*?</title>", f"<title>{escape(title)}</title>", head, flags=re.DOTALL)
+    head = re.sub(
+        r'<meta name="description" content="[^"]*"',
+        f'<meta name="description" content="{escape(description)}"',
+        head,
+    )
+    if 'data-redesign="spatial-minimalism"' not in head:
+        head = head.replace('class="dark"', 'class="dark" data-redesign="spatial-minimalism"')
+    return head
 
 
 def build_page(
     category: dict,
     products: list[dict],
     template_html: str,
-    all_categories: list[dict],
+    shell: dict,
+    link_map: dict,
+    *,
+    categories_section: str,
+    newsletter_section: str,
 ) -> str:
-    cat_id = category["id"]
     slug = category["slug"]
     name = category["name"]
+    cat_id = category["id"]
     count = len(products)
+    page_path = PAGE_PATH.format(slug=slug)
+    CONTENT_PAGE_SCRIPTS, adapt_shell_part, build_campaign_hero, _, _ = _template_helpers()
 
-    style = extract_style_block(template_html)
-    tailwind = extract_tailwind_config(template_html)
-    header = extract_block(template_html, "<header", "</header>")
-    footer = extract_block(template_html, '<footer class="w-full', "</footer>") + "</footer>"
+    title = f"{name} | Hot Summer Sale 2026 | Plasico.bg"
+    description = f"{name} — летни оферти от кампанията Hot Summer Sale 2026 в Plasico.bg"
 
-    def fix_paths(block: str) -> str:
-        block = re.sub(r'href="(?!https?://|#|tel:|mailto:)([^"]+)"', r'href="../\1"', block)
-        block = block.replace('href="../hot-summer-sale-2026.html#', 'href="../hot-summer-sale-2026.html#')
-        block = block.replace('href="../https://', 'href="https://')
-        return block
+    head = customize_catalog_head(
+        adapt_shell_part(shell["head"], link_map, page_path),
+        title,
+        description,
+    )
+    header = adapt_shell_part(shell["header"], link_map, page_path)
+    footer = adapt_shell_part(shell["footer"], link_map, page_path)
+    back_btn = shell["back_to_top"]
 
-    header = fix_paths(header)
-    footer = fix_paths(footer)
+    hero = fix_subpage_cta_links(
+        build_campaign_hero(template_html, link_map, page_path),
+    )
+    _, adapt_shell_part, _, _, _ = _template_helpers()
+    categories = fix_subpage_cta_links(
+        adapt_shell_part(categories_section, link_map, page_path),
+    )
+    newsletter = adapt_shell_part(newsletter_section, link_map, page_path)
 
-    cards = render_product_grid(products, category)
-
-    page_config = catalog_page_config(category)
     show_os = cat_id in ("laptopi", "computers", "used")
     show_upgraded = cat_id in ("laptopi", "computers", "used")
+    cards = render_product_grid(products, category)
+    page_config = json.dumps(catalog_page_config(category), ensure_ascii=False)
 
-    nav = campaign_nav_strip(all_categories, cat_id)
-    breadcrumb = (
-        f'<nav class="mirror-breadcrumb" aria-label="Навигация">'
-        f'<a href="../hot-summer-sale-2026.html">Hot Summer Sale 2026</a> '
-        f'<span class="mirror-breadcrumb__sep" aria-hidden="true">›</span> '
-        f"<span>{escape(name)}</span></nav>"
-    )
-
-    page = f"""<!DOCTYPE html>
-<html class="dark" data-redesign="spatial-minimalism" lang="bg">
-<head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>{escape(name)} | Hot Summer Sale 2026 | Plasico.bg</title>
-  <meta name="description" content="{escape(name)} — летни оферти от кампанията Hot Summer Sale 2026 в Plasico.bg"/>
-  <link rel="shortcut icon" type="image/ico" href="https://static.plasico.bg/favicon.ico"/>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet"/>
-  {tailwind}
-  {style}
-</head>
-<body class="font-body-md selection:bg-apricot/30 custom-scrollbar" data-category-map="../category-map.json">
-  {header}
-  <main class="pt-[var(--site-header-offset)]">
-    <div class="max-w-[1440px] mx-auto px-container-padding py-8 lg:py-12">
-      {breadcrumb}
-      {nav}
-      <section id="catalog" class="py-stack-lg">
-        <div class="mb-stack-lg">
-          <h1 class="font-headline-lg font-bold flex items-center gap-4">
-            <span class="w-12 h-[2px] bg-primary"></span>
-            <span id="catalog-title">{escape(name)}</span>
-          </h1>
-          <p id="catalog-subtitle" class="text-on-surface-variant mt-2">{count} продукта с летни отстъпки — налични за поръчка.</p>
-        </div>
-        {catalog_filter_panel(show_os=show_os, show_upgraded=show_upgraded)}
-        <div id="catalog-empty" class="hidden text-center py-16 px-6 squircle intelligent-edge bg-surface-container" role="status">
-          <span class="material-symbols-outlined text-apricot text-[48px] mb-4" aria-hidden="true">inventory_2</span>
-          <h3 id="catalog-empty-title" class="font-headline-md text-headline-md font-bold mb-3">Няма продукти по избраните филтри</h3>
-          <p id="catalog-empty-text" class="text-on-surface-variant max-w-lg mx-auto mb-8">Опитайте да разширите филтрите.</p>
-        </div>
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter relative">
+    catalog = f"""
+    <section id="catalog" class="py-stack-lg px-container-padding max-w-[1440px] mx-auto">
+      <div class="mb-stack-lg">
+        <h2 class="font-headline-lg font-bold flex items-center gap-4">
+          <span class="w-12 h-[2px] bg-primary"></span>
+          <span id="catalog-title">{escape(name)}</span>
+        </h2>
+        <p id="catalog-subtitle" class="text-on-surface-variant mt-2">{count} продукта с летни отстъпки — налични за поръчка.</p>
+      </div>
+      {catalog_filter_panel(show_os=show_os, show_upgraded=show_upgraded)}
+      <div id="catalog-empty" class="hidden text-center py-16 px-6 squircle intelligent-edge bg-surface-container" role="status">
+        <span class="material-symbols-outlined text-apricot text-[48px] mb-4" aria-hidden="true">inventory_2</span>
+        <h3 id="catalog-empty-title" class="font-headline-md text-headline-md font-bold mb-3">Няма продукти по избраните филтри</h3>
+        <p id="catalog-empty-text" class="text-on-surface-variant max-w-lg mx-auto mb-8">Опитайте да разширите филтрите.</p>
+      </div>
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter relative">
 {cards}
-        </div>
-      </section>
-    </div>
-  </main>
-  {footer}
-  <button id="back-to-top" type="button" aria-label="Нагоре" title="Нагоре" class="fixed left-4 bottom-6 z-40 w-11 h-11 rounded-full bg-surface-container-high border border-edge-light text-on-surface shadow-lg flex items-center justify-center opacity-0 pointer-events-none translate-y-2 transition-opacity duration-300 hover:text-apricot hover:border-apricot hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-apricot">
-    <span class="material-symbols-outlined text-[22px]" aria-hidden="true">keyboard_arrow_up</span>
-  </button>
-{catalog_scripts_html("../", category)}
-  <script>
-    (function initHeaderCategories() {{
-      const toggle = document.getElementById('categories-toggle');
-      const panel = document.getElementById('categories-panel');
-      if (!toggle || !panel) return;
-      toggle.addEventListener('click', () => {{
-        const open = !panel.classList.contains('is-open');
-        panel.classList.toggle('is-open', open);
-        panel.setAttribute('aria-hidden', open ? 'false' : 'true');
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      }});
-    }})();
-    (function initBackToTop() {{
-      const btn = document.getElementById('back-to-top');
-      if (!btn) return;
-      const toggle = () => {{
-        const visible = window.scrollY > 400;
-        btn.classList.toggle('opacity-0', !visible);
-        btn.classList.toggle('pointer-events-none', !visible);
-        btn.classList.toggle('translate-y-2', !visible);
-      }};
-      window.addEventListener('scroll', toggle, {{ passive: true }});
-      toggle();
-      btn.addEventListener('click', () => window.scrollTo({{ top: 0, behavior: 'smooth' }}));
-    }})();
+      </div>
+    </section>"""
+
+    main = f"""
+  <main class="pt-[var(--site-header-offset)]">
+{hero}
+{categories}
+{catalog}
+{newsletter}
+  </main>"""
+
+    scripts = f"""  <script>
+    window.CATALOG_PAGE = {page_config};
   </script>
-</body>
-</html>
-"""
-    return page
+  <script src="{PREFIX}catalog-filters.js"></script>
+  <script src="{PREFIX}campaign-category-nav.js"></script>
+{CONTENT_PAGE_SCRIPTS}"""
+
+    return "\n".join([
+        head,
+        f'<body class="font-body-md selection:bg-apricot/30 custom-scrollbar" data-category-map="{PREFIX}category-map.json">',
+        header,
+        main,
+        footer,
+        back_btn,
+        scripts,
+        "</body>",
+        "</html>",
+    ])
 
 
 def main() -> None:
     if not TEMPLATE.exists():
         raise SystemExit(f"Template not found: {TEMPLATE}")
-    template_html = TEMPLATE.read_text(encoding="utf-8")
-    products_map = load_json(PRODUCTS_MAP)
-    category_map = load_json(CATEGORY_MAP)
-    categories = category_map.get("categories", [])
-    by_id = {c["id"]: c for c in categories}
 
+    _, _, _, extract_shell, load_json_fn = _template_helpers()
+    template_html = TEMPLATE.read_text(encoding="utf-8")
+    products_map = load_json_fn(PRODUCTS_MAP)
+    category_map = load_json_fn(CATEGORY_MAP)
+    link_map = load_json_fn(LINK_MAP)
+    shell = extract_shell(template_html)
+    categories_section = extract_categories_section(template_html)
+    newsletter_section = extract_newsletter_section(template_html)
+
+    categories = category_map.get("categories", [])
     all_products = products_map.get("products", [])
     CAMPAIGN_DIR.mkdir(parents=True, exist_ok=True)
 
+    counts: dict[str, int] = {}
     for slug in CAMPAIGN_SLUGS:
         cat = next((c for c in categories if c.get("slug") == slug), None)
         if not cat:
@@ -362,12 +366,29 @@ def main() -> None:
         if not cat_products:
             print(f"skip {slug}: 0 products")
             continue
-        html = build_page(cat, cat_products, template_html, categories)
+        html = build_page(
+            cat,
+            cat_products,
+            template_html,
+            shell,
+            link_map,
+            categories_section=categories_section,
+            newsletter_section=newsletter_section,
+        )
         out = CAMPAIGN_DIR / f"{slug}.html"
         out.write_text(html, encoding="utf-8")
+        counts[slug] = len(cat_products)
         print(f"  {slug}.html — {len(cat_products)} products")
 
-    print("Done.")
+    stray = CAMPAIGN_DIR / "components,.html"
+    if stray.exists():
+        stray.unlink()
+        print("  removed components,.html (typo)")
+
+    print(f"\nDone. Rebuilt {len(counts)} subpages.")
+    print("Product counts:")
+    for slug, n in sorted(counts.items(), key=lambda x: -x[1]):
+        print(f"  {slug}: {n}")
 
 
 if __name__ == "__main__":
