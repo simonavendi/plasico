@@ -156,6 +156,11 @@ PANEL_CSS = """
       background: rgba(251, 146, 60, 0.14);
       color: #FB923C;
     }
+    @media (max-width: 639px) {
+      .panel-utility-mega-cell--sale {
+        grid-column: span 2;
+      }
+    }
     .panel-utility-mega-cell--sale {
       border-color: rgba(255, 180, 120, 0.5);
       background: linear-gradient(135deg, #FB923C 0%, #F97316 50%, #EF4444 100%);
