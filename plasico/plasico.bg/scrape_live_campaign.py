@@ -331,10 +331,10 @@ def badge_classes(pct: int, is_promocode: bool) -> str:
     if pct <= 0:
         return ""
     if pct >= 40:
-        return "bg-apricot/25 text-apricot border-apricot/40"
+        return "bg-promo/25 text-promo border-promo/40"
     if pct >= 25:
-        return "bg-apricot/20 text-apricot border-apricot/30"
-    return "bg-apricot/10 text-apricot border-apricot/20"
+        return "bg-promo/20 text-promo border-promo/30"
+    return "bg-promo/10 text-promo border-promo/20"
 
 
 def make_discount_badge_html(pct: int, is_promocode: bool, href: str) -> str:
@@ -388,7 +388,7 @@ def render_product(p: dict, sale_badge_href: str = SALE_BADGE_HREF_MAIN) -> str:
 
     upgraded_html = ""
     if p["upgraded"]:
-        upgraded_html = '\n    <div class="upgraded-badge absolute top-4 left-4 px-2.5 py-0.5 bg-apricot/15 text-apricot border-apricot/35 border rounded-full text-technical-sm font-bold tracking-wide">UPGRADED</div>'
+        upgraded_html = '\n    <div class="upgraded-badge absolute top-4 left-4 px-2.5 py-0.5 bg-promo/15 text-promo border-promo/35 border rounded-full text-technical-sm font-bold tracking-wide">UPGRADED</div>'
 
     os_badge_html = ""
     if os_val == "macos":

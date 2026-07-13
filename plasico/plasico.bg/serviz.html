@@ -19,7 +19,9 @@
           colors: {
             primary: "#c9c4d5",
             secondary: "#ffb783",
-            apricot: "#FB923C",
+            apricot: "#07a857",
+            promo: "#FB923C",
+            "promo-dark": "#F97316",
             teal: "#2DD4BF",
             violet: "#A78BFA",
             "deep-ink": "#0A0910",
@@ -33,7 +35,7 @@
             "surface-variant": "#363435",
             "on-surface": "#e5e1e2",
             "on-surface-variant": "#c9c5cc",
-            "on-secondary-container": "#451f00",
+            "on-secondary-container": "#ffffff",
             "primary-container": "#12101c"
           },
           spacing: {
@@ -124,10 +126,10 @@
     }
     .category-icon-card:hover {
       transform: scale(1.04);
-      border-color: rgba(251, 146, 60, 0.55);
+      border-color: rgba(7, 168, 87, 0.55);
       box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.25),
                   0 8px 24px rgba(0, 0, 0, 0.35),
-                  0 0 20px rgba(251, 146, 60, 0.12);
+                  0 0 20px rgba(7, 168, 87, 0.12);
       background: #2b2a2b;
     }
     .category-icon-card__icon {
@@ -143,10 +145,10 @@
     }
     .category-icon-card:hover .category-icon-card__icon {
       background: rgba(167, 139, 250, 0.14);
-      color: #FB923C;
+      color: #07a857;
     }
     .category-icon-card__icon .material-symbols-outlined { font-size: 24px; color: #c9c5cc; }
-    .category-icon-card:hover .category-icon-card__icon .material-symbols-outlined { color: #FB923C; }
+    .category-icon-card:hover .category-icon-card__icon .material-symbols-outlined { color: #07a857; }
     .category-icon-card__label {
       font-size: 11px;
       line-height: 1.25;
@@ -163,7 +165,7 @@
       min-width: 0;
     }
     .category-icon-cell.is-expanded .category-icon-card {
-      border-color: rgba(251, 146, 60, 0.45);
+      border-color: rgba(7, 168, 87, 0.45);
       box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.2);
     }
     .category-subchips {
@@ -195,9 +197,9 @@
       text-align: center;
     }
     .category-subchip:hover {
-      border-color: rgba(251, 146, 60, 0.5);
-      color: #FB923C;
-      background: rgba(251, 146, 60, 0.1);
+      border-color: rgba(7, 168, 87, 0.5);
+      color: #07a857;
+      background: rgba(7, 168, 87, 0.1);
     }
     .category-subchip--external::after {
       content: '↗';
@@ -323,10 +325,10 @@
       background: rgba(167, 139, 250, 0.08);
     }
     .filter-pill[aria-pressed="true"] {
-      background: linear-gradient(135deg, rgba(251, 146, 60, 0.22), rgba(167, 139, 250, 0.18));
-      border-color: rgba(251, 146, 60, 0.55);
+      background: linear-gradient(135deg, rgba(7, 168, 87, 0.22), rgba(167, 139, 250, 0.18));
+      border-color: rgba(7, 168, 87, 0.55);
       color: #e5e1e2;
-      box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.15) inset, 0 4px 16px rgba(251, 146, 60, 0.12);
+      box-shadow: 0 0 0 1px rgba(7, 168, 87, 0.15) inset, 0 4px 16px rgba(7, 168, 87, 0.12);
     }
     .category-filter-trigger { cursor: pointer; text-align: inherit; color: inherit; }
     button.category-filter-trigger {
@@ -346,8 +348,8 @@
       cursor: pointer;
     }
     .category-chip:hover {
-      background: rgba(251, 146, 60, 0.2);
-      border-color: rgba(251, 146, 60, 0.35);
+      background: rgba(7, 168, 87, 0.2);
+      border-color: rgba(7, 168, 87, 0.35);
     }
     #product-grid .catalog-product {
       transition: opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1),
@@ -512,8 +514,8 @@
     }
     .filter-input:focus {
       outline: none;
-      border-color: rgba(251, 146, 60, 0.55);
-      box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.12);
+      border-color: rgba(7, 168, 87, 0.55);
+      box-shadow: 0 0 0 3px rgba(7, 168, 87, 0.12);
     }
     .filter-sort-btn {
       padding: 0.5rem 1rem;
@@ -533,8 +535,8 @@
       color: #e5e1e2;
     }
     .filter-sort-btn[aria-pressed="true"] {
-      background: linear-gradient(135deg, rgba(251, 146, 60, 0.22), rgba(167, 139, 250, 0.18));
-      border-color: rgba(251, 146, 60, 0.55);
+      background: linear-gradient(135deg, rgba(7, 168, 87, 0.22), rgba(167, 139, 250, 0.18));
+      border-color: rgba(7, 168, 87, 0.55);
       color: #e5e1e2;
     }
     .price-range-track {
@@ -548,7 +550,7 @@
       position: absolute;
       height: 100%;
       border-radius: 9999px;
-      background: linear-gradient(90deg, #FB923C, #A78BFA);
+      background: linear-gradient(90deg, #07a857, #A78BFA);
     }
     .price-range-input {
       position: absolute;
@@ -569,7 +571,7 @@
       height: 18px;
       border-radius: 50%;
       background: #e5e1e2;
-      border: 2px solid #FB923C;
+      border: 2px solid #07a857;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
       cursor: pointer;
       pointer-events: auto;
@@ -579,7 +581,7 @@
       height: 18px;
       border-radius: 50%;
       background: #e5e1e2;
-      border: 2px solid #FB923C;
+      border: 2px solid #07a857;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
       cursor: pointer;
       pointer-events: auto;
@@ -669,7 +671,7 @@
       transition: color 0.2s ease, background-color 0.2s ease;
     }
     .header-utility-link:hover {
-      color: #FB923C;
+      color: #07a857;
       background-color: rgba(255, 255, 255, 0.06);
     }
     .header-sale-cta {
@@ -732,7 +734,7 @@
       background-color: rgba(255, 255, 255, 0.06);
     }
     .header-toolbar-signin:focus-visible {
-      outline: 2px solid rgba(251, 146, 60, 0.65);
+      outline: 2px solid rgba(7, 168, 87, 0.65);
       outline-offset: 2px;
     }
     .header-toolbar-signin .material-symbols-outlined {
@@ -813,7 +815,7 @@
       color: rgba(229, 225, 226, 0.92);
     }
     .header-auth-panel__link--signup:hover {
-      color: #FB923C;
+      color: #07a857;
     }
     .header-auth-panel__social {
       display: flex;
@@ -856,7 +858,7 @@
       color: rgba(229, 225, 226, 0.92);
     }
     .header-utility-bar-signup:hover {
-      color: #FB923C;
+      color: #07a857;
       background-color: rgba(255, 255, 255, 0.06);
     }
     .header-utility-bar-sep {
@@ -884,9 +886,9 @@
       transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     }
     .header-utility-social:hover {
-      color: #FB923C;
+      color: #07a857;
       background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(251, 146, 60, 0.22);
+      border-color: rgba(7, 168, 87, 0.22);
     }
     button.header-utility-social {
       border: none;
@@ -902,7 +904,7 @@
       background-color: rgba(255, 255, 255, 0.08);
     }
     .header-utility-link:focus-visible {
-      outline: 2px solid rgba(251, 146, 60, 0.65);
+      outline: 2px solid rgba(7, 168, 87, 0.65);
       outline-offset: 2px;
     }
     .header-utility-link--icon {
@@ -924,15 +926,15 @@
       .panel-utility-mega-grid { gap: 10px; }
     }
     .panel-utility-nav .header-cat-mega-cell.is-active {
-      border-color: rgba(251, 146, 60, 0.45);
-      background: rgba(251, 146, 60, 0.08);
+      border-color: rgba(7, 168, 87, 0.45);
+      background: rgba(7, 168, 87, 0.08);
     }
     .panel-utility-nav .header-cat-mega-cell.is-active .header-cat-mega-parent {
-      color: #FB923C;
+      color: #07a857;
     }
     .panel-utility-nav .header-cat-mega-cell.is-active .header-cat-mega-parent__icon {
-      background: rgba(251, 146, 60, 0.14);
-      color: #FB923C;
+      background: rgba(7, 168, 87, 0.14);
+      color: #07a857;
     }
     .panel-utility-mega-cell--sale {
       border-color: rgba(255, 180, 120, 0.5);
@@ -969,18 +971,18 @@
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .header-search-pill:focus-within {
-      border-color: rgba(251, 146, 60, 0.45);
-      box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.12);
+      border-color: rgba(7, 168, 87, 0.45);
+      box-shadow: 0 0 0 3px rgba(7, 168, 87, 0.12);
     }
     .header-search-btn {
-      background: #FB923C;
-      color: #451f00;
+      background: #07a857;
+      color: #ffffff;
       border-radius: 9999px;
       font-weight: 600;
       transition: background-color 0.2s ease, transform 0.15s ease;
     }
     .header-search-btn:hover {
-      background: #f59e0b;
+      background: #069449;
     }
     .header-search-btn:active {
       transform: scale(0.98);
@@ -999,7 +1001,7 @@
       height: 18px;
       padding: 0 4px;
       border-radius: 9999px;
-      background: #FB923C;
+      background: #07a857;
       color: #451f00;
       font-size: 10px;
       font-weight: 700;
@@ -1084,12 +1086,12 @@
       transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
     }
     .cart-drawer-close:hover {
-      color: #FB923C;
-      border-color: rgba(251, 146, 60, 0.35);
-      background: rgba(251, 146, 60, 0.1);
+      color: #07a857;
+      border-color: rgba(7, 168, 87, 0.35);
+      background: rgba(7, 168, 87, 0.1);
     }
     .cart-drawer-close:focus-visible {
-      outline: 2px solid rgba(251, 146, 60, 0.65);
+      outline: 2px solid rgba(7, 168, 87, 0.65);
       outline-offset: 2px;
     }
     .cart-drawer-body {
@@ -1172,9 +1174,9 @@
       transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
     .cart-drawer-qty-btn:hover {
-      color: #FB923C;
-      border-color: rgba(251, 146, 60, 0.4);
-      background: rgba(251, 146, 60, 0.1);
+      color: #07a857;
+      border-color: rgba(7, 168, 87, 0.4);
+      background: rgba(7, 168, 87, 0.1);
     }
     .cart-drawer-qty-value {
       min-width: 1.25rem;
@@ -1194,7 +1196,7 @@
       transition: color 0.2s ease;
     }
     .cart-drawer-item__remove:hover {
-      color: #FB923C;
+      color: #07a857;
     }
     .cart-drawer-footer {
       flex-shrink: 0;
@@ -1237,11 +1239,11 @@
       transform: scale(0.98);
     }
     .cart-drawer-cta--primary {
-      background: #FB923C;
+      background: #07a857;
       color: #451f00;
     }
     .cart-drawer-cta--primary:hover {
-      background: #f59e0b;
+      background: #069449;
     }
     .cart-drawer-cta--secondary {
       background: rgba(255, 255, 255, 0.06);
@@ -1249,8 +1251,8 @@
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
     .cart-drawer-cta--secondary:hover {
-      border-color: rgba(251, 146, 60, 0.35);
-      color: #FB923C;
+      border-color: rgba(7, 168, 87, 0.35);
+      color: #07a857;
     }
     body.cart-drawer-open {
       overflow: hidden;
@@ -1284,8 +1286,8 @@
     }
     .product-fav-btn:hover {
       background: rgba(32, 31, 32, 0.92);
-      border-color: rgba(251, 146, 60, 0.45);
-      color: #FB923C;
+      border-color: rgba(7, 168, 87, 0.45);
+      color: #07a857;
     }
     .product-fav-btn .material-symbols-outlined {
       font-size: 22px;
@@ -1293,9 +1295,9 @@
       transition: color 0.2s ease;
     }
     .product-fav-btn.is-favorited {
-      border-color: rgba(251, 146, 60, 0.5);
-      background: rgba(251, 146, 60, 0.15);
-      color: #FB923C;
+      border-color: rgba(7, 168, 87, 0.5);
+      background: rgba(7, 168, 87, 0.15);
+      color: #07a857;
     }
     .product-fav-btn.is-favorited .material-symbols-outlined {
       font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
@@ -1318,9 +1320,9 @@
     }
     #categories-toggle.is-open,
     #categories-toggle[aria-expanded="true"] {
-      border-color: rgba(251, 146, 60, 0.45);
-      color: #FB923C;
-      background: rgba(251, 146, 60, 0.08);
+      border-color: rgba(7, 168, 87, 0.45);
+      color: #07a857;
+      background: rgba(7, 168, 87, 0.08);
     }
 .header-cat-section-title {
       font-size: 11px;
@@ -1353,8 +1355,8 @@
     }
     .header-cat-mega-cell:hover,
     .header-cat-mega-cell.is-open {
-      border-color: rgba(251, 146, 60, 0.4);
-      background: rgba(251, 146, 60, 0.06);
+      border-color: rgba(7, 168, 87, 0.4);
+      background: rgba(7, 168, 87, 0.06);
     }
     .header-cat-mega-parent {
       display: flex;
@@ -1373,7 +1375,7 @@
       text-decoration: none;
       transition: color 0.2s ease;
     }
-    .header-cat-mega-parent:hover { color: #FB923C; }
+    .header-cat-mega-parent:hover { color: #07a857; }
     .header-cat-mega-parent__icon {
       width: 36px;
       height: 36px;
@@ -1387,8 +1389,8 @@
     }
     .header-cat-mega-parent:hover .header-cat-mega-parent__icon,
     .header-cat-mega-cell.is-open .header-cat-mega-parent__icon {
-      background: rgba(251, 146, 60, 0.14);
-      color: #FB923C;
+      background: rgba(7, 168, 87, 0.14);
+      color: #07a857;
     }
     .header-cat-mega-parent__icon .material-symbols-outlined { font-size: 20px; }
     .header-cat-mega-parent__label { flex: 1; line-height: 1.25; }
@@ -1417,9 +1419,9 @@
       transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
     }
     .header-cat-mega-sub:hover {
-      border-color: rgba(251, 146, 60, 0.5);
-      color: #FB923C;
-      background: rgba(251, 146, 60, 0.1);
+      border-color: rgba(7, 168, 87, 0.5);
+      color: #07a857;
+      background: rgba(7, 168, 87, 0.1);
     }
     /* Keep header chrome and panel menu above the dimming backdrop (z-index 40). */
     #site-header > div:first-child {
@@ -1446,7 +1448,7 @@
       text-decoration: none;
       transition: color 0.2s ease;
     }
-    .site-footer-link:hover { color: #FB923C; }
+    .site-footer-link:hover { color: #07a857; }
     .site-footer-heading {
       font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
       font-size: 16px;
@@ -1505,13 +1507,13 @@
     .category-mobile-toggle:hover,
     .category-mobile-toggle:focus-visible {
       outline: none;
-      border-color: rgba(251, 146, 60, 0.45);
+      border-color: rgba(7, 168, 87, 0.45);
       box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.2);
       background: #2b2a2b;
     }
     .category-mobile-toggle[aria-expanded="true"] {
-      border-color: rgba(251, 146, 60, 0.55);
-      box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.15) inset;
+      border-color: rgba(7, 168, 87, 0.55);
+      box-shadow: 0 0 0 1px rgba(7, 168, 87, 0.15) inset;
     }
     .category-mobile-toggle__icon {
       font-size: 22px;
@@ -1521,7 +1523,7 @@
     }
     .category-mobile-toggle[aria-expanded="true"] .category-mobile-toggle__icon {
       transform: rotate(180deg);
-      color: #FB923C;
+      color: #07a857;
     }
     .category-mobile-list {
       position: absolute;
@@ -1560,13 +1562,13 @@
     .category-mobile-option:hover,
     .category-mobile-option:focus-visible {
       outline: none;
-      background: rgba(251, 146, 60, 0.1);
-      color: #FB923C;
+      background: rgba(7, 168, 87, 0.1);
+      color: #07a857;
     }
     .category-mobile-option.is-active {
-      background: rgba(251, 146, 60, 0.14);
-      color: #FB923C;
-      box-shadow: inset 0 0 0 1px rgba(251, 146, 60, 0.35);
+      background: rgba(7, 168, 87, 0.14);
+      color: #07a857;
+      box-shadow: inset 0 0 0 1px rgba(7, 168, 87, 0.35);
     }
     .category-mobile-option__icon {
       width: 36px;
@@ -1817,30 +1819,47 @@
       <div id="categories-panel" class="border-t border-edge-light/30 bg-surface-container-low/90" aria-hidden="true">
         <div class="max-w-[1440px] mx-auto px-container-padding py-3 text-sm">
           <nav class="panel-utility-nav" aria-label="Бързи връзки">
-            <a href="https://plasico.bg/" class="panel-utility-nav__item panel-utility-nav__item--home header-utility-link header-utility-link--icon header-utility-home" aria-label="Начало">
-              <span class="material-symbols-outlined header-utility-home-icon" aria-hidden="true">home</span>
-              <span>Начало</span>
-            </a>
-            <div class="panel-utility-nav__links">
-              <a href="magazini.html" class="panel-utility-nav__item">Магазини</a>
-              <a href="serviz.html" class="panel-utility-nav__item text-apricot" aria-current="page">Сервиз</a>
-              <a href="za-nas.html" class="panel-utility-nav__item">За нас</a>
-              <a href="blog/index.html" class="panel-utility-nav__item">Блог</a>
-              <a href="kontakti.html" class="panel-utility-nav__item">Контакти</a>
-            </div>
-            <a href="hot-summer-sale-2026.html" class="panel-utility-nav__item panel-utility-nav__item--sale header-sale-cta is-active" aria-label="Разпродажба Hot Summer Sale 2026" aria-current="page">
-              <span class="material-symbols-outlined header-sale-cta__icon" aria-hidden="true">local_fire_department</span>
-              <span>РАЗПРОДАЖБА</span>
-            </a>
-            <div class="panel-utility-auth">
-              <a href="https://plasico.bg/account" class="panel-utility-nav__item panel-utility-nav__item--signup">Регистрация</a>
-              <div class="panel-utility-auth-social">
-                <span class="panel-utility-auth-via">или чрез</span>
-                <a href="https://plasico.bg/account" class="header-utility-social" title="Facebook" aria-label="Вход с Facebook">
-                  <svg class="header-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.1.9-2 2-2h2V3h-2.5C13.8 3 12 4.8 12 7v2.5H9v4h3V21h2v-7.5z"/></svg>
+            <div class="header-cat-mega-grid panel-utility-mega-grid">
+              <div class="header-cat-mega-cell">
+                <a href="https://plasico.bg/" class="header-cat-mega-parent header-utility-home" aria-label="Начало">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">home</span></span>
+                  <span class="header-cat-mega-parent__label">Начало</span>
                 </a>
-                <a href="https://plasico.bg/account" class="header-utility-social" title="Google" aria-label="Вход с Google">
-                  <svg class="header-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.545 10.239v3.821h5.445c-.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2 7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.748l-9.426-.013z"/></svg>
+              </div>
+              <div class="header-cat-mega-cell is-active">
+                <a href="serviz.html" class="header-cat-mega-parent aria-current="page"">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">storefront</span></span>
+                  <span class="header-cat-mega-parent__label">Магазини</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="serviz.html" class="header-cat-mega-parent">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">handyman</span></span>
+                  <span class="header-cat-mega-parent__label">Сервиз</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="za-nas.html" class="header-cat-mega-parent">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">groups</span></span>
+                  <span class="header-cat-mega-parent__label">За нас</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="blog/index.html" class="header-cat-mega-parent">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">newspaper</span></span>
+                  <span class="header-cat-mega-parent__label">Блог</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="kontakti.html" class="header-cat-mega-parent">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">mail</span></span>
+                  <span class="header-cat-mega-parent__label">Контакти</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell panel-utility-mega-cell--sale">
+                <a href="hot-summer-sale-2026.html" class="header-cat-mega-parent panel-utility-mega-parent--sale" aria-label="Разпродажба Hot Summer Sale 2026">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">local_fire_department</span></span>
+                  <span class="header-cat-mega-parent__label">РАЗПРОДАЖБА</span>
                 </a>
               </div>
             </div>

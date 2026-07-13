@@ -938,16 +938,16 @@
     }
     .panel-utility-mega-cell--sale {
       border-color: rgba(255, 180, 120, 0.5);
-      background: linear-gradient(135deg, #07a857 0%, #058a47 50%, #EF4444 100%);
-      box-shadow: 0 1px 8px rgba(7, 168, 87, 0.3);
+      background: linear-gradient(135deg, #FB923C 0%, #F97316 50%, #EF4444 100%);
+      box-shadow: 0 1px 8px rgba(251, 146, 60, 0.3);
     }
     .panel-utility-mega-cell--sale:hover {
       border-color: rgba(255, 200, 140, 0.7);
       filter: brightness(1.08);
-      box-shadow: 0 2px 14px rgba(7, 168, 87, 0.45);
+      box-shadow: 0 2px 14px rgba(251, 146, 60, 0.45);
     }
     .panel-utility-mega-cell--sale.is-active {
-      box-shadow: 0 0 0 2px rgba(7, 168, 87, 0.45), 0 1px 8px rgba(7, 168, 87, 0.35);
+      box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.45), 0 1px 8px rgba(251, 146, 60, 0.35);
     }
     .panel-utility-mega-parent--sale {
       color: #1a0f08;
@@ -1623,7 +1623,7 @@
   </style>
 </head>
 <body class="font-body-md selection:bg-apricot/30 custom-scrollbar" data-category-map="category-map.json">
-    <header id="site-header" class="fixed top-0 w-full z-50 font-sans bg-surface/90 backdrop-blur-xl border-b border-edge-light shadow-[0_2px_0_0_rgba(255,255,255,0.06)_inset,0_8px_32px_rgba(0,0,0,0.35)]">
+      <header id="site-header" class="fixed top-0 w-full z-50 font-sans bg-surface/90 backdrop-blur-xl border-b border-edge-light shadow-[0_2px_0_0_rgba(255,255,255,0.06)_inset,0_8px_32px_rgba(0,0,0,0.35)]">
     <div>
       <div class="max-w-[1440px] mx-auto px-container-padding py-3">
         <div class="flex items-center gap-3 lg:gap-5">
@@ -1677,30 +1677,47 @@
       <div id="categories-panel" class="border-t border-edge-light/30 bg-surface-container-low/90" aria-hidden="true">
         <div class="max-w-[1440px] mx-auto px-container-padding py-3 text-sm">
           <nav class="panel-utility-nav" aria-label="Бързи връзки">
-            <a href="https://plasico.bg/" class="panel-utility-nav__item panel-utility-nav__item--home header-utility-link header-utility-link--icon header-utility-home" aria-label="Начало">
-              <span class="material-symbols-outlined header-utility-home-icon" aria-hidden="true">home</span>
-              <span>Начало</span>
-            </a>
-            <div class="panel-utility-nav__links">
-              <a href="magazini.html" class="panel-utility-nav__item">Магазини</a>
-              <a href="serviz.html" class="panel-utility-nav__item">Сервиз</a>
-              <a href="za-nas.html" class="panel-utility-nav__item">За нас</a>
-              <a href="blog/index.html" class="panel-utility-nav__item">Блог</a>
-              <a href="kontakti.html" class="panel-utility-nav__item">Контакти</a>
-            </div>
-            <a href="hot-summer-sale-2026.html" class="panel-utility-nav__item panel-utility-nav__item--sale header-sale-cta is-active" aria-label="Разпродажба Hot Summer Sale 2026" aria-current="page">
-              <span class="material-symbols-outlined header-sale-cta__icon" aria-hidden="true">local_fire_department</span>
-              <span>РАЗПРОДАЖБА</span>
-            </a>
-            <div class="panel-utility-auth">
-              <a href="https://plasico.bg/account" class="panel-utility-nav__item panel-utility-nav__item--signup">Регистрация</a>
-              <div class="panel-utility-auth-social">
-                <span class="panel-utility-auth-via">или чрез</span>
-                <a href="https://plasico.bg/account" class="header-utility-social" title="Facebook" aria-label="Вход с Facebook">
-                  <svg class="header-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.1.9-2 2-2h2V3h-2.5C13.8 3 12 4.8 12 7v2.5H9v4h3V21h2v-7.5z"/></svg>
+            <div class="header-cat-mega-grid panel-utility-mega-grid">
+              <div class="header-cat-mega-cell">
+                <a href="https://plasico.bg/" class="header-cat-mega-parent header-utility-home" aria-label="Начало">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">home</span></span>
+                  <span class="header-cat-mega-parent__label">Начало</span>
                 </a>
-                <a href="https://plasico.bg/account" class="header-utility-social" title="Google" aria-label="Вход с Google">
-                  <svg class="header-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.545 10.239v3.821h5.445c-.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2 7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.748l-9.426-.013z"/></svg>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="magazini.html" class="header-cat-mega-parent">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">storefront</span></span>
+                  <span class="header-cat-mega-parent__label">Магазини</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="serviz.html" class="header-cat-mega-parent">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">handyman</span></span>
+                  <span class="header-cat-mega-parent__label">Сервиз</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="za-nas.html" class="header-cat-mega-parent">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">groups</span></span>
+                  <span class="header-cat-mega-parent__label">За нас</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="blog/index.html" class="header-cat-mega-parent">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">newspaper</span></span>
+                  <span class="header-cat-mega-parent__label">Блог</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="kontakti.html" class="header-cat-mega-parent">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">mail</span></span>
+                  <span class="header-cat-mega-parent__label">Контакти</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell panel-utility-mega-cell--sale is-active">
+                <a href="hot-summer-sale-2026.html" class="header-cat-mega-parent panel-utility-mega-parent--sale" aria-label="Разпродажба Hot Summer Sale 2026" aria-current="page">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">local_fire_department</span></span>
+                  <span class="header-cat-mega-parent__label">РАЗПРОДАЖБА</span>
                 </a>
               </div>
             </div>

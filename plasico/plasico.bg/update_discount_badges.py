@@ -33,10 +33,10 @@ def badge_classes(pct: int, is_promocode: bool) -> str:
     if pct <= 0:
         return ""
     if pct >= 40:
-        return "bg-apricot/25 text-apricot border-apricot/40"
+        return "bg-promo/25 text-promo border-promo/40"
     if pct >= 25:
-        return "bg-apricot/20 text-apricot border-apricot/30"
-    return "bg-apricot/10 text-apricot border-apricot/20"
+        return "bg-promo/20 text-promo border-promo/30"
+    return "bg-promo/10 text-promo border-promo/20"
 
 
 IMAGE_ZONE_RE = re.compile(
