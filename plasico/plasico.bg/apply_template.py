@@ -421,10 +421,13 @@ def extract_hero_section(template_html: str) -> str:
 def build_campaign_hero(template_html: str, link_map: dict, from_page: str) -> str:
     hero = extract_hero_section(template_html)
     hero = adapt_shell_part(hero, link_map, from_page)
-    hero = hero.replace(
-        'href="#laptopi"',
-        f'href="{rel_href("hot-summer-sale-2026.html#laptopi", from_page)}"',
-    )
+    if from_page.startswith("hot-summer-sale-2026/") and Path(from_page).stem != "index":
+        hero = hero.replace('href="#laptopi"', 'href="#catalog"')
+    else:
+        hero = hero.replace(
+            'href="#laptopi"',
+            f'href="{rel_href("hot-summer-sale-2026.html#laptopi", from_page)}"',
+        )
     return "\n".join(
         f"    {line}" if line.strip() else line for line in hero.split("\n")
     )
