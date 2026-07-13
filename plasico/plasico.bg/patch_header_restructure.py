@@ -117,7 +117,6 @@ NEW_HEADER = '''  <header id="site-header" class="fixed top-0 w-full z-50 font-s
             </div>
           </nav>
           <div id="site-categories-panel-mobile" class="mb-4"></div>
-          <div id="campaign-categories-panel"></div>
         </div>
       </div>
     </div>
@@ -311,7 +310,7 @@ INIT_HEADER_JS_NEW = r"""(function initHeaderCategories() {
           parent.type = 'button';
           parent.addEventListener('click', () => {
             const wasOpen = cell.classList.contains('is-open');
-            parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile, #campaign-categories-panel')
+            parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile')
               ?.querySelectorAll('.header-cat-mega-cell.is-open')
               .forEach(node => { if (node !== cell) node.classList.remove('is-open'); });
             cell.classList.toggle('is-open', !wasOpen);
