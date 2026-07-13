@@ -94,7 +94,7 @@ def catalog_filter_panel(show_os: bool = True, show_upgraded: bool = True) -> st
               </div>"""
 
     return f"""
-        <div class="mb-stack-lg">
+        <div class="catalog-filters-wrap">
           <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
             <button type="button" id="filter-panel-toggle" class="filter-pill inline-flex items-center gap-2" aria-expanded="false" aria-controls="catalog-filter-panel">
               <span class="material-symbols-outlined text-[18px]">tune</span>

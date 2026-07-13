@@ -374,6 +374,9 @@ def render_product(p: dict, sale_badge_href: str = SALE_BADGE_HREF_MAIN) -> str:
         attrs.append(f'data-discount-percent="{p["discount"]}"')
     if p["upgraded"]:
         attrs.append('data-upgraded="true"')
+    subcategory = p.get("subcategory")
+    if subcategory:
+        attrs.append(f'data-subcategory="{subcategory}"')
 
     title_esc = title_attr = p["title"].replace('"', "&quot;")
     short_title = truncate_title(p["title"])
