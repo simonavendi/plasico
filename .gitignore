@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Secrets and environment
+.env
+.env.*
+*.pem
+credentials.json
+*cookies*.txt
+
+# HTTrack / scrape caches
+plasico/hts-cache/
+plasico/hts-log.txt
+plasico/cookies.txt
+plasico/plasico.bg/live-main.html
+
+# Agent / editor
+.agent-transcripts/
+.cursor/
+
+# OS / temp
+Thumbs.db
+.DS_Store
+*.log
+
+# Local dev scripts output
+products.json
+verify-*.js
+test-filter.js
+tag-upgraded.js
+fix-badges.js

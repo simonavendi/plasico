@@ -1,0 +1,19 @@
+{
+  "name": "plasico",
+  "version": 2,
+  "buildCommand": null,
+  "outputDirectory": "plasico/plasico.bg",
+  "rewrites": [
+    { "source": "/", "destination": "/hot-summer-sale-2026.html" },
+    { "source": "/hot-summer-sale-2026", "destination": "/hot-summer-sale-2026.html" }
+  ],
+  "headers": [
+    {
+      "source": "/category-map.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=300" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ]
+}

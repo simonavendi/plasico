@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HEPHAESTUS | Summer Revel</title>
+<script type='text/javascript' nonce='uwMytjt2oOIaa/LDTqGxzQ==' src='https://contribution.usercontent.google.com/nCrIaWCMgfxbcPiJ59yNVCM6xDiyqyiQyd7sXNoMgve9bbgbt6e2bdVMlSn41gj6dC2hxMxMGzrPKorASAycFCbmsno5pW7VU0QAOd2ySeVVb1p6n_eoHOVnk_egZK5q52wvPH7gJ--Tv9b4CRR9MNOjVoChXfKorlkZy7WSQZ1dEzop7s7L-uMA8OGYiVQ5mWYz6tMwUrWHr87RaG8ET9HCUC_X99-6hFI10huI4NycR29NXrFl-T7oMoJwlbJgiJLFbY4Xk2GcQfoqN0_9WOzf7uHIHoKjm9kpQSXC5ZAxQWr5Jy17DqtQIqk6Mg_yJkEVtXub_A5vrZL_eaPNxFvFMdIJfFX-rVKBbEPH3ntkEsfioSYxZ6hJoooHtLgk01GoeZcKr2p-bdDDRfnlJLbA2ZcWH1TouVMVTrucIWz2iIDAqFpvK7K2kuttihHLHJK3G3IhcOqw9Ks4uV_PbL4TeFbRb5tDhZRQLqEy3KC_2JokCinykC2UAnczEoMBUT6exuk2Dcfw6batpCXqkq-Be0CKiFj1cmtyil7HI23Y4nRalB0va11d5QqaC2amIHXMVhSM52ZNFv9-CAZzQhuQcynHS-5BCsB--QNyznsQZXBDRHcwsjFSt2i0tsiBu9j9Kjgu-jC5DUGbcCv7dfuUAq-mEU0i_v_M6qlRTUzVrriEY7qTeG0_qzDumuhwzdbK0qCBHnK69kyJxWbg9Oh28Em1h-vGQxfyy4IjPt4ug-ZI7tzWbxssU3C8cI3dEuRZBnhprQ7wsthCkkd8sAb8ybdFyRj-CyKdpA'></script><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config Verbatim -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-container": "#451f00",
+                    "tertiary-fixed-dim": "#d2c5aa",
+                    "on-tertiary-fixed-variant": "#4f4632",
+                    "on-primary-container": "#7f7b8b",
+                    "error-container": "#93000a",
+                    "on-tertiary-container": "#877c65",
+                    "on-primary-fixed-variant": "#484553",
+                    "primary": "#c9c4d5",
+                    "surface-variant": "#363435",
+                    "tertiary-container": "#171103",
+                    "inverse-primary": "#605c6b",
+                    "tertiary": "#d2c5aa",
+                    "outline": "#938f96",
+                    "secondary": "#ffb783",
+                    "on-tertiary": "#37301d",
+                    "on-background": "#e5e1e2",
+                    "on-secondary-fixed-variant": "#713700",
+                    "secondary-fixed": "#ffdcc5",
+                    "outline-variant": "#48464c",
+                    "surface-bright": "#3a393a",
+                    "on-error": "#690005",
+                    "on-surface": "#e5e1e2",
+                    "secondary-container": "#d97722",
+                    "on-surface-variant": "#c9c5cc",
+                    "on-secondary": "#4f2500",
+                    "surface-container": "#201f20",
+                    "violet": "#A78BFA",
+                    "surface-container-lowest": "#0e0e0f",
+                    "edge-light": "rgba(255, 255, 255, 0.12)",
+                    "background": "#141314",
+                    "apricot": "#FB923C",
+                    "on-primary": "#312f3c",
+                    "inverse-on-surface": "#313031",
+                    "primary-fixed-dim": "#c9c4d5",
+                    "on-tertiary-fixed": "#211b0a",
+                    "deep-ink": "#0A0910",
+                    "on-primary-fixed": "#1c1a26",
+                    "surface-tint": "#c9c4d5",
+                    "primary-fixed": "#e6e0f2",
+                    "on-secondary-fixed": "#301400",
+                    "surface-container-low": "#1c1b1c",
+                    "surface-dim": "#141314",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-highest": "#363435",
+                    "surface-container-high": "#2b2a2b",
+                    "secondary-fixed-dim": "#ffb783",
+                    "sanitized-white": "#F8FAFC",
+                    "inverse-surface": "#e5e1e2",
+                    "error": "#ffb4ab",
+                    "surface": "#141314",
+                    "teal": "#2DD4BF",
+                    "primary-container": "#12101c",
+                    "tertiary-fixed": "#efe1c5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-lg": "32px",
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "container-padding": "24px",
+                    "unit": "4px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "technical-md": ["JetBrains Mono"],
+                    "label-caps": ["JetBrains Mono"],
+                    "technical-sm": ["JetBrains Mono"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "technical-md": ["14px", {"lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "technical-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #141314;
+            color: #e5e1e2;
+            overflow-x: hidden;
+        }
+
+        .mesh-gradient-text {
+            background: linear-gradient(90deg, #A78BFA, #FB923C, #2DD4BF, #A78BFA);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 8s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .bento-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .intelligent-edge {
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.05) inset;
+        }
+
+        .glass-island {
+            background: rgba(14, 14, 15, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        .squircle {
+            border-radius: 32px;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0A0910;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #48464c;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md selection:bg-apricot/30">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-edge-light shadow-[0_2px_0_0_rgba(255,255,255,0.1)_inset,0_8px_32px_rgba(0,0,0,0.4)]">
+<nav class="flex justify-between items-center h-20 px-container-padding max-w-full mx-auto">
+<div class="font-headline-md text-headline-md font-bold tracking-tighter text-on-surface">HEPHAESTUS</div>
+<div class="hidden md:flex items-center gap-stack-lg">
+<a class="font-body-sm text-body-sm text-primary border-b-2 border-primary pb-1" href="#">Workstations</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Components</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Peripherals</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Studio</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors" href="#">Support</a>
+</div>
+<div class="flex items-center gap-stack-md">
+<div class="hidden lg:flex items-center bg-surface-container-high rounded-full px-4 py-1.5 border border-edge-light">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+<span class="text-on-surface-variant text-technical-sm ml-2">Search...</span>
+<span class="ml-8 px-1.5 py-0.5 rounded bg-surface-variant text-[10px] font-bold text-on-surface-variant border border-edge-light">⌘ K</span>
+</div>
+<button class="material-symbols-outlined text-on-surface p-2 hover:bg-white/5 rounded-full transition-all duration-300">shopping_cart</button>
+<button class="material-symbols-outlined text-on-surface p-2 hover:bg-white/5 rounded-full transition-all duration-300">account_circle</button>
+</div>
+</nav>
+</header>
+<main class="pt-20">
+<!-- Hero Section: Summer Revel -->
+<section class="relative min-h-[921px] flex flex-col items-center justify-center text-center px-container-padding overflow-hidden">
+<!-- Animated Background Placeholder -->
+
+<div class="relative z-10 max-w-5xl">
+<span class="inline-block px-4 py-1 rounded-full border border-apricot/30 bg-apricot/10 text-apricot font-technical-md text-technical-md mb-8">SUMMER REVEL 2024</span>
+<h1 class="font-headline-xl text-[120px] leading-[0.9] font-extrabold tracking-tighter mesh-gradient-text mb-8">
+                    POWERED<br/>BY PRECISION.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-12">
+                    Experience the next evolution of elite hardware. Engineered for the creators, the players, and the visionaries who demand absolute performance.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-stack-md">
+<button class="group relative px-10 py-5 bg-on-surface text-surface font-bold rounded-full overflow-hidden hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+<span class="relative z-10">Configure Now</span>
+<div class="absolute inset-0 bg-gradient-to-r from-violet via-apricot to-teal opacity-0 group-hover:opacity-20 transition-opacity"></div>
+</button>
+<button class="px-10 py-5 border border-edge-light bg-surface/40 backdrop-blur-md text-on-surface font-bold rounded-full hover:bg-surface-variant transition-all duration-300">
+                        Watch Film
+                    </button>
+</div>
+</div>
+<!-- Floating Hardware Stats -->
+<div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex gap-12 text-left">
+<div>
+<div class="text-technical-sm text-on-surface-variant font-label-caps mb-1">RAW CLOCK SPEED</div>
+<div class="text-headline-md font-headline-md font-bold">5.8 GH<span class="text-primary/50">z</span></div>
+</div>
+<div class="w-[1px] h-12 bg-edge-light"></div>
+<div>
+<div class="text-technical-sm text-on-surface-variant font-label-caps mb-1">THERMAL EFFICIENCY</div>
+<div class="text-headline-md font-headline-md font-bold">99.4<span class="text-primary/50">%</span></div>
+</div>
+<div class="w-[1px] h-12 bg-edge-light"></div>
+<div>
+<div class="text-technical-sm text-on-surface-variant font-label-caps mb-1">MAX OUTPUT</div>
+<div class="text-headline-md font-headline-md font-bold">1600<span class="text-primary/50">W</span></div>
+</div>
+</div>
+</section>
+<!-- Hardware Ecosystem: Bento Grid -->
+<section class="py-stack-lg px-container-padding max-w-[1440px] mx-auto">
+<h2 class="font-headline-lg text-headline-lg mb-stack-lg flex items-center gap-4">
+<span class="w-12 h-[2px] bg-primary"></span>
+                The Ecosystem
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Large Featured Card: Laptops -->
+<div class="md:col-span-8 group bento-card squircle h-[540px] bg-deep-ink">
+<div class="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A sleek, ultra-thin high-performance laptop with a glowing keyboard and a vibrant liquid metal wallpaper on the screen. The scene is set in a dark, atmospheric studio with soft blue edge lighting that highlights the precision-milled aluminum chassis of the device. The mood is sophisticated and futuristic." style="background-image: url(&#39;https://lh3.googleusercontent.com/aida-public/AB6AXuClOqllprsQuciOMNJllk2cpZfJLJeKrWCcDIf6FuBlnLKgY0RZyQheDGyjo_U9l-ImZzJtrLx0oMSCPsGvrXQOS9MAm6XLjFky6MKRFj_3Ea23mcQjgjIQ65C8zpLRkhatSFt-guArLYoRs1XtN5EggmaZWJLH7nh69-pXG425x9XqoCO85bOUN-jr48-JhWATcPSvX8Rmk9zGt_kG43Cw7uyszfYwDYrg8c3d5wrFxciLDkbg3sj-&#39;)"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-deep-ink via-transparent to-transparent z-10"></div>
+<div class="absolute bottom-0 left-0 p-10 z-20 w-full flex justify-between items-end">
+<div>
+<h3 class="font-headline-lg text-headline-lg font-bold mb-2">Pulsar Series</h3>
+<p class="text-on-surface-variant max-w-md">Uncompromising power packed into a sub-15mm chassis. Designed for nomadic professionals.</p>
+</div>
+<button class="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center group-hover:bg-primary group-hover:text-surface transition-all">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Vertical Card: Gaming -->
+<div class="md:col-span-4 group bento-card squircle h-[540px] bg-surface-container">
+<div class="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A high-end desktop gaming tower with a tempered glass side panel revealing custom water cooling loops with violet and orange coolant. The internal RGB lighting casts a soft glow on the surrounding dark setup. The aesthetic is industrial yet refined, focusing on the intricate hardware details." style="background-image: url(&#39;https://lh3.googleusercontent.com/aida-public/AB6AXuAlU4PoHTCbBTJymYC1j-KmzxKe9LgqkxxqfyxIxvCBUVlQwEIyBi_KEZnIeX4kEt_0CrejnpvGwWBKgl9BFSZ9m3WYlYBdCNoCljOH7o_Dvgx4S54TxLwKLwU3o-012kcfw_jMDHjrVwmmGKksrhzrC0KfihXVEStHShBnyKmea9OUQSsddSZDOvsGJJY4XXyL_EMB7yO5tGXsMLp-9RS3IRX1gkcTqWl1GyOLb4gw_L9vrlWUfloC&#39;)"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-deep-ink/80 to-transparent z-10"></div>
+<div class="absolute bottom-0 left-0 p-10 z-20">
+<h3 class="font-headline-md text-headline-md font-bold mb-2">Overclocked Elite</h3>
+<p class="text-on-surface-variant">The absolute pinnacle of gaming performance.</p>
+</div>
+</div>
+<!-- Horizontal Card: Audio -->
+<div class="md:col-span-5 group bento-card squircle h-[380px] bg-surface-container-low">
+<div class="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A pair of premium noise-canceling over-ear headphones made of dark brushed magnesium and leather. They are resting on a minimalist wooden desk with warm cinematic lighting. The image focuses on the texture of the materials and the elegant industrial design of the headband." style="background-image: url(&#39;https://lh3.googleusercontent.com/aida-public/AB6AXuA7ZfAMGk7J8FIcnM_vR94jYNOg_ERN5p2hrSxTCwY_6HO33_XHimMxs4dyE_4ylIA3ygRqSax2FsRF2LZaK4o-64YpT_F7YJbHWX1fdWFs4uZuGSFn_4WlP74sZObnGpPXdjSAs4BnhvqOJY7XVbgdoWXFJmu5Se0qV_YpmQxpyOVrmxn5k7nzF9tAcbhZq4pr734Th-hAmMKquwB1rlImx5w2sR0w2-LF2t1UC3a0XHG6za4lHgyt&#39;)"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-deep-ink/90 to-transparent z-10"></div>
+<div class="absolute inset-y-0 left-0 p-10 z-20 flex flex-col justify-center max-w-[280px]">
+<h3 class="font-headline-md text-headline-md font-bold mb-2">Sonic Field</h3>
+<p class="text-on-surface-variant text-sm">Acoustic perfection through precision engineering.</p>
+</div>
+</div>
+<!-- Custom Card: Components -->
+<div class="md:col-span-7 group bento-card squircle h-[380px] bg-primary-container flex">
+<div class="w-1/2 p-10 flex flex-col justify-center">
+<h3 class="font-headline-md text-headline-md font-bold mb-2">Core Components</h3>
+<p class="text-on-surface-variant mb-6">Build your masterpiece with our industrial-grade components.</p>
+<div class="flex gap-4">
+<span class="px-4 py-2 bg-surface-variant rounded-full text-technical-sm font-technical-md">GPUS</span>
+<span class="px-4 py-2 bg-surface-variant rounded-full text-technical-sm font-technical-md">MOTHERBOARDS</span>
+</div>
+</div>
+<div class="w-1/2 bg-cover bg-center" data-alt="An array of high-tech computer components including a GPU with triple fans and a CPU with exposed gold contact points. They are arranged artfully on a dark, reflective surface with cyan and magenta ambient lighting. The style is sharp, detailed, and extremely modern." style="background-image: url(&#39;https://lh3.googleusercontent.com/aida-public/AB6AXuCu7W4KQ6wRvxbjcBWydtg5H70aQDfqV1PdYnGSfoyfFPXZRHtNlh5tOZhfH4wN4gZlnMOpMsyTCHcMILT1cAB4H0xDy0XqjhmfJIXMVuYHnSYFsu8zAHSbd5oAjJwtLcJwnF_UjpcAqcnq21nl-yDPs_y9TyFbzgT25YqVaSqLaMFQUB_fOLbNiagx2oLuNe9YZc1NQ5GwUxX0_19P_WCm4Pkm7qAvy6-VDxPwW_M5rk2oOLgQVCrC&#39;)"></div>
+</div>
+</div>
+</section>
+<!-- Revel Featured: Product Grid -->
+<section class="py-stack-lg bg-surface-container-lowest px-container-padding">
+<div class="max-w-[1440px] mx-auto">
+<div class="flex justify-between items-end mb-stack-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold">Featured Selections</h2>
+<p class="text-on-surface-variant">Available for immediate deployment.</p>
+</div>
+<button class="flex items-center gap-2 text-primary font-technical-md hover:underline">
+                        VIEW ALL INVENTORY <span class="material-symbols-outlined">north_east</span>
+</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Product Item 1 -->
+<div class="group relative flex flex-col">
+<div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="The Plasico Slate X workstation, a monolithic dark tower with a seamless glass front and minimalist branding. It sits on a concrete plinth in a bright, modern studio. The lighting is soft and architectural, casting gentle shadows that emphasize its geometric form." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsx1iQqrqxpSSqz5IU5oOVzxrdfqT8SdDqULZtzb-aqd-5WyoMLQt3Y3JfdUgEQvMojcNK79HcrUa0VANx4cZiBIyLfbVQ9KxEQME6aNLriY-y6PQcTWIUPrtGpr_y70LZxjyNmXmLOH4cYdErVB_xfZDZiaQ69JHwr5AD3SPkaJ1uXcv3sROK_YqcdZJCvcwvuAYfdfZ3C12w4nlpwUM3848JWCyZPP1FcXACYiC5CW-tBBe9ggbw"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-teal/10 text-teal border border-teal/20 rounded-full text-technical-sm font-bold">IN STOCK</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+<button class="w-12 h-12 rounded-full bg-white text-surface flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: &#39;FILL&#39; 1;">shopping_cart</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:scale-110 transition-transform border border-white/30">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md font-bold">Plasico Slate X</h4>
+<p class="text-on-surface-variant text-body-sm">Flagship Workstation</p>
+</div>
+<div class="text-secondary font-headline-md font-bold">$4,299</div>
+</div>
+</div>
+<!-- Product Item 2 -->
+<div class="group relative flex flex-col">
+<div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A pair of mechanical keyboards with translucent keycaps and vivid orange underglow. The keyboards are positioned diagonally on a large leather desk mat. The overall color palette is dark ink with vibrant apricot accents, reflecting a high-performance creative setup." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChXi0Jnf3zEcSKNteFRx9BMOwnrI1CtIhY9snJbx9WhYdTRJ_5C8ornn8xGMVhDC6btVZ2JmpG2lThnL-T_o0XaPz_KjEEBNgeWv1gMNDH5JfAwiP8AdZDID9iESxpbiTxm4asOdscKRrbQfzYRAYgUSJ7Gj5kRTYf05f2IgyDFHnC4CejKp7V2O2Jse_ZB9LkuM0jLAXjZSuztboCXBDR7rsI_eA2WFM1KNDZFB3a7rWXD3a70Q2K"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-on-surface-variant/10 text-on-surface-variant border border-on-surface-variant/20 rounded-full text-technical-sm font-bold">PRE-ORDER</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+<button class="w-12 h-12 rounded-full bg-white text-surface flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: &#39;FILL&#39; 1;">shopping_cart</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:scale-110 transition-transform border border-white/30">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md font-bold">Kinetix V3</h4>
+<p class="text-on-surface-variant text-body-sm">Haptic Mechanical Keyboard</p>
+</div>
+<div class="text-secondary font-headline-md font-bold">$349</div>
+</div>
+</div>
+<!-- Product Item 3 -->
+<div class="group relative flex flex-col">
+<div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A close-up of a professional studio monitor display with ultra-thin bezels and a metallic stand. The screen shows a complex 3D rendering of a fluid simulation in vibrant violets and teals. The studio environment is dimly lit, focusing all attention on the screen&#39;s color accuracy and brightness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqHuIt00Mh4Eie8-B_CWjUo7S00NTMaV9jc0mXzlJXFB0T8BHEJuTrrokZCDC66gc2CQ2HX0H8N9X6Hmwwwsc_5zT5SN5w4emHzt2bMt4Qp90KKsncmPoUuRPuuS4P0DxnA6JtJwtnXznDJAdGWhbJSwCzTEgIjTXOzH3_AerzUWWRRKva1D0CavW2Xi6OQaZm0yN7iE7grv--RJZNbNLWWH_vRfjtZEpQWqDesVqClhHBOljKaFyV"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-error-container/20 text-error border border-error-container rounded-full text-technical-sm font-bold">LIMITED</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+<button class="w-12 h-12 rounded-full bg-white text-surface flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: &#39;FILL&#39; 1;">shopping_cart</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:scale-110 transition-transform border border-white/30">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md font-bold">Zenith Ultra 8K</h4>
+<p class="text-on-surface-variant text-body-sm">Color-Critical Display</p>
+</div>
+<div class="text-secondary font-headline-md font-bold">$1,899</div>
+</div>
+</div>
+<!-- Product Item 4 -->
+<div class="group relative flex flex-col">
+<div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-6 relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="An ergonomic professional mouse with a carbon fiber shell and precision-machined aluminum scroll wheel. It is placed on a textured dark surface. The lighting is dramatic and directional, highlighting the carbon fiber weave and the sleek, aerodynamic shape of the peripheral." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhpRnQwOHxA-kUxKk1x1Xhoc1WXLLyfOZ2rfGi6-NeipD-a4trKP7lSQ3MHb7Bjf4At8XBS4c_QA9zwh71y3iPLafUjLHAvzhU3pcrIF8QGtNFwsvC0MF3XvhUHBsmCdH9osyknwxZg-ARy1jA1I-kyJr4n5HWgtRsz_x3PYYqW1h3WNgfXXO_fdm-6fVVEq0-UzOrTu6ybRPFLj0yElEjlG4DWrPW7TP7829UH_g0N0NCIIRRwecs"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-teal/10 text-teal border border-teal/20 rounded-full text-technical-sm font-bold">IN STOCK</div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+<button class="w-12 h-12 rounded-full bg-white text-surface flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: &#39;FILL&#39; 1;">shopping_cart</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:scale-110 transition-transform border border-white/30">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md font-bold">Vector Pro</h4>
+<p class="text-on-surface-variant text-body-sm">Precision Control</p>
+</div>
+<div class="text-secondary font-headline-md font-bold">$129</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter Section -->
+<section class="py-[120px] px-container-padding relative overflow-hidden">
+
+<div class="max-w-4xl mx-auto glass-island squircle p-16 intelligent-edge text-center">
+<h2 class="font-headline-xl text-headline-xl mb-6">Join the Elite</h2>
+<p class="text-on-surface-variant text-body-lg mb-10 max-w-xl mx-auto">
+                    Be the first to access exclusive summer drops and professional hardware guides. No noise. Just pure performance updates.
+                </p>
+<form class="flex flex-col md:flex-row gap-4 max-w-lg mx-auto" onsubmit="event.preventDefault();">
+<input class="flex-1 bg-surface-container-lowest border-edge-light rounded-full px-8 py-4 focus:ring-2 focus:ring-apricot focus:border-transparent transition-all outline-none text-on-surface" placeholder="Enter your professional email" type="email"/>
+<button class="px-10 py-4 bg-apricot text-on-secondary-container font-bold rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg">
+                        SUBSCRIBE
+                    </button>
+</form>
+<div class="mt-8 flex justify-center gap-8 text-on-surface-variant text-technical-sm font-label-caps">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">verified</span> 
+                        HARDWARE ACCESS
+                    </div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">notifications_active</span> 
+                        EARLY NOTIFICATIONS
+                    </div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-deep-ink w-full rounded-t-xl border-t border-edge-light bg-surface-container-lowest shadow-[0_-4px_24px_rgba(0,0,0,0.5)]">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-stack-lg p-container-padding max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface mb-6">HEPHAESTUS</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Engineered for precision. Built for those who build the future. HEPHAESTUS Hardware is the benchmark for high-performance computing.
+                </p>
+</div>
+<div>
+<h5 class="text-on-surface font-bold font-technical-md mb-6 uppercase tracking-wider">Resources</h5>
+<ul class="space-y-4">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-apricot transition-colors" href="#">Hardware Guide</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-apricot transition-colors" href="#">Drivers &amp; BIOS</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-apricot transition-colors" href="#">Professional Services</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-on-surface font-bold font-technical-md mb-6 uppercase tracking-wider">Company</h5>
+<ul class="space-y-4">
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-apricot transition-colors" href="#">Sustainability</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-apricot transition-colors" href="#">Press Kit</a></li>
+<li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-apricot transition-colors" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-on-surface font-bold font-technical-md mb-6 uppercase tracking-wider">Stay Connected</h5>
+<div class="flex gap-4">
+<button class="w-10 h-10 rounded-full bg-surface-container-high border border-edge-light flex items-center justify-center text-on-surface hover:text-apricot hover:border-apricot transition-all">
+<span class="material-symbols-outlined text-[20px]">public</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-high border border-edge-light flex items-center justify-center text-on-surface hover:text-apricot hover:border-apricot transition-all">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-high border border-edge-light flex items-center justify-center text-on-surface hover:text-apricot hover:border-apricot transition-all">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</div>
+</div>
+<div class="border-t border-edge-light py-8 text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                © 2024 HEPHAESTUS HARDWARE. ENGINEERED FOR PRECISION.
+            </p>
+</div>
+</footer>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Magnetic Button Effect
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                button.style.setProperty('--x', `${x}px`);
+                button.style.setProperty('--y', `${y}px`);
+            });
+        });
+
+        // Search Shortcut
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                alert('Command Palette Coming Soon...');
+            }
+        });
+
+        // Scroll reveal logic
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.bento-card, .group').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+    </script>
+</body></html>
