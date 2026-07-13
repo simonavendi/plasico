@@ -591,13 +591,16 @@
       transition: transform 0.3s ease;
     }
     :root {
-      --site-header-offset: 10rem;
+      --site-header-offset: 8rem;
     }
-    @media (min-width: 640px) {
-      :root { --site-header-offset: 7rem; }
+    @media (min-width: 640px) and (max-width: 1023px) {
+      :root { --site-header-offset: 4.5rem; }
     }
     @media (min-width: 1024px) {
       :root { --site-header-offset: 7.5rem; }
+    }
+    @media (max-width: 1023px) {
+      .header-utility-bar { display: none; }
     }
     .header-utility-item {
       display: flex;
@@ -805,6 +808,54 @@
     }
     .header-utility-link--icon .material-symbols-outlined {
       font-size: 18px;
+    }
+    .mobile-utility-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .mobile-utility-nav__item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #c9c5cc;
+      text-decoration: none;
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+    .mobile-utility-nav__item:hover {
+      color: #e5e1e2;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    .mobile-utility-nav__item--home .header-utility-home-icon {
+      font-size: 20px;
+    }
+    .mobile-utility-nav__item--sale {
+      justify-content: center;
+      margin-top: 2px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #1a0f08;
+    }
+    .mobile-utility-nav__item--sale:hover {
+      color: #1a0f08;
+      background: linear-gradient(135deg, #FB923C 0%, #F97316 50%, #EF4444 100%);
+      filter: brightness(1.08);
+    }
+    .mobile-utility-nav__item--signin {
+      font-weight: 500;
+      color: rgba(229, 225, 226, 0.85);
+    }
+    .mobile-utility-nav__item--signin:hover {
+      color: #fff;
     }
     .header-search-pill {
       background: #2b2a2b;
@@ -1565,6 +1616,17 @@
       </div>
       <div id="categories-panel" class="lg:hidden border-t border-edge-light/30 bg-surface-container-low/90" aria-hidden="true">
         <div class="max-w-[1440px] mx-auto px-container-padding py-3 text-sm">
+          <nav class="mobile-utility-nav" aria-label="Бързи връзки">
+            <a href="https://plasico.bg/" class="mobile-utility-nav__item mobile-utility-nav__item--home header-utility-link header-utility-link--icon header-utility-home" aria-label="Начало">
+              <span class="material-symbols-outlined header-utility-home-icon" aria-hidden="true">home</span>
+              <span>Начало</span>
+            </a>
+            <a href="hot-summer-sale-2026.html" class="mobile-utility-nav__item mobile-utility-nav__item--sale header-sale-cta is-active" aria-label="Разпродажба Hot Summer Sale 2026" aria-current="page">
+              <span class="material-symbols-outlined header-sale-cta__icon" aria-hidden="true">local_fire_department</span>
+              <span>РАЗПРОДАЖБА</span>
+            </a>
+            <a href="https://plasico.bg/account" class="mobile-utility-nav__item mobile-utility-nav__item--signin">Вход</a>
+          </nav>
           <div id="site-categories-panel-mobile" class="mb-4"></div>
           <div id="campaign-categories-panel">
             <p class="header-cat-section-title">Hot Summer Sale 2026</p>

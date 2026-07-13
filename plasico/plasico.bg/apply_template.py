@@ -582,10 +582,9 @@ def extract_shell(template_html: str) -> dict:
 def patch_header_site_home_links(part: str) -> str:
     """Keep header home icon and logo pointing at main plasico.bg (not campaign home)."""
     part = re.sub(
-        r'(<a href=")[^"]*(" class="header-utility-link header-utility-link--icon header-utility-home)',
+        r'(<a href=")[^"]*(" class="[^"]*header-utility-home)',
         rf"\1{SITE_HOME_URL}\2",
         part,
-        count=1,
     )
     part = re.sub(
         r'(<a href=")[^"]*(" class="shrink-0 flex items-center">\s*<img src="[^"]*logo-plasico\.svg")',
@@ -649,7 +648,6 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
         r'<a href="[^"]*" class="(header-sale-cta[^"]*)"(.*?)>',
         patch_sale_cta,
         part,
-        count=1,
     )
 
     part = patch_header_site_home_links(part)
