@@ -18,6 +18,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from build_campaign_catalog import catalog_scripts_html
+from patch_header_restructure import patch_template_header
 
 ROOT = Path(__file__).parent
 TEMPLATE = ROOT / "hot-summer-sale-2026.html"
@@ -41,7 +42,7 @@ MIRROR_CONTENT_CSS = """
       text-decoration: none;
       transition: color 0.2s ease;
     }
-    .mirror-breadcrumb a:hover { color: #FB923C; }
+    .mirror-breadcrumb a:hover { color: #07a857; }
     .mirror-breadcrumb__sep { opacity: 0.45; }
     .mirror-content {
       color: #e5e1e2;
@@ -73,7 +74,7 @@ MIRROR_CONTENT_CSS = """
     }
     .mirror-content li { margin-bottom: 0.35rem; }
     .mirror-content a {
-      color: #FB923C;
+      color: #07a857;
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -97,17 +98,17 @@ MIRROR_CONTENT_CSS = """
       align-items: center;
       padding: 0.5rem 1rem;
       border-radius: 9999px;
-      background: rgba(251, 146, 60, 0.15);
-      border: 1px solid rgba(251, 146, 60, 0.35);
-      color: #FB923C !important;
+      background: rgba(7, 168, 87, 0.15);
+      border: 1px solid rgba(7, 168, 87, 0.35);
+      color: #07a857 !important;
       text-decoration: none !important;
       font-weight: 600;
       font-size: 14px;
       margin-top: 0.5rem;
     }
     .mirror-content .btn:hover {
-      background: rgba(251, 146, 60, 0.25);
-      color: #ffb783 !important;
+      background: rgba(7, 168, 87, 0.25);
+      color: #069449 !important;
     }
     .mirror-content .media-bl {
       display: grid;
@@ -149,9 +150,9 @@ MIRROR_CONTENT_CSS = """
     }
     .campaign-nav-strip a:hover,
     .campaign-nav-strip a.is-active {
-      border-color: rgba(251, 146, 60, 0.5);
-      color: #FB923C;
-      background: rgba(251, 146, 60, 0.1);
+      border-color: rgba(7, 168, 87, 0.5);
+      color: #07a857;
+      background: rgba(7, 168, 87, 0.1);
     }
     .content-page-hero {
       margin-bottom: 2rem;
@@ -164,7 +165,7 @@ MIRROR_CONTENT_CSS = """
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: #FB923C;
+      color: #07a857;
       margin-bottom: 0.5rem;
     }
 """
@@ -489,7 +490,6 @@ HEADER_AUTH_SCRIPT = r"""
 CONTENT_PAGE_SCRIPTS = (
   "  <script>\n"
   + HEADER_CATEGORIES_SCRIPT
-  + HEADER_AUTH_SCRIPT
   + """
     (function initBackToTop() {
       const btn = document.getElementById('back-to-top');
@@ -724,6 +724,12 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
             ("Контакти", "kontakti.html"),
         ]:
             if path == active_utility:
+                part = re.sub(
+                    rf'(<a href="[^"]*" class="panel-utility-nav__item">{label}</a>)',
+                    rf'<a href="{rel_href(path, from_page)}" class="panel-utility-nav__item text-apricot" aria-current="page">{label}</a>',
+                    part,
+                    count=1,
+                )
                 part = re.sub(
                     rf'(<a href="[^"]*" class="header-utility-link">{label}</a>)',
                     rf'<a href="{rel_href(path, from_page)}" class="header-utility-link text-apricot" aria-current="page">{label}</a>',
@@ -1404,6 +1410,9 @@ def main() -> None:
 
     link_map = load_json(LINK_MAP_FILE)
     category_map = load_json(CATEGORY_MAP_FILE)
+
+    if patch_template_header(TEMPLATE):
+        print("OK: hot-summer-sale-2026.html header restructured")
 
     if args.nav_only:
         update_template_navigation(link_map)
