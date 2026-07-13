@@ -248,10 +248,6 @@
     if (!panel || !buildCell || !categoryMap?.categories) return;
 
     panel.innerHTML = '';
-    const sectionTitle = document.createElement('p');
-    sectionTitle.className = 'header-cat-section-title';
-    sectionTitle.textContent = 'ПРОДУКТОВИ КАТЕГОРИИ';
-    panel.appendChild(sectionTitle);
     categoryMap.categories.forEach((category) => {
       panel.appendChild(buildCell(category, {
         onSubClick(sub, category) {
