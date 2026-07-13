@@ -73,13 +73,17 @@
   <style>
     body { background-color: #141314; color: #e5e1e2; overflow-x: hidden; font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
     .mesh-gradient-text {
-      background: linear-gradient(90deg, #A78BFA, #FB923C, #2DD4BF, #A78BFA);
+      background: linear-gradient(90deg, #FACC15, #FB923C, #F97316, #EF4444, #FACC15);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: shine 8s linear infinite;
+      animation: shine 3s linear infinite;
     }
     @keyframes shine { to { background-position: 200% center; } }
+    @keyframes hero-shine {
+      0% { background-position: 0% center; }
+      100% { background-position: 300% center; }
+    }
     .category-icon-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -282,9 +286,11 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background:
-        linear-gradient(105deg, rgba(10, 9, 16, 0.2) 0%, rgba(10, 9, 16, 0.48) 45%, rgba(10, 9, 16, 0.72) 100%),
-        radial-gradient(ellipse 100% 70% at 50% 110%, rgba(10, 9, 16, 0.55), transparent 55%);
+      background: linear-gradient(90deg, #FACC15, #FB923C, #F97316, #EF4444, #FACC15);
+      background-size: 300% 100%;
+      opacity: 0.55;
+      animation: hero-shine 3s linear infinite;
+      will-change: background-position;
     }
     .hero-bg::after {
       content: '';
@@ -292,7 +298,10 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background: radial-gradient(ellipse 90% 55% at 50% -10%, rgba(10, 9, 16, 0.25), transparent 50%);
+      background:
+        linear-gradient(105deg, rgba(10, 9, 16, 0.3) 0%, rgba(10, 9, 16, 0.55) 45%, rgba(10, 9, 16, 0.75) 100%),
+        radial-gradient(ellipse 100% 70% at 50% 110%, rgba(10, 9, 16, 0.5), transparent 55%),
+        radial-gradient(ellipse 90% 55% at 50% -10%, rgba(10, 9, 16, 0.2), transparent 50%);
     }
     .filter-pill {
       padding: 0.5rem 1.25rem;
@@ -384,20 +393,37 @@
       font-weight: 600;
       opacity: 0.7;
     }
-    #catalog-filter-panel {
+    .catalog-filters-wrap {
+      margin-bottom: 0;
+    }
+    #catalog-filter-panel:not(.is-open),
+    #catalog-filter-panel[aria-hidden="true"]:not(.is-open) {
       max-height: 0;
+      margin: 0;
+      padding: 0 !important;
       overflow: hidden;
       opacity: 0;
+      border: none;
+      box-shadow: none;
+      background: transparent;
+      pointer-events: none;
       transition: max-height 0.45s cubic-bezier(0.19, 1, 0.22, 1),
                   opacity 0.35s ease,
-                  margin 0.35s ease;
-      margin-bottom: 0;
+                  margin 0.35s ease,
+                  padding 0.35s ease;
     }
     #catalog-filter-panel.is-open {
       max-height: min(90vh, 960px);
       opacity: 1;
       margin-bottom: 32px;
+      padding: 1.5rem !important;
       overflow-y: auto;
+      pointer-events: auto;
+    }
+    @media (min-width: 768px) {
+      #catalog-filter-panel.is-open {
+        padding: 2rem !important;
+      }
     }
     .catalog-filter-sidebar {
       max-height: min(480px, 55vh);
@@ -565,14 +591,15 @@
       transition: transform 0.3s ease;
     }
     :root {
-      --site-header-offset: 10rem;
+      --site-header-offset: 8rem;
     }
-    @media (min-width: 640px) {
-      :root { --site-header-offset: 7rem; }
+    @media (min-width: 640px) and (max-width: 1023px) {
+      :root { --site-header-offset: 4.5rem; }
     }
     @media (min-width: 1024px) {
-      :root { --site-header-offset: 7.5rem; }
+      :root { --site-header-offset: 5rem; }
     }
+.header-utility-bar { display: none !important; }
     .header-utility-item {
       display: flex;
       flex-direction: column;
@@ -630,27 +657,7 @@
         padding: 0.5rem 0.625rem;
       }
     }
-    .header-utility-bar {
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      background: rgba(14, 14, 15, 0.72);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    @supports (backdrop-filter: blur(12px)) {
-      .header-utility-bar {
-        background: rgba(14, 14, 15, 0.55);
-      }
-    }
-    .header-utility-bar-inner {
-      font-size: 12.5px;
-      letter-spacing: -0.01em;
-      line-height: 1.25;
-      color: rgba(201, 197, 204, 0.82);
-    }
-    .header-utility-link {
+.header-utility-link {
       display: inline-flex;
       align-items: center;
       padding: 0.3125rem 0.625rem;
@@ -702,6 +709,125 @@
     }
     .header-sale-cta.is-active {
       box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.45), 0 1px 8px rgba(251, 146, 60, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    }
+    .header-toolbar-signin {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(229, 225, 226, 0.85);
+      text-decoration: none;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font: inherit;
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+    .header-toolbar-signin:hover,
+    .header-toolbar-signin[aria-expanded="true"] {
+      color: #fff;
+      background-color: rgba(255, 255, 255, 0.06);
+    }
+    .header-toolbar-signin:focus-visible {
+      outline: 2px solid rgba(251, 146, 60, 0.65);
+      outline-offset: 2px;
+    }
+    .header-toolbar-signin .material-symbols-outlined {
+      font-size: 20px;
+    }
+    .header-auth {
+      position: relative;
+    }
+    .header-auth-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 45;
+      background: rgba(10, 9, 16, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .header-auth.is-open .header-auth-backdrop {
+      display: block;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    @media (min-width: 640px) {
+      .header-auth.is-open .header-auth-backdrop {
+        display: none;
+        pointer-events: none;
+      }
+    }
+    .header-auth-panel {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      z-index: 60;
+      min-width: 228px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #201f20;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(167, 139, 250, 0.08);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px) scale(0.98);
+      transform-origin: top right;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+      pointer-events: none;
+    }
+    .header-auth.is-open .header-auth-panel {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    .header-auth-panel__links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+    .header-auth-panel__link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #c9c5cc;
+      text-decoration: none;
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+    .header-auth-panel__link:hover {
+      color: #e5e1e2;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    .header-auth-panel__link--signup {
+      font-weight: 600;
+      color: rgba(229, 225, 226, 0.92);
+    }
+    .header-auth-panel__link--signup:hover {
+      color: #FB923C;
+    }
+    .header-auth-panel__social {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 4px 12px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .header-auth-panel__via {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(201, 197, 204, 0.45);
+      letter-spacing: -0.005em;
     }
     .header-utility-bar-auth {
       display: flex;
@@ -762,6 +888,12 @@
       background: rgba(255, 255, 255, 0.08);
       border-color: rgba(251, 146, 60, 0.22);
     }
+    button.header-utility-social {
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font: inherit;
+    }
     .header-utility-social .header-social-icon {
       width: 13px;
       height: 13px;
@@ -779,6 +911,56 @@
     }
     .header-utility-link--icon .material-symbols-outlined {
       font-size: 18px;
+    }
+    .panel-utility-nav {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .panel-utility-mega-grid {
+      gap: 8px;
+    }
+    @media (min-width: 640px) {
+      .panel-utility-mega-grid { gap: 10px; }
+    }
+    .panel-utility-nav .header-cat-mega-cell.is-active {
+      border-color: rgba(251, 146, 60, 0.45);
+      background: rgba(251, 146, 60, 0.08);
+    }
+    .panel-utility-nav .header-cat-mega-cell.is-active .header-cat-mega-parent {
+      color: #FB923C;
+    }
+    .panel-utility-nav .header-cat-mega-cell.is-active .header-cat-mega-parent__icon {
+      background: rgba(251, 146, 60, 0.14);
+      color: #FB923C;
+    }
+    .panel-utility-mega-cell--sale {
+      border-color: rgba(255, 180, 120, 0.5);
+      background: linear-gradient(135deg, #FB923C 0%, #F97316 50%, #EF4444 100%);
+      box-shadow: 0 1px 8px rgba(251, 146, 60, 0.3);
+    }
+    .panel-utility-mega-cell--sale:hover {
+      border-color: rgba(255, 200, 140, 0.7);
+      filter: brightness(1.08);
+      box-shadow: 0 2px 14px rgba(251, 146, 60, 0.45);
+    }
+    .panel-utility-mega-cell--sale.is-active {
+      box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.45), 0 1px 8px rgba(251, 146, 60, 0.35);
+    }
+    .panel-utility-mega-parent--sale {
+      color: #1a0f08;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .panel-utility-mega-parent--sale:hover { color: #1a0f08; }
+    .panel-utility-mega-cell--sale .header-cat-mega-parent__icon {
+      background: rgba(26, 15, 8, 0.12);
+    }
+    .panel-utility-mega-cell--sale .header-cat-mega-parent__icon .material-symbols-outlined {
+      color: #1a0f08;
+      font-variation-settings: 'FILL' 1;
     }
     .header-search-pill {
       background: #2b2a2b;
@@ -1125,34 +1307,22 @@
       transition: max-height 0.35s ease, opacity 0.25s ease;
     }
     #categories-panel.is-open {
-      max-height: min(70vh, 520px);
+      max-height: min(75vh, 560px);
       opacity: 1;
       overflow-y: auto;
     }
     @media (min-width: 1024px) {
-      #categories-panel { display: none !important; }
+      #categories-panel.is-open {
+        max-height: min(82vh, 780px);
+      }
     }
-    #categories-mega-desktop {
-      display: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(28, 27, 28, 0.97);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
-      max-height: min(75vh, 680px);
-      overflow-y: auto;
-    }
-    #categories-mega-desktop.is-open { display: block; }
-    @media (max-width: 1023px) {
-      #categories-mega-desktop { display: none !important; }
-    }
-    #categories-toggle-desktop.is-open,
-    #categories-toggle-desktop[aria-expanded="true"] {
+    #categories-toggle.is-open,
+    #categories-toggle[aria-expanded="true"] {
       border-color: rgba(251, 146, 60, 0.45);
       color: #FB923C;
       background: rgba(251, 146, 60, 0.08);
     }
-    .header-cat-section-title {
+.header-cat-section-title {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.06em;
@@ -1251,7 +1421,12 @@
       color: #FB923C;
       background: rgba(251, 146, 60, 0.1);
     }
-    .header-cat-backdrop {
+    /* Keep header chrome and panel menu above the dimming backdrop (z-index 40). */
+    #site-header > div:first-child {
+      position: relative;
+      z-index: 50;
+    }
+.header-cat-backdrop {
       position: fixed;
       inset: 0;
       z-index: 40;
@@ -1282,36 +1457,20 @@
       color: #e5e1e2;
     }
   
-    /* Subcategories render in #catalog-subcategory-filter only */
+    /* Subcategory pills above #product-grid */
     #category-icon-grid .category-subchips {
       display: none !important;
     }
+    #catalog-subcategory-bar {
+      margin-bottom: 24px;
+    }
+    #catalog-subcategory-bar[hidden] {
+      display: none !important;
+    }
     #catalog-subcategory-filter {
-      display: none;
+      display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 16px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(32, 31, 32, 0.55);
-    }
-    #catalog-subcategory-filter.is-visible {
-      display: flex;
-    }
-    #catalog-subcategory-filter .catalog-subcategory-label {
-      flex: 0 0 100%;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #938f96;
-      margin-bottom: 2px;
-    }
-    #catalog-subcategory-filter .category-subchip.is-active {
-      border-color: rgba(251, 146, 60, 0.55);
-      color: #FB923C;
-      background: rgba(251, 146, 60, 0.12);
     }
 
     /* Mobile category disclosure — grid hidden below md */
@@ -1474,7 +1633,7 @@
       text-decoration: none;
       transition: color 0.2s ease;
     }
-    .mirror-breadcrumb a:hover { color: #FB923C; }
+    .mirror-breadcrumb a:hover { color: #07a857; }
     .mirror-breadcrumb__sep { opacity: 0.45; }
     .mirror-content {
       color: #e5e1e2;
@@ -1506,7 +1665,7 @@
     }
     .mirror-content li { margin-bottom: 0.35rem; }
     .mirror-content a {
-      color: #FB923C;
+      color: #07a857;
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -1530,17 +1689,17 @@
       align-items: center;
       padding: 0.5rem 1rem;
       border-radius: 9999px;
-      background: rgba(251, 146, 60, 0.15);
-      border: 1px solid rgba(251, 146, 60, 0.35);
-      color: #FB923C !important;
+      background: rgba(7, 168, 87, 0.15);
+      border: 1px solid rgba(7, 168, 87, 0.35);
+      color: #07a857 !important;
       text-decoration: none !important;
       font-weight: 600;
       font-size: 14px;
       margin-top: 0.5rem;
     }
     .mirror-content .btn:hover {
-      background: rgba(251, 146, 60, 0.25);
-      color: #ffb783 !important;
+      background: rgba(7, 168, 87, 0.25);
+      color: #069449 !important;
     }
     .mirror-content .media-bl {
       display: grid;
@@ -1582,9 +1741,9 @@
     }
     .campaign-nav-strip a:hover,
     .campaign-nav-strip a.is-active {
-      border-color: rgba(251, 146, 60, 0.5);
-      color: #FB923C;
-      background: rgba(251, 146, 60, 0.1);
+      border-color: rgba(7, 168, 87, 0.5);
+      color: #07a857;
+      background: rgba(7, 168, 87, 0.1);
     }
     .content-page-hero {
       margin-bottom: 2rem;
@@ -1597,7 +1756,7 @@
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: #FB923C;
+      color: #07a857;
       margin-bottom: 0.5rem;
     }
 
@@ -1605,53 +1764,15 @@
 </head>
 <body class="font-body-md selection:bg-apricot/30 custom-scrollbar" data-category-map="category-map.json">
 <header id="site-header" class="fixed top-0 w-full z-50 font-sans bg-surface/90 backdrop-blur-xl border-b border-edge-light shadow-[0_2px_0_0_rgba(255,255,255,0.06)_inset,0_8px_32px_rgba(0,0,0,0.35)]">
-    <!-- Top utility strip — iOS-inspired -->
-    <div class="header-utility-bar border-b border-white/5">
-      <div class="header-utility-bar-inner max-w-[1440px] mx-auto px-container-padding h-10 flex items-center justify-between gap-5">
-        <nav class="flex items-center gap-0.5 min-w-0" aria-label="Услуги">
-          <a href="https://plasico.bg/" class="header-utility-link header-utility-link--icon header-utility-home shrink-0" aria-label="Начало">
-            <span class="material-symbols-outlined header-utility-home-icon" aria-hidden="true">home</span>
-          </a>
-          <ul class="hidden sm:flex items-center gap-0.5 overflow-x-auto">
-            <li><a href="magazini.html" class="header-utility-link text-apricot" aria-current="page">Магазини</a></li>
-            <li><a href="serviz.html" class="header-utility-link">Сервиз</a></li>
-            <li><a href="za-nas.html" class="header-utility-link">За нас</a></li>
-            <li><a href="blog/index.html" class="header-utility-link">Блог</a></li>
-            <li><a href="kontakti.html" class="header-utility-link">Контакти</a></li>
-          </ul>
-          <a href="hot-summer-sale-2026.html" class="header-sale-cta shrink-0" aria-label="Разпродажба Hot Summer Sale 2026">
-            <span class="material-symbols-outlined header-sale-cta__icon" aria-hidden="true">local_fire_department</span>
-            <span>РАЗПРОДАЖБА</span>
-          </a>
-        </nav>
-        <div class="header-utility-bar-auth shrink-0">
-          <a href="https://plasico.bg/account" class="header-utility-bar-signin">Вход</a>
-          <span class="header-utility-bar-sep hidden sm:inline" aria-hidden="true"></span>
-          <a href="https://plasico.bg/account" class="header-utility-bar-signup hidden sm:inline">Регистрация</a>
-          <span class="header-utility-bar-via hidden md:inline">или чрез</span>
-          <a href="https://plasico.bg/account" class="header-utility-social hidden md:inline-flex" title="Facebook" aria-label="Вход с Facebook">
-            <svg class="header-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.1.9-2 2-2h2V3h-2.5C13.8 3 12 4.8 12 7v2.5H9v4h3V21h2v-7.5z"/></svg>
-          </a>
-          <a href="https://plasico.bg/account" class="header-utility-social hidden md:inline-flex" title="Google" aria-label="Вход с Google">
-            <svg class="header-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.545 10.239v3.821h5.445c-.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2 7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.748l-9.426-.013z"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Main header row -->
     <div>
       <div class="max-w-[1440px] mx-auto px-container-padding py-3">
         <div class="flex items-center gap-3 lg:gap-5">
-          <button type="button" id="categories-toggle" class="lg:hidden shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full border border-edge-light bg-surface-container-high hover:bg-white/5 transition-colors" aria-expanded="false" aria-controls="categories-panel" title="Категории">
+          <button type="button" id="categories-toggle" class="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full border border-edge-light bg-surface-container-high hover:bg-white/5 transition-colors" aria-expanded="false" aria-controls="categories-panel" title="Меню" aria-label="Меню">
             <span class="material-symbols-outlined text-on-surface text-[22px]">menu</span>
           </button>
           <a href="https://plasico.bg/" class="shrink-0 flex items-center">
             <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="h-9 sm:h-10 lg:h-11 w-auto"/>
           </a>
-          <button type="button" id="categories-toggle-desktop" class="hidden lg:inline-flex shrink-0 items-center justify-center w-10 h-10 rounded-full border border-edge-light bg-surface-container-high hover:bg-white/5 transition-colors" aria-expanded="false" aria-haspopup="true" aria-controls="categories-mega-desktop" title="Категории" aria-label="Категории">
-            <span class="material-symbols-outlined text-on-surface text-[22px]">menu</span>
-          </button>
           <form action="https://plasico.bg/tyrsene" method="post" class="header-search-pill flex-1 min-w-0 max-w-2xl mx-auto hidden sm:flex items-center overflow-hidden pl-1 pr-1 py-1">
             <label for="header-search" class="sr-only">Търси продукт</label>
             <span class="material-symbols-outlined text-on-surface-variant text-[20px] pl-3 shrink-0 pointer-events-none" aria-hidden="true">search</span>
@@ -1674,6 +1795,10 @@
               <span class="material-symbols-outlined">call</span>
               <span class="hidden lg:inline">0700 20 810</span>
             </a>
+            <a href="https://plasico.bg/account" class="header-toolbar-signin" title="Вход">
+              <span class="material-symbols-outlined" aria-hidden="true">login</span>
+              <span class="hidden sm:inline">Вход</span>
+            </a>
             <button type="button" id="header-cart-toggle" class="inline-flex items-center gap-2 rounded-full hover:bg-white/5 transition-colors p-2 lg:px-3 lg:py-2" title="Количка" aria-haspopup="dialog" aria-controls="cart-drawer" aria-expanded="false">
               <span class="relative inline-flex">
                 <span class="material-symbols-outlined text-on-surface text-[24px]">shopping_cart</span>
@@ -1689,25 +1814,45 @@
           <button type="submit" class="header-search-btn shrink-0 px-3 py-2 text-sm" aria-label="Търси">Търси</button>
         </form>
       </div>
-      <div id="categories-panel" class="lg:hidden border-t border-edge-light/30 bg-surface-container-low/90" aria-hidden="true">
+      <div id="categories-panel" class="border-t border-edge-light/30 bg-surface-container-low/90" aria-hidden="true">
         <div class="max-w-[1440px] mx-auto px-container-padding py-3 text-sm">
+          <nav class="panel-utility-nav" aria-label="Бързи връзки">
+            <a href="https://plasico.bg/" class="panel-utility-nav__item panel-utility-nav__item--home header-utility-link header-utility-link--icon header-utility-home" aria-label="Начало">
+              <span class="material-symbols-outlined header-utility-home-icon" aria-hidden="true">home</span>
+              <span>Начало</span>
+            </a>
+            <div class="panel-utility-nav__links">
+              <a href="magazini.html" class="panel-utility-nav__item text-apricot" aria-current="page">Магазини</a>
+              <a href="serviz.html" class="panel-utility-nav__item">Сервиз</a>
+              <a href="za-nas.html" class="panel-utility-nav__item">За нас</a>
+              <a href="blog/index.html" class="panel-utility-nav__item">Блог</a>
+              <a href="kontakti.html" class="panel-utility-nav__item">Контакти</a>
+            </div>
+            <a href="hot-summer-sale-2026.html" class="panel-utility-nav__item panel-utility-nav__item--sale header-sale-cta is-active" aria-label="Разпродажба Hot Summer Sale 2026" aria-current="page">
+              <span class="material-symbols-outlined header-sale-cta__icon" aria-hidden="true">local_fire_department</span>
+              <span>РАЗПРОДАЖБА</span>
+            </a>
+            <div class="panel-utility-auth">
+              <a href="https://plasico.bg/account" class="panel-utility-nav__item panel-utility-nav__item--signup">Регистрация</a>
+              <div class="panel-utility-auth-social">
+                <span class="panel-utility-auth-via">или чрез</span>
+                <a href="https://plasico.bg/account" class="header-utility-social" title="Facebook" aria-label="Вход с Facebook">
+                  <svg class="header-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.1.9-2 2-2h2V3h-2.5C13.8 3 12 4.8 12 7v2.5H9v4h3V21h2v-7.5z"/></svg>
+                </a>
+                <a href="https://plasico.bg/account" class="header-utility-social" title="Google" aria-label="Вход с Google">
+                  <svg class="header-social-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.545 10.239v3.821h5.445c-.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866.549 3.921 1.453l2.814-2.814C17.503 2.988 15.139 2 12.545 2 7.021 2 2.543 6.477 2.543 12s4.478 10 10.002 10c8.396 0 10.249-7.85 9.426-11.748l-9.426-.013z"/></svg>
+                </a>
+              </div>
+            </div>
+          </nav>
           <div id="site-categories-panel-mobile" class="mb-4"></div>
           <div id="campaign-categories-panel">
             <p class="header-cat-section-title">Hot Summer Sale 2026</p>
           </div>
         </div>
       </div>
-      <div id="categories-mega-desktop" class="hidden lg:block" aria-hidden="true">
-        <div class="max-w-[1440px] mx-auto px-container-padding py-5">
-          <div id="site-categories-mega" class="mb-6"></div>
-          <div id="campaign-categories-mega">
-            <p class="header-cat-section-title">Hot Summer Sale 2026</p>
-            <div class="header-cat-mega-grid" data-campaign-mega-grid></div>
-          </div>
-        </div>
-      </div>
     </div>
-    <div id="categories-backdrop" class="header-cat-backdrop hidden lg:block" aria-hidden="true"></div>
+    <div id="categories-backdrop" class="header-cat-backdrop" aria-hidden="true"></div>
   </header>
 
   <main class="pt-[var(--site-header-offset)]">
@@ -1887,69 +2032,48 @@
 <script>
 
     (function initHeaderCategories() {
-      const mobileToggle = document.getElementById('categories-toggle');
-      const desktopToggle = document.getElementById('categories-toggle-desktop');
-      const mobilePanel = document.getElementById('categories-panel');
-      const desktopPanel = document.getElementById('categories-mega-desktop');
+      const toggle = document.getElementById('categories-toggle');
+      const panel = document.getElementById('categories-panel');
       const backdrop = document.getElementById('categories-backdrop');
       const mapUrl = document.body?.dataset.categoryMap || 'category-map.json';
 
-      function isDesktopOpen() { return desktopPanel?.classList.contains('is-open'); }
-      function isMobileOpen() { return mobilePanel?.classList.contains('is-open'); }
+      function isOpen() { return panel?.classList.contains('is-open'); }
       function closeHeaderCategories() {
-        mobilePanel?.classList.remove('is-open');
-        mobilePanel?.setAttribute('aria-hidden', 'true');
-        desktopPanel?.classList.remove('is-open');
-        desktopPanel?.setAttribute('aria-hidden', 'true');
+        panel?.classList.remove('is-open');
+        panel?.setAttribute('aria-hidden', 'true');
         backdrop?.classList.remove('is-visible');
         backdrop?.setAttribute('aria-hidden', 'true');
-        mobileToggle?.setAttribute('aria-expanded', 'false');
-        desktopToggle?.setAttribute('aria-expanded', 'false');
-        desktopToggle?.classList.remove('is-open');
+        toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.classList.remove('is-open');
       }
-      function openHeaderCategories(source) {
-        const useDesktop = source === 'desktop' || (window.matchMedia('(min-width: 1024px)').matches && source !== 'mobile');
-        if (useDesktop && desktopPanel) {
-          desktopPanel.classList.add('is-open');
-          desktopPanel.setAttribute('aria-hidden', 'false');
-          desktopToggle?.setAttribute('aria-expanded', 'true');
-          desktopToggle?.classList.add('is-open');
-          backdrop?.classList.add('is-visible');
-          backdrop?.setAttribute('aria-hidden', 'false');
-          mobilePanel?.classList.remove('is-open');
-          mobileToggle?.setAttribute('aria-expanded', 'false');
-        } else if (mobilePanel) {
-          mobilePanel.classList.add('is-open');
-          mobilePanel.setAttribute('aria-hidden', 'false');
-          mobileToggle?.setAttribute('aria-expanded', 'true');
-          desktopPanel?.classList.remove('is-open');
-          desktopToggle?.setAttribute('aria-expanded', 'false');
-          desktopToggle?.classList.remove('is-open');
-        }
+      function openHeaderCategories() {
+        panel?.classList.add('is-open');
+        panel?.setAttribute('aria-hidden', 'false');
+        backdrop?.classList.add('is-visible');
+        backdrop?.setAttribute('aria-hidden', 'false');
+        toggle?.setAttribute('aria-expanded', 'true');
+        toggle?.classList.add('is-open');
       }
 
-      mobileToggle?.addEventListener('click', () => {
-        if (isMobileOpen()) closeHeaderCategories();
-        else openHeaderCategories('mobile');
-      });
-      desktopToggle?.addEventListener('click', () => {
-        if (isDesktopOpen()) closeHeaderCategories();
-        else openHeaderCategories('desktop');
+      toggle?.addEventListener('click', () => {
+        if (isOpen()) closeHeaderCategories();
+        else openHeaderCategories();
       });
       backdrop?.addEventListener('click', closeHeaderCategories);
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && (isMobileOpen() || isDesktopOpen())) {
+        if (e.key === 'Escape' && isOpen()) {
           closeHeaderCategories();
-          (isDesktopOpen() ? desktopToggle : mobileToggle)?.focus();
+          toggle?.focus();
         }
       });
       document.addEventListener('click', (e) => {
-        if (!isDesktopOpen()) return;
+        if (!isOpen()) return;
         const t = e.target;
-        if (desktopToggle?.contains(t) || desktopPanel?.contains(t)) return;
+        if (toggle?.contains(t) || panel?.contains(t)) return;
         closeHeaderCategories();
       });
 
+      window.__closeHeaderCategories = closeHeaderCategories;
       window.__closeHeaderCategoriesPanel = closeHeaderCategories;
 
       function pagePrefix() {
@@ -1963,15 +2087,6 @@
           return prefix + item.url.replace(/^\//, '');
         }
         return item.url || '#';
-      }
-      function resolveSubUrl(sub, category) {
-        const prefix = pagePrefix();
-        if (sub.url && !sub.url.startsWith('https://plasico.bg') && !sub.url.startsWith('http') && !sub.url.startsWith('#')) {
-          return prefix + sub.url.replace(/^\//, '');
-        }
-        if (category.localUrl && sub.anchorId) return prefix + category.localUrl.split('#')[0] + '#' + sub.anchorId;
-        if (sub.url && sub.url.startsWith('#')) return sub.url;
-        return sub.url || resolveNavUrl(category);
       }
       function navigateHeaderUrl(url, external) {
         if (!url || url === '#') return;
@@ -1995,25 +2110,36 @@
         const cell = document.createElement('div');
         cell.className = 'header-cat-mega-cell';
         const dest = resolveNavUrl(category);
-        const isExternal = category.external || (!category.localUrl && dest.startsWith('https://'));
+        const isExternal = category.external || (!category.localUrl && (dest.startsWith('https://')));
         const parent = hasSubs ? document.createElement('button') : document.createElement('a');
         parent.className = 'header-cat-mega-parent';
-        parent.innerHTML = '<span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">'
-          + (category.materialIcon || 'category') + '</span></span><span class="header-cat-mega-parent__label">'
-          + category.name + '</span>' + (hasSubs ? '<span class="material-symbols-outlined header-cat-mega-parent__chevron">expand_more</span>' : '');
+        parent.innerHTML = `
+          <span class="header-cat-mega-parent__icon" aria-hidden="true">
+            <span class="material-symbols-outlined">${category.materialIcon || 'category'}</span>
+          </span>
+          <span class="header-cat-mega-parent__label">${category.name}</span>
+          ${hasSubs ? '<span class="material-symbols-outlined header-cat-mega-parent__chevron">expand_more</span>' : ''}
+        `;
         if (!hasSubs) {
           parent.href = dest;
-          if (isExternal) { parent.target = '_blank'; parent.rel = 'noopener'; }
+          if (isExternal) {
+            parent.target = '_blank';
+            parent.rel = 'noopener';
+          }
           parent.addEventListener('click', (e) => {
-            if (!isExternal) { e.preventDefault(); navigateHeaderUrl(dest, false); }
-            else closeHeaderCategories();
+            if (!isExternal) {
+              e.preventDefault();
+              navigateHeaderUrl(dest, false);
+            } else {
+              closeHeaderCategories();
+            }
           });
         } else {
           parent.type = 'button';
           parent.addEventListener('click', () => {
             const wasOpen = cell.classList.contains('is-open');
-            (parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile, #campaign-categories-panel') || document)
-              .querySelectorAll('.header-cat-mega-cell.is-open')
+            parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile, #campaign-categories-panel')
+              ?.querySelectorAll('.header-cat-mega-cell.is-open')
               .forEach(node => { if (node !== cell) node.classList.remove('is-open'); });
             cell.classList.toggle('is-open', !wasOpen);
             const chevron = parent.querySelector('.header-cat-mega-parent__chevron');
@@ -2031,8 +2157,12 @@
             subLink.className = 'header-cat-mega-sub';
             subLink.textContent = sub.name;
             subLink.addEventListener('click', () => {
-              if (typeof options.onSubClick === 'function') options.onSubClick(sub, category);
-              else navigateHeaderUrl(resolveSubUrl(sub, category), sub.action === 'external');
+              if (typeof options.onSubClick === 'function') {
+                options.onSubClick(sub, category);
+              } else {
+                const subDest = sub.url && !sub.url.startsWith('https://plasico.bg') ? sub.url : (sub.url || dest);
+                navigateHeaderUrl(subDest, sub.action === 'external' || subDest.startsWith('https://'));
+              }
             });
             subsWrap.appendChild(subLink);
           });
@@ -2042,58 +2172,22 @@
       }
 
       function renderSiteCategories(siteCategories) {
-        ['site-categories-panel-mobile', 'site-categories-mega'].forEach(id => {
-          const root = document.getElementById(id);
-          if (!root) return;
-          root.innerHTML = '<p class="header-cat-section-title">Категории</p>';
-          const grid = document.createElement('div');
-          grid.className = 'header-cat-mega-grid';
-          (siteCategories || []).forEach(cat => grid.appendChild(buildMegaCell(cat, {})));
-          root.appendChild(grid);
-        });
+        const root = document.getElementById('site-categories-panel-mobile');
+        if (!root) return;
+        root.innerHTML = '<p class="header-cat-section-title">Категории</p>';
+        const grid = document.createElement('div');
+        grid.className = 'header-cat-mega-grid';
+        (siteCategories || []).forEach(cat => grid.appendChild(buildMegaCell(cat, {})));
+        root.appendChild(grid);
       }
 
-      function renderCampaignCategories(categories) {
-        const panel = document.getElementById('campaign-categories-panel');
-        const megaGrid = document.querySelector('[data-campaign-mega-grid]');
-        if (!panel && !megaGrid) return;
-        const navOpts = {
-          onParentClick(category) {
-            const localUrl = category.localUrl || null;
-            if (localUrl && category.id !== 'laptopi') {
-              navigateHeaderUrl(resolveNavUrl(category), false);
-              return;
-            }
-            navigateHeaderUrl(resolveNavUrl(category), false);
-          },
-          onSubClick(sub, category) {
-            navigateHeaderUrl(resolveSubUrl(sub, category), sub.action === 'external');
-          }
-        };
-        if (panel) {
-          const title = document.createElement('p');
-          title.className = 'header-cat-section-title';
-          title.textContent = 'Hot Summer Sale 2026';
-          panel.innerHTML = '';
-          panel.appendChild(title);
-        }
-        if (megaGrid) megaGrid.innerHTML = '';
-        (categories || []).forEach(cat => {
-          if (panel) panel.appendChild(buildMegaCell(cat, navOpts));
-          if (megaGrid) megaGrid.appendChild(buildMegaCell(cat, navOpts));
-        });
-      }
-
+      window.__renderHeaderSiteCategories = renderSiteCategories;
       window.__buildHeaderMegaCell = buildMegaCell;
 
       fetch(mapUrl)
         .then(res => (res.ok ? res.json() : null))
         .then(map => {
-          if (!map) return;
-          if (map.siteCategories) renderSiteCategories(map.siteCategories);
-          if (map.categories && !document.getElementById('category-icon-grid')) {
-            renderCampaignCategories(map.categories);
-          }
+          if (map?.siteCategories) renderSiteCategories(map.siteCategories);
         })
         .catch(() => {});
     })();

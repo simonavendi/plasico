@@ -1633,7 +1633,7 @@
       text-decoration: none;
       transition: color 0.2s ease;
     }
-    .mirror-breadcrumb a:hover { color: #FB923C; }
+    .mirror-breadcrumb a:hover { color: #07a857; }
     .mirror-breadcrumb__sep { opacity: 0.45; }
     .mirror-content {
       color: #e5e1e2;
@@ -1665,7 +1665,7 @@
     }
     .mirror-content li { margin-bottom: 0.35rem; }
     .mirror-content a {
-      color: #FB923C;
+      color: #07a857;
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -1689,17 +1689,17 @@
       align-items: center;
       padding: 0.5rem 1rem;
       border-radius: 9999px;
-      background: rgba(251, 146, 60, 0.15);
-      border: 1px solid rgba(251, 146, 60, 0.35);
-      color: #FB923C !important;
+      background: rgba(7, 168, 87, 0.15);
+      border: 1px solid rgba(7, 168, 87, 0.35);
+      color: #07a857 !important;
       text-decoration: none !important;
       font-weight: 600;
       font-size: 14px;
       margin-top: 0.5rem;
     }
     .mirror-content .btn:hover {
-      background: rgba(251, 146, 60, 0.25);
-      color: #ffb783 !important;
+      background: rgba(7, 168, 87, 0.25);
+      color: #069449 !important;
     }
     .mirror-content .media-bl {
       display: grid;
@@ -1741,9 +1741,9 @@
     }
     .campaign-nav-strip a:hover,
     .campaign-nav-strip a.is-active {
-      border-color: rgba(251, 146, 60, 0.5);
-      color: #FB923C;
-      background: rgba(251, 146, 60, 0.1);
+      border-color: rgba(7, 168, 87, 0.5);
+      color: #07a857;
+      background: rgba(7, 168, 87, 0.1);
     }
     .content-page-hero {
       margin-bottom: 2rem;
@@ -1756,7 +1756,7 @@
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      color: #FB923C;
+      color: #07a857;
       margin-bottom: 0.5rem;
     }
 
@@ -5449,70 +5449,48 @@
 <script>
 
     (function initHeaderCategories() {
-      const mobileToggle = document.getElementById('categories-toggle');
-      const desktopToggle = document.getElementById('categories-toggle-desktop');
-      const mobilePanel = document.getElementById('categories-panel');
-      const desktopPanel = document.getElementById('categories-mega-desktop');
+      const toggle = document.getElementById('categories-toggle');
+      const panel = document.getElementById('categories-panel');
       const backdrop = document.getElementById('categories-backdrop');
       const mapUrl = document.body?.dataset.categoryMap || 'category-map.json';
 
-      function isDesktopOpen() { return desktopPanel?.classList.contains('is-open'); }
-      function isMobileOpen() { return mobilePanel?.classList.contains('is-open'); }
+      function isOpen() { return panel?.classList.contains('is-open'); }
       function closeHeaderCategories() {
-        mobilePanel?.classList.remove('is-open');
-        mobilePanel?.setAttribute('aria-hidden', 'true');
-        desktopPanel?.classList.remove('is-open');
-        desktopPanel?.setAttribute('aria-hidden', 'true');
+        panel?.classList.remove('is-open');
+        panel?.setAttribute('aria-hidden', 'true');
         backdrop?.classList.remove('is-visible');
         backdrop?.setAttribute('aria-hidden', 'true');
-        mobileToggle?.setAttribute('aria-expanded', 'false');
-        desktopToggle?.setAttribute('aria-expanded', 'false');
-        desktopToggle?.classList.remove('is-open');
+        toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.classList.remove('is-open');
       }
-      function openHeaderCategories(source) {
-        window.__closeHeaderAuth?.();
-        const useDesktop = source === 'desktop' || (window.matchMedia('(min-width: 1024px)').matches && source !== 'mobile');
-        if (useDesktop && desktopPanel) {
-          desktopPanel.classList.add('is-open');
-          desktopPanel.setAttribute('aria-hidden', 'false');
-          desktopToggle?.setAttribute('aria-expanded', 'true');
-          desktopToggle?.classList.add('is-open');
-          backdrop?.classList.add('is-visible');
-          backdrop?.setAttribute('aria-hidden', 'false');
-          mobilePanel?.classList.remove('is-open');
-          mobileToggle?.setAttribute('aria-expanded', 'false');
-        } else if (mobilePanel) {
-          mobilePanel.classList.add('is-open');
-          mobilePanel.setAttribute('aria-hidden', 'false');
-          mobileToggle?.setAttribute('aria-expanded', 'true');
-          desktopPanel?.classList.remove('is-open');
-          desktopToggle?.setAttribute('aria-expanded', 'false');
-          desktopToggle?.classList.remove('is-open');
-        }
+      function openHeaderCategories() {
+        panel?.classList.add('is-open');
+        panel?.setAttribute('aria-hidden', 'false');
+        backdrop?.classList.add('is-visible');
+        backdrop?.setAttribute('aria-hidden', 'false');
+        toggle?.setAttribute('aria-expanded', 'true');
+        toggle?.classList.add('is-open');
       }
 
-      mobileToggle?.addEventListener('click', () => {
-        if (isMobileOpen()) closeHeaderCategories();
-        else openHeaderCategories('mobile');
-      });
-      desktopToggle?.addEventListener('click', () => {
-        if (isDesktopOpen()) closeHeaderCategories();
-        else openHeaderCategories('desktop');
+      toggle?.addEventListener('click', () => {
+        if (isOpen()) closeHeaderCategories();
+        else openHeaderCategories();
       });
       backdrop?.addEventListener('click', closeHeaderCategories);
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && (isMobileOpen() || isDesktopOpen())) {
+        if (e.key === 'Escape' && isOpen()) {
           closeHeaderCategories();
-          (isDesktopOpen() ? desktopToggle : mobileToggle)?.focus();
+          toggle?.focus();
         }
       });
       document.addEventListener('click', (e) => {
-        if (!isDesktopOpen()) return;
+        if (!isOpen()) return;
         const t = e.target;
-        if (desktopToggle?.contains(t) || desktopPanel?.contains(t)) return;
+        if (toggle?.contains(t) || panel?.contains(t)) return;
         closeHeaderCategories();
       });
 
+      window.__closeHeaderCategories = closeHeaderCategories;
       window.__closeHeaderCategoriesPanel = closeHeaderCategories;
 
       function pagePrefix() {
@@ -5526,15 +5504,6 @@
           return prefix + item.url.replace(/^\//, '');
         }
         return item.url || '#';
-      }
-      function resolveSubUrl(sub, category) {
-        const prefix = pagePrefix();
-        if (sub.url && !sub.url.startsWith('https://plasico.bg') && !sub.url.startsWith('http') && !sub.url.startsWith('#')) {
-          return prefix + sub.url.replace(/^\//, '');
-        }
-        if (category.localUrl && sub.anchorId) return prefix + category.localUrl.split('#')[0] + '#' + sub.anchorId;
-        if (sub.url && sub.url.startsWith('#')) return sub.url;
-        return sub.url || resolveNavUrl(category);
       }
       function navigateHeaderUrl(url, external) {
         if (!url || url === '#') return;
@@ -5558,25 +5527,36 @@
         const cell = document.createElement('div');
         cell.className = 'header-cat-mega-cell';
         const dest = resolveNavUrl(category);
-        const isExternal = category.external || (!category.localUrl && dest.startsWith('https://'));
+        const isExternal = category.external || (!category.localUrl && (dest.startsWith('https://')));
         const parent = hasSubs ? document.createElement('button') : document.createElement('a');
         parent.className = 'header-cat-mega-parent';
-        parent.innerHTML = '<span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">'
-          + (category.materialIcon || 'category') + '</span></span><span class="header-cat-mega-parent__label">'
-          + category.name + '</span>' + (hasSubs ? '<span class="material-symbols-outlined header-cat-mega-parent__chevron">expand_more</span>' : '');
+        parent.innerHTML = `
+          <span class="header-cat-mega-parent__icon" aria-hidden="true">
+            <span class="material-symbols-outlined">${category.materialIcon || 'category'}</span>
+          </span>
+          <span class="header-cat-mega-parent__label">${category.name}</span>
+          ${hasSubs ? '<span class="material-symbols-outlined header-cat-mega-parent__chevron">expand_more</span>' : ''}
+        `;
         if (!hasSubs) {
           parent.href = dest;
-          if (isExternal) { parent.target = '_blank'; parent.rel = 'noopener'; }
+          if (isExternal) {
+            parent.target = '_blank';
+            parent.rel = 'noopener';
+          }
           parent.addEventListener('click', (e) => {
-            if (!isExternal) { e.preventDefault(); navigateHeaderUrl(dest, false); }
-            else closeHeaderCategories();
+            if (!isExternal) {
+              e.preventDefault();
+              navigateHeaderUrl(dest, false);
+            } else {
+              closeHeaderCategories();
+            }
           });
         } else {
           parent.type = 'button';
           parent.addEventListener('click', () => {
             const wasOpen = cell.classList.contains('is-open');
-            (parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile, #campaign-categories-panel') || document)
-              .querySelectorAll('.header-cat-mega-cell.is-open')
+            parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile, #campaign-categories-panel')
+              ?.querySelectorAll('.header-cat-mega-cell.is-open')
               .forEach(node => { if (node !== cell) node.classList.remove('is-open'); });
             cell.classList.toggle('is-open', !wasOpen);
             const chevron = parent.querySelector('.header-cat-mega-parent__chevron');
@@ -5594,8 +5574,12 @@
             subLink.className = 'header-cat-mega-sub';
             subLink.textContent = sub.name;
             subLink.addEventListener('click', () => {
-              if (typeof options.onSubClick === 'function') options.onSubClick(sub, category);
-              else navigateHeaderUrl(resolveSubUrl(sub, category), sub.action === 'external');
+              if (typeof options.onSubClick === 'function') {
+                options.onSubClick(sub, category);
+              } else {
+                const subDest = sub.url && !sub.url.startsWith('https://plasico.bg') ? sub.url : (sub.url || dest);
+                navigateHeaderUrl(subDest, sub.action === 'external' || subDest.startsWith('https://'));
+              }
             });
             subsWrap.appendChild(subLink);
           });
@@ -5605,58 +5589,22 @@
       }
 
       function renderSiteCategories(siteCategories) {
-        ['site-categories-panel-mobile', 'site-categories-mega'].forEach(id => {
-          const root = document.getElementById(id);
-          if (!root) return;
-          root.innerHTML = '<p class="header-cat-section-title">Категории</p>';
-          const grid = document.createElement('div');
-          grid.className = 'header-cat-mega-grid';
-          (siteCategories || []).forEach(cat => grid.appendChild(buildMegaCell(cat, {})));
-          root.appendChild(grid);
-        });
+        const root = document.getElementById('site-categories-panel-mobile');
+        if (!root) return;
+        root.innerHTML = '<p class="header-cat-section-title">Категории</p>';
+        const grid = document.createElement('div');
+        grid.className = 'header-cat-mega-grid';
+        (siteCategories || []).forEach(cat => grid.appendChild(buildMegaCell(cat, {})));
+        root.appendChild(grid);
       }
 
-      function renderCampaignCategories(categories) {
-        const panel = document.getElementById('campaign-categories-panel');
-        const megaGrid = document.querySelector('[data-campaign-mega-grid]');
-        if (!panel && !megaGrid) return;
-        const navOpts = {
-          onParentClick(category) {
-            const localUrl = category.localUrl || null;
-            if (localUrl && category.id !== 'laptopi') {
-              navigateHeaderUrl(resolveNavUrl(category), false);
-              return;
-            }
-            navigateHeaderUrl(resolveNavUrl(category), false);
-          },
-          onSubClick(sub, category) {
-            navigateHeaderUrl(resolveSubUrl(sub, category), sub.action === 'external');
-          }
-        };
-        if (panel) {
-          const title = document.createElement('p');
-          title.className = 'header-cat-section-title';
-          title.textContent = 'Hot Summer Sale 2026';
-          panel.innerHTML = '';
-          panel.appendChild(title);
-        }
-        if (megaGrid) megaGrid.innerHTML = '';
-        (categories || []).forEach(cat => {
-          if (panel) panel.appendChild(buildMegaCell(cat, navOpts));
-          if (megaGrid) megaGrid.appendChild(buildMegaCell(cat, navOpts));
-        });
-      }
-
+      window.__renderHeaderSiteCategories = renderSiteCategories;
       window.__buildHeaderMegaCell = buildMegaCell;
 
       fetch(mapUrl)
         .then(res => (res.ok ? res.json() : null))
         .then(map => {
-          if (!map) return;
-          if (map.siteCategories) renderSiteCategories(map.siteCategories);
-          if (map.categories && !document.getElementById('category-icon-grid')) {
-            renderCampaignCategories(map.categories);
-          }
+          if (map?.siteCategories) renderSiteCategories(map.siteCategories);
         })
         .catch(() => {});
     })();
