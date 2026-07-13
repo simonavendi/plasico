@@ -304,6 +304,9 @@ def build_page(
     header = adapt_shell_part(shell["header"], link_map, page_path)
     footer = adapt_shell_part(shell["footer"], link_map, page_path)
     back_btn = shell["back_to_top"]
+    cart_drawer = fix_subpage_cta_links(
+        adapt_shell_part(shell["cart_drawer"], link_map, page_path),
+    )
 
     hero = fix_subpage_cta_links(
         build_campaign_hero(template_html, link_map, page_path),
@@ -355,6 +358,7 @@ def build_page(
   </script>
   <script src="{PREFIX}catalog-filters.js"></script>
   <script src="{PREFIX}campaign-category-nav.js"></script>
+  <script src="{PREFIX}cart-drawer.js"></script>
 {CONTENT_PAGE_SCRIPTS}"""
 
     return "\n".join([
@@ -364,6 +368,7 @@ def build_page(
         main,
         footer,
         back_btn,
+        cart_drawer,
         scripts,
         "</body>",
         "</html>",

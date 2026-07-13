@@ -460,7 +460,10 @@ def extract_shell(template_html: str) -> dict:
     back_btn_match = re.search(
         r'(<button id="back-to-top".*?</button>)', template_html, re.DOTALL
     )
-    if not all([head_match, header_match, footer_match, back_btn_match]):
+    cart_drawer_match = re.search(
+        r'(<div id="cart-drawer-root".*?</aside>\s*</div>)', template_html, re.DOTALL
+    )
+    if not all([head_match, header_match, footer_match, back_btn_match, cart_drawer_match]):
         raise SystemExit("Could not extract shell from hot-summer-sale-2026.html")
 
     style_block = re.search(r"(<style>.*?</style>)", template_html, re.DOTALL)
@@ -470,6 +473,7 @@ def extract_shell(template_html: str) -> dict:
         "header": header_match.group(1),
         "footer": footer_match.group(1),
         "back_to_top": back_btn_match.group(1),
+        "cart_drawer": cart_drawer_match.group(1),
     }
 
 

@@ -377,6 +377,8 @@ def render_product(p: dict, sale_badge_href: str = SALE_BADGE_HREF_MAIN) -> str:
     subcategory = p.get("subcategory")
     if subcategory:
         attrs.append(f'data-subcategory="{subcategory}"')
+    if p.get("image"):
+        attrs.append(f'data-image="{p["image"]}"')
 
     title_esc = title_attr = p["title"].replace('"', "&quot;")
     short_title = truncate_title(p["title"])
