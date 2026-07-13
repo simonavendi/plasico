@@ -198,7 +198,7 @@ page = f"""<!DOCTYPE html>
       <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-wrap justify-center gap-8 md:gap-12 text-left px-4">
         <div>
           <div class="text-technical-sm text-on-surface-variant font-label-caps mb-1">КАТЕГОРИИ</div>
-          <div class="text-headline-md font-bold">18+</div>
+          <div class="text-headline-md font-bold">18</div>
         </div>
         <div class="w-[1px] h-12 bg-edge-light hidden sm:block"></div>
         <div>
