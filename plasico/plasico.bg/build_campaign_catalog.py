@@ -271,7 +271,8 @@ def customize_catalog_head(
             head,
         )
     if 'data-redesign="spatial-minimalism"' not in head:
-        head = head.replace('class="dark"', 'class="dark" data-redesign="spatial-minimalism"')
+        head = head.replace('<html lang="bg">', '<html lang="bg" data-redesign="spatial-minimalism">')
+        head = head.replace('<html class="dark"', '<html data-redesign="spatial-minimalism"')
     return head
 
 
@@ -359,7 +360,7 @@ def build_page(
   <script src="{PREFIX}catalog-filters.js"></script>
   <script src="{PREFIX}campaign-category-nav.js"></script>
   <script src="{PREFIX}cart-drawer.js"></script>
-{CONTENT_PAGE_SCRIPTS}"""
+""" + adapt_shell_part(CONTENT_PAGE_SCRIPTS.strip(), link_map, page_path)
 
     return "\n".join([
         head,

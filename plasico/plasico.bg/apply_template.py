@@ -34,18 +34,18 @@ MIRROR_CONTENT_CSS = """
       align-items: center;
       gap: 0.35rem;
       font-size: 13px;
-      color: #c9c5cc;
+      color: var(--theme-on-surface-variant, #c9c5cc);
       margin-bottom: 1.5rem;
     }
     .mirror-breadcrumb a {
-      color: #c9c5cc;
+      color: var(--theme-on-surface-variant, #c9c5cc);
       text-decoration: none;
       transition: color 0.2s ease;
     }
     .mirror-breadcrumb a:hover { color: #07a857; }
     .mirror-breadcrumb__sep { opacity: 0.45; }
     .mirror-content {
-      color: #e5e1e2;
+      color: var(--theme-on-surface, #e5e1e2);
       line-height: 1.65;
     }
     .mirror-content h1 {
@@ -53,24 +53,24 @@ MIRROR_CONTENT_CSS = """
       font-weight: 700;
       letter-spacing: -0.02em;
       margin: 0 0 1.5rem;
-      color: #e5e1e2;
+      color: var(--theme-on-surface, #e5e1e2);
     }
     .mirror-content h2 {
       font-size: 1.35rem;
       font-weight: 600;
       margin: 2rem 0 0.75rem;
-      color: #e5e1e2;
+      color: var(--theme-on-surface, #e5e1e2);
     }
     .mirror-content h3 {
       font-size: 1.1rem;
       font-weight: 600;
       margin: 1.25rem 0 0.5rem;
-      color: #e5e1e2;
+      color: var(--theme-on-surface, #e5e1e2);
     }
-    .mirror-content p { margin: 0 0 1rem; color: #c9c5cc; }
+    .mirror-content p { margin: 0 0 1rem; color: var(--theme-on-surface-variant, #c9c5cc); }
     .mirror-content ul, .mirror-content ol {
       margin: 0 0 1rem 1.25rem;
-      color: #c9c5cc;
+      color: var(--theme-on-surface-variant, #c9c5cc);
     }
     .mirror-content li { margin-bottom: 0.35rem; }
     .mirror-content a {
@@ -83,14 +83,14 @@ MIRROR_CONTENT_CSS = """
       max-width: 100%;
       height: auto;
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.12));
     }
     .mirror-content .shop,
     .mirror-content article.shop,
     .mirror-content section {
       margin-bottom: 2rem;
       padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--theme-border-subtle, rgba(255, 255, 255, 0.08));
     }
     .mirror-content .btn,
     .mirror-content a.btn {
@@ -124,7 +124,7 @@ MIRROR_CONTENT_CSS = """
     .mirror-content .acc { color: #c9c5cc; }
     .mirror-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
     .mirror-content th, .mirror-content td {
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.12));
       padding: 0.5rem 0.75rem;
       text-align: left;
     }
@@ -135,16 +135,16 @@ MIRROR_CONTENT_CSS = """
       margin-bottom: 1.5rem;
       padding: 0.75rem 1rem;
       border-radius: 16px;
-      background: rgba(32, 31, 32, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: var(--theme-surface-container, rgba(32, 31, 32, 0.85));
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.12));
     }
     .campaign-nav-strip a {
       font-size: 12px;
       font-weight: 500;
       padding: 0.35rem 0.75rem;
       border-radius: 9999px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #c9c5cc;
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.14));
+      color: var(--theme-on-surface-variant, #c9c5cc);
       text-decoration: none;
       transition: all 0.2s ease;
     }
@@ -157,7 +157,7 @@ MIRROR_CONTENT_CSS = """
     .content-page-hero {
       margin-bottom: 2rem;
       padding: 1.5rem 0 0.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--theme-border-subtle, rgba(255, 255, 255, 0.08));
     }
     .content-page-hero__eyebrow {
       display: inline-block;
@@ -275,6 +275,7 @@ HEADER_AUTH_SCRIPT = r"""
 """
 
 CONTENT_PAGE_SCRIPTS = (
+  "  <script src=\"theme-switch.js\"></script>\n"
   "  <script>\n"
   + HEADER_CATEGORIES_SCRIPT
   + """
@@ -510,6 +511,10 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
         f'data-category-map="{prefix}category-map.json"',
     )
 
+    for asset in ("theme-overrides.css", "theme-switch.js"):
+        part = part.replace(f'href="{asset}"', f'href="{prefix}{asset}"')
+        part = part.replace(f'src="{asset}"', f'src="{prefix}{asset}"')
+
     if active_utility:
         for label, path in [
             ("Магазини", "magazini.html"),
@@ -695,7 +700,9 @@ def customize_head(head: str, title: str, description: str) -> str:
         f'<meta name="description" content="{escape(description)}"',
         head,
     )
-    head = head.replace('class="dark"', 'class="dark" data-redesign="spatial-minimalism"')
+    if 'data-redesign="spatial-minimalism"' not in head:
+        head = head.replace('<html lang="bg">', '<html lang="bg" data-redesign="spatial-minimalism">')
+        head = head.replace('<html class="dark"', '<html data-redesign="spatial-minimalism"')
     if MIRROR_CONTENT_CSS.strip() not in head:
         head = head.replace("</style>", MIRROR_CONTENT_CSS + "\n  </style>")
     return head
@@ -755,7 +762,7 @@ def build_content_page(
     </div>
   </main>"""
 
-    scripts = CONTENT_PAGE_SCRIPTS.strip()
+    scripts = adapt_shell_part(CONTENT_PAGE_SCRIPTS.strip(), link_map, page_path)
     if campaign_slug and 'id="catalog"' in content:
         cat = next(
             (c for c in category_map.get("categories", []) if c.get("slug") == campaign_slug),
