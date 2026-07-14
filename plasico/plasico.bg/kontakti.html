@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html class="dark" data-redesign="spatial-minimalism" lang="bg">
+<html lang="bg" data-redesign="spatial-minimalism">
 <head>
+  <script>
+    (function () {
+      var k = 'plasico-theme', s = localStorage.getItem(k);
+      if (!s && window.matchMedia('(prefers-color-scheme: light)').matches) s = 'light';
+      if (s !== 'light' && s !== 'dark') s = 'dark';
+      document.documentElement.setAttribute('data-theme', s);
+      document.documentElement.classList.toggle('dark', s === 'dark');
+    })();
+  </script>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>За контакти - Офис Варна</title>
   <meta name="description" content="За контакти: 0700 20 810, sales@plasico.com - Офис Варна"/>
-  <link rel="shortcut icon" type="image/ico" href="https://static.plasico.bg/favicon.ico"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E" type="image/svg+xml"/>
+  <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E" type="image/svg+xml"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Plasico.bg"/>
+  <meta property="og:title" content="Hot Summer Sale 2026 | Plasico.bg"/>
+  <meta property="og:description" content="Hot Summer Sale 2026 — лаптопи, компютри, компоненти и аксесоари с ексклузивни летни цени в Plasico.bg"/>
+  <meta property="og:url" content="https://plasico.vercel.app/hot-summer-sale-2026.html"/>
+  <meta property="og:image" content="https://plasico.vercel.app/redesign/1x1.png"/>
+  <meta property="og:image:alt" content="Hot Summer Sale 2026 — технологии за твоето лято"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Hot Summer Sale 2026 | Plasico.bg"/>
+  <meta name="twitter:description" content="Hot Summer Sale 2026 — лаптопи, компютри, компоненти и аксесоари с ексклузивни летни цени в Plasico.bg"/>
+  <meta name="twitter:image" content="https://plasico.vercel.app/redesign/1x1.png"/>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -207,38 +228,6 @@
       font-size: 9px;
       opacity: 0.7;
     }
-    #campaign-categories-panel .campaign-cat-group {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      padding-bottom: 10px;
-      margin-bottom: 10px;
-    }
-    #campaign-categories-panel .campaign-cat-group:last-child {
-      border-bottom: 0;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-    #campaign-categories-panel .campaign-cat-parent {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-      text-align: left;
-      padding: 6px 0;
-      font-weight: 600;
-      color: #e5e1e2;
-      background: none;
-      border: 0;
-      cursor: pointer;
-      font: inherit;
-      font-size: 14px;
-    }
-    #campaign-categories-panel .campaign-cat-subs {
-      display: none;
-      flex-wrap: wrap;
-      gap: 6px;
-      padding: 4px 0 0 28px;
-    }
-    #campaign-categories-panel .campaign-cat-group.is-open .campaign-cat-subs { display: flex; }
     @media (min-width: 640px) {
       .category-icon-card { min-height: 112px; border-radius: 20px; }
       .category-icon-card__label { font-size: 12px; }
@@ -502,15 +491,15 @@
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(14, 14, 15, 0.6);
-      color: #000;
-      -webkit-text-fill-color: #000;
+      color: #e5e1e2;
+      -webkit-text-fill-color: #e5e1e2;
       font-size: 14px;
       line-height: 20px;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .filter-input::placeholder {
-      color: rgba(0, 0, 0, 0.45);
-      -webkit-text-fill-color: rgba(0, 0, 0, 0.45);
+      color: rgba(201, 197, 204, 0.55);
+      -webkit-text-fill-color: rgba(201, 197, 204, 0.55);
     }
     .filter-input:focus {
       outline: none;
@@ -936,6 +925,11 @@
       background: rgba(7, 168, 87, 0.14);
       color: #07a857;
     }
+    @media (max-width: 639px) {
+      .panel-utility-mega-cell--sale {
+        grid-column: span 2;
+      }
+    }
     .panel-utility-mega-cell--sale {
       border-color: rgba(255, 180, 120, 0.5);
       background: linear-gradient(135deg, #FB923C 0%, #F97316 50%, #EF4444 100%);
@@ -950,18 +944,22 @@
       box-shadow: 0 0 0 2px rgba(251, 146, 60, 0.45), 0 1px 8px rgba(251, 146, 60, 0.35);
     }
     .panel-utility-mega-parent--sale {
-      color: #1a0f08;
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
-    .panel-utility-mega-parent--sale:hover { color: #1a0f08; }
+    .panel-utility-mega-cell--sale .panel-utility-mega-parent--sale .header-cat-mega-parent__label {
+      color: #FB923C;
+    }
+    .panel-utility-mega-cell--sale .panel-utility-mega-parent--sale:hover .header-cat-mega-parent__label {
+      color: #F97316;
+    }
     .panel-utility-mega-cell--sale .header-cat-mega-parent__icon {
-      background: rgba(26, 15, 8, 0.12);
+      background: rgba(239, 68, 68, 0.18);
     }
     .panel-utility-mega-cell--sale .header-cat-mega-parent__icon .material-symbols-outlined {
-      color: #1a0f08;
+      color: #EF4444;
       font-variation-settings: 'FILL' 1;
     }
     .header-search-pill {
@@ -1123,14 +1121,22 @@
       background: rgba(32, 31, 32, 0.6);
       margin-bottom: 10px;
     }
-    .cart-drawer-item__image {
+    .cart-drawer-item__thumb {
       width: 72px;
       height: 72px;
       flex-shrink: 0;
       border-radius: 12px;
-      background: #141314;
-      object-fit: contain;
+      background: #ffffff;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 6px;
+    }
+    .cart-drawer-item__image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
     .cart-drawer-item__info {
       flex: 1;
@@ -1585,10 +1591,12 @@
       color: inherit;
     }
 
-    /* Product card image zone — clean white backdrop for product photos */
-    #product-grid article > .aspect-square,
-    #product-grid article > a.aspect-square {
-      background-color: #ffffff !important;
+    /* Product card image thumb — white backdrop clipped to rounded corners */
+    #product-grid article > .aspect-square {
+      background-color: #ffffff;
+      border-radius: 32px;
+      overflow: hidden;
+      isolation: isolate;
     }
 
     /* Solid opaque badges (override translucent Tailwind utilities on cards) */
@@ -1627,18 +1635,18 @@
       align-items: center;
       gap: 0.35rem;
       font-size: 13px;
-      color: #c9c5cc;
+      color: var(--theme-on-surface-variant, #c9c5cc);
       margin-bottom: 1.5rem;
     }
     .mirror-breadcrumb a {
-      color: #c9c5cc;
+      color: var(--theme-on-surface-variant, #c9c5cc);
       text-decoration: none;
       transition: color 0.2s ease;
     }
     .mirror-breadcrumb a:hover { color: #07a857; }
     .mirror-breadcrumb__sep { opacity: 0.45; }
     .mirror-content {
-      color: #e5e1e2;
+      color: var(--theme-on-surface, #e5e1e2);
       line-height: 1.65;
     }
     .mirror-content h1 {
@@ -1646,24 +1654,24 @@
       font-weight: 700;
       letter-spacing: -0.02em;
       margin: 0 0 1.5rem;
-      color: #e5e1e2;
+      color: var(--theme-on-surface, #e5e1e2);
     }
     .mirror-content h2 {
       font-size: 1.35rem;
       font-weight: 600;
       margin: 2rem 0 0.75rem;
-      color: #e5e1e2;
+      color: var(--theme-on-surface, #e5e1e2);
     }
     .mirror-content h3 {
       font-size: 1.1rem;
       font-weight: 600;
       margin: 1.25rem 0 0.5rem;
-      color: #e5e1e2;
+      color: var(--theme-on-surface, #e5e1e2);
     }
-    .mirror-content p { margin: 0 0 1rem; color: #c9c5cc; }
+    .mirror-content p { margin: 0 0 1rem; color: var(--theme-on-surface-variant, #c9c5cc); }
     .mirror-content ul, .mirror-content ol {
       margin: 0 0 1rem 1.25rem;
-      color: #c9c5cc;
+      color: var(--theme-on-surface-variant, #c9c5cc);
     }
     .mirror-content li { margin-bottom: 0.35rem; }
     .mirror-content a {
@@ -1676,14 +1684,14 @@
       max-width: 100%;
       height: auto;
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.12));
     }
     .mirror-content .shop,
     .mirror-content article.shop,
     .mirror-content section {
       margin-bottom: 2rem;
       padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--theme-border-subtle, rgba(255, 255, 255, 0.08));
     }
     .mirror-content .btn,
     .mirror-content a.btn {
@@ -1717,7 +1725,7 @@
     .mirror-content .acc { color: #c9c5cc; }
     .mirror-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
     .mirror-content th, .mirror-content td {
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.12));
       padding: 0.5rem 0.75rem;
       text-align: left;
     }
@@ -1728,16 +1736,16 @@
       margin-bottom: 1.5rem;
       padding: 0.75rem 1rem;
       border-radius: 16px;
-      background: rgba(32, 31, 32, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: var(--theme-surface-container, rgba(32, 31, 32, 0.85));
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.12));
     }
     .campaign-nav-strip a {
       font-size: 12px;
       font-weight: 500;
       padding: 0.35rem 0.75rem;
       border-radius: 9999px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #c9c5cc;
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.14));
+      color: var(--theme-on-surface-variant, #c9c5cc);
       text-decoration: none;
       transition: all 0.2s ease;
     }
@@ -1750,7 +1758,7 @@
     .content-page-hero {
       margin-bottom: 2rem;
       padding: 1.5rem 0 0.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--theme-border-subtle, rgba(255, 255, 255, 0.08));
     }
     .content-page-hero__eyebrow {
       display: inline-block;
@@ -1763,6 +1771,7 @@
     }
 
   </style>
+  <link rel="stylesheet" href="theme-overrides.css"/>
 </head>
 <body class="font-body-md selection:bg-apricot/30 custom-scrollbar" data-category-map="category-map.json">
 <header id="site-header" class="fixed top-0 w-full z-50 font-sans bg-surface/90 backdrop-blur-xl border-b border-edge-light shadow-[0_2px_0_0_rgba(255,255,255,0.06)_inset,0_8px_32px_rgba(0,0,0,0.35)]">
@@ -1773,7 +1782,7 @@
             <span class="material-symbols-outlined text-on-surface text-[22px]">menu</span>
           </button>
           <a href="https://plasico.bg/" class="shrink-0 flex items-center">
-            <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="h-9 sm:h-10 lg:h-11 w-auto"/>
+            <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="site-header-logo h-9 sm:h-10 lg:h-11 w-auto"/>
           </a>
           <form action="https://plasico.bg/tyrsene" method="post" class="header-search-pill flex-1 min-w-0 max-w-2xl mx-auto hidden sm:flex items-center overflow-hidden pl-1 pr-1 py-1">
             <label for="header-search" class="sr-only">Търси продукт</label>
@@ -1797,6 +1806,10 @@
               <span class="material-symbols-outlined">call</span>
               <span class="hidden lg:inline">0700 20 810</span>
             </a>
+            <button type="button" id="theme-toggle" class="header-theme-toggle" aria-label="Светла тема" title="Светла тема">
+              <span class="material-symbols-outlined theme-toggle-icon theme-toggle-icon--dark" aria-hidden="true">light_mode</span>
+              <span class="material-symbols-outlined theme-toggle-icon theme-toggle-icon--light" aria-hidden="true">dark_mode</span>
+            </button>
             <a href="https://plasico.bg/account" class="header-toolbar-signin" title="Вход">
               <span class="material-symbols-outlined" aria-hidden="true">login</span>
               <span class="hidden sm:inline">Вход</span>
@@ -1832,6 +1845,18 @@
                   <span class="header-cat-mega-parent__label">Контакти</span>
                 </a>
               </div>
+              <div class="header-cat-mega-cell">
+                <a href="tel:070020810" class="header-cat-mega-parent" aria-label="Обадете се на 0700 20 810" title="Обадете се на 0700 20 810">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">call</span></span>
+                  <span class="header-cat-mega-parent__label">0700 20 810</span>
+                </a>
+              </div>
+              <div class="header-cat-mega-cell">
+                <a href="https://plasico.bg/account" class="header-cat-mega-parent" aria-label="Потребителски профил" title="Вход">
+                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">person</span></span>
+                  <span class="header-cat-mega-parent__label">Потребителски профил</span>
+                </a>
+              </div>
               <div class="header-cat-mega-cell panel-utility-mega-cell--sale">
                 <a href="hot-summer-sale-2026.html" class="header-cat-mega-parent panel-utility-mega-parent--sale" aria-label="Разпродажба Hot Summer Sale 2026">
                   <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">local_fire_department</span></span>
@@ -1841,9 +1866,6 @@
             </div>
           </nav>
           <div id="site-categories-panel-mobile" class="mb-4"></div>
-          <div id="campaign-categories-panel">
-            <p class="header-cat-section-title">Hot Summer Sale 2026</p>
-          </div>
         </div>
       </div>
     </div>
@@ -2000,7 +2022,8 @@
 <button id="back-to-top" type="button" aria-label="Нагоре" title="Нагоре" class="fixed left-4 bottom-6 z-40 w-11 h-11 rounded-full bg-surface-container-high border border-edge-light text-on-surface shadow-lg flex items-center justify-center opacity-0 pointer-events-none translate-y-2 transition-opacity duration-300 hover:text-apricot hover:border-apricot hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-apricot">
     <span class="material-symbols-outlined text-[22px]" aria-hidden="true">keyboard_arrow_up</span>
   </button>
-<script>
+<script src="theme-switch.js"></script>
+  <script>
 
     (function initHeaderCategories() {
       const toggle = document.getElementById('categories-toggle');
@@ -2109,7 +2132,7 @@
           parent.type = 'button';
           parent.addEventListener('click', () => {
             const wasOpen = cell.classList.contains('is-open');
-            parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile, #campaign-categories-panel')
+            parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile')
               ?.querySelectorAll('.header-cat-mega-cell.is-open')
               .forEach(node => { if (node !== cell) node.classList.remove('is-open'); });
             cell.classList.toggle('is-open', !wasOpen);
@@ -2145,7 +2168,7 @@
       function renderSiteCategories(siteCategories) {
         const root = document.getElementById('site-categories-panel-mobile');
         if (!root) return;
-        root.innerHTML = '<p class="header-cat-section-title">Категории</p>';
+        root.innerHTML = '<p class="header-cat-section-title">ПРОДУКТОВИ КАТЕГОРИИ</p>';
         const grid = document.createElement('div');
         grid.className = 'header-cat-mega-grid';
         (siteCategories || []).forEach(cat => grid.appendChild(buildMegaCell(cat, {})));

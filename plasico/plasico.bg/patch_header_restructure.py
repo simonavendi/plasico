@@ -13,7 +13,7 @@ NEW_HEADER = '''  <header id="site-header" class="fixed top-0 w-full z-50 font-s
             <span class="material-symbols-outlined text-on-surface text-[22px]">menu</span>
           </button>
           <a href="https://plasico.bg/" class="shrink-0 flex items-center">
-            <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="h-9 sm:h-10 lg:h-11 w-auto"/>
+            <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="site-header-logo h-9 sm:h-10 lg:h-11 w-auto"/>
           </a>
           <form action="https://plasico.bg/tyrsene" method="post" class="header-search-pill flex-1 min-w-0 max-w-2xl mx-auto hidden sm:flex items-center overflow-hidden pl-1 pr-1 py-1">
             <label for="header-search" class="sr-only">Търси продукт</label>

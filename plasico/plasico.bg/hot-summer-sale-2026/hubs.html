@@ -18,14 +18,14 @@
   <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E" type="image/svg+xml"/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Plasico.bg"/>
-  <meta property="og:title" content="USB хъбове и докинг | Hot Summer Sale 2026 | Plasico.bg"/>
-  <meta property="og:description" content="USB хъбове и докинг — летни оферти от кампанията Hot Summer Sale 2026 в Plasico.bg"/>
-  <meta property="og:url" content="https://plasico.vercel.app/hot-summer-sale-2026/hubs.html"/>
+  <meta property="og:title" content="Hot Summer Sale 2026 | Plasico.bg"/>
+  <meta property="og:description" content="Hot Summer Sale 2026 — лаптопи, компютри, компоненти и аксесоари с ексклузивни летни цени в Plasico.bg"/>
+  <meta property="og:url" content="https://plasico.vercel.app/hot-summer-sale-2026.html"/>
   <meta property="og:image" content="https://plasico.vercel.app/redesign/1x1.png"/>
   <meta property="og:image:alt" content="Hot Summer Sale 2026 — технологии за твоето лято"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="USB хъбове и докинг | Hot Summer Sale 2026 | Plasico.bg"/>
-  <meta name="twitter:description" content="USB хъбове и докинг — летни оферти от кампанията Hot Summer Sale 2026 в Plasico.bg"/>
+  <meta name="twitter:title" content="Hot Summer Sale 2026 | Plasico.bg"/>
+  <meta name="twitter:description" content="Hot Summer Sale 2026 — лаптопи, компютри, компоненти и аксесоари с ексклузивни летни цени в Plasico.bg"/>
   <meta name="twitter:image" content="https://plasico.vercel.app/redesign/1x1.png"/>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -1591,10 +1591,12 @@
       color: inherit;
     }
 
-    /* Product card image zone — clean white backdrop for product photos */
-    #product-grid article > .aspect-square,
-    #product-grid article > a.aspect-square {
-      background-color: #ffffff !important;
+    /* Product card image thumb — white backdrop clipped to rounded corners */
+    #product-grid article > .aspect-square {
+      background-color: #ffffff;
+      border-radius: 32px;
+      overflow: hidden;
+      isolation: isolate;
     }
 
     /* Solid opaque badges (override translucent Tailwind utilities on cards) */
@@ -1626,6 +1628,148 @@
       border-color: #8b5cf6 !important;
     }
 
+  
+    .mirror-breadcrumb {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 13px;
+      color: var(--theme-on-surface-variant, #c9c5cc);
+      margin-bottom: 1.5rem;
+    }
+    .mirror-breadcrumb a {
+      color: var(--theme-on-surface-variant, #c9c5cc);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .mirror-breadcrumb a:hover { color: #07a857; }
+    .mirror-breadcrumb__sep { opacity: 0.45; }
+    .mirror-content {
+      color: var(--theme-on-surface, #e5e1e2);
+      line-height: 1.65;
+    }
+    .mirror-content h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.5rem;
+      color: var(--theme-on-surface, #e5e1e2);
+    }
+    .mirror-content h2 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin: 2rem 0 0.75rem;
+      color: var(--theme-on-surface, #e5e1e2);
+    }
+    .mirror-content h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 1.25rem 0 0.5rem;
+      color: var(--theme-on-surface, #e5e1e2);
+    }
+    .mirror-content p { margin: 0 0 1rem; color: var(--theme-on-surface-variant, #c9c5cc); }
+    .mirror-content ul, .mirror-content ol {
+      margin: 0 0 1rem 1.25rem;
+      color: var(--theme-on-surface-variant, #c9c5cc);
+    }
+    .mirror-content li { margin-bottom: 0.35rem; }
+    .mirror-content a {
+      color: #07a857;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .mirror-content a:hover { color: #ffb783; }
+    .mirror-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.12));
+    }
+    .mirror-content .shop,
+    .mirror-content article.shop,
+    .mirror-content section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--theme-border-subtle, rgba(255, 255, 255, 0.08));
+    }
+    .mirror-content .btn,
+    .mirror-content a.btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      background: rgba(7, 168, 87, 0.15);
+      border: 1px solid rgba(7, 168, 87, 0.35);
+      color: #07a857 !important;
+      text-decoration: none !important;
+      font-weight: 600;
+      font-size: 14px;
+      margin-top: 0.5rem;
+    }
+    .mirror-content .btn:hover {
+      background: rgba(7, 168, 87, 0.25);
+      color: #069449 !important;
+    }
+    .mirror-content .media-bl {
+      display: grid;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    @media (min-width: 768px) {
+      .mirror-content .media-bl.flexed {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+    }
+    .mirror-content .acc { color: #c9c5cc; }
+    .mirror-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .mirror-content th, .mirror-content td {
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.12));
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+    .campaign-nav-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 1rem;
+      border-radius: 16px;
+      background: var(--theme-surface-container, rgba(32, 31, 32, 0.85));
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.12));
+    }
+    .campaign-nav-strip a {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      border: 1px solid var(--theme-border, rgba(255, 255, 255, 0.14));
+      color: var(--theme-on-surface-variant, #c9c5cc);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .campaign-nav-strip a:hover,
+    .campaign-nav-strip a.is-active {
+      border-color: rgba(7, 168, 87, 0.5);
+      color: #07a857;
+      background: rgba(7, 168, 87, 0.1);
+    }
+    .content-page-hero {
+      margin-bottom: 2rem;
+      padding: 1.5rem 0 0.5rem;
+      border-bottom: 1px solid var(--theme-border-subtle, rgba(255, 255, 255, 0.08));
+    }
+    .content-page-hero__eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #07a857;
+      margin-bottom: 0.5rem;
+    }
+
   </style>
   <link rel="stylesheet" href="../theme-overrides.css"/>
 </head>
@@ -1638,7 +1782,7 @@
             <span class="material-symbols-outlined text-on-surface text-[22px]">menu</span>
           </button>
           <a href="https://plasico.bg/" class="shrink-0 flex items-center">
-            <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="h-9 sm:h-10 lg:h-11 w-auto"/>
+            <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="site-header-logo h-9 sm:h-10 lg:h-11 w-auto"/>
           </a>
           <form action="https://plasico.bg/tyrsene" method="post" class="header-search-pill flex-1 min-w-0 max-w-2xl mx-auto hidden sm:flex items-center overflow-hidden pl-1 pr-1 py-1">
             <label for="header-search" class="sr-only">Търси продукт</label>
@@ -1801,7 +1945,10 @@
             </div>
           </div>
         </section>
-<section class="py-stack-lg px-container-padding max-w-[1440px] mx-auto">
+    <div class="max-w-[1440px] mx-auto px-container-padding py-8 lg:py-12">
+      <nav class="mirror-breadcrumb" aria-label="Навигация"><a href="../hot-summer-sale-2026.html">Hot Summer Sale 2026</a> <span class="mirror-breadcrumb__sep" aria-hidden="true">›</span> <span>USB хъбове и докинг</span></nav>
+      <div class="campaign-nav-strip" aria-label="Категории от кампанията"><a href="../hot-summer-sale-2026.html">← Кампания</a><a href="../hot-summer-sale-2026.html#laptopi" class="">Лаптопи</a><a href="../hot-summer-sale-2026/computers.html" class="">Компютри</a><a href="../hot-summer-sale-2026/components.html" class="">Компоненти</a><a href="../hot-summer-sale-2026/monitors.html" class="">Монитори, стойки</a><a href="../hot-summer-sale-2026/used.html" class="">Употребявана техника</a><a href="../hot-summer-sale-2026/office-chairs.html" class="">Офис столове и бюра</a><a href="../hot-summer-sale-2026/gchairs.html" class="">Гейминг столове и бюра</a><a href="../hot-summer-sale-2026/audio.html" class="">Слушалки и тонколони</a><a href="../hot-summer-sale-2026/bags.html" class="">Чанти, раници</a><a href="../hot-summer-sale-2026/flash.html" class="">флаш памет</a><a href="../hot-summer-sale-2026/external.html" class="">Външни дискове и SSD</a><a href="../hot-summer-sale-2026/printers.html" class="">Принтери, MFP</a><a href="../hot-summer-sale-2026/accessories.html" class="">Аксесоари</a><a href="../hot-summer-sale-2026/cctv.html" class="">Видеонаблюдение</a><a href="../hot-summer-sale-2026/network.html" class="">Мрежи</a><a href="../hot-summer-sale-2026/hubs.html" class="is-active">USB хъбове и докинг</a><a href="../hot-summer-sale-2026/cables.html" class="">Кабели, зарядни, батерии</a><a href="../hot-summer-sale-2026/ups.html" class="">UPS устройства и защити</a></div>
+      <section class="py-stack-lg px-container-padding max-w-[1440px] mx-auto">
       <h2 class="font-headline-lg text-headline-lg mb-stack-md flex items-center gap-4">
         <span class="w-12 h-[2px] bg-primary"></span>
         Категории
@@ -1897,7 +2044,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="77241" data-price="52.99" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/uh720-vz.jpg">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/usb-30-7-portov-hyb-s-2-porta-za-zarezhdane-tp-link-uh720-cheren-77241.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб TP-Link UH720, 7-портов USB 3.0, Черен" src="https://static.plasico.bg/thumbs/10/uh720-vz.jpg" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб TP-Link UH720, 7-портов USB 3.0, Черен" src="https://static.plasico.bg/thumbs/10/uh720-vz.jpg" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -1929,7 +2076,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="12707428" data-price="12.99" data-discount-percent="7" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/oricotwu34abk031aszl3.jpg">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/4-portov-usb-hyb-orico-cheren-twu3-4a-bk-ep-12707428.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="4-портов USB хъб Orico, Черен | TWU3-4A-BK-EP" src="https://static.plasico.bg/thumbs/10/oricotwu34abk031aszl3.jpg" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="4-портов USB хъб Orico, Черен | TWU3-4A-BK-EP" src="https://static.plasico.bg/thumbs/10/oricotwu34abk031aszl3.jpg" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -1963,7 +2110,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="12738254" data-price="7.99" data-discount-percent="27" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/oricopw4uu301yenp9z.jpg">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/usb-hyb-orico-4-portov-cheren-pw4u-u3-015-bk-ep-12738254.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Orico, 4-портов, USB-А 3.0 Черен | PW4U-U3-015-BK-EP" src="https://static.plasico.bg/thumbs/10/oricopw4uu301yenp9z.jpg" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Orico, 4-портов, USB-А 3.0 Черен | PW4U-U3-015-BK-EP" src="https://static.plasico.bg/thumbs/10/oricopw4uu301yenp9z.jpg" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -1997,7 +2144,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="12738255" data-price="8.99" data-discount-percent="18" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/oricopw4uc301gkmd8l.jpg">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/usb-hyb-orico-hyb-4-portov-usb-c-cheren-pw4u-c3-015-bk-ep-12738255.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Orico, 4-портов, USB-C 3.0, Черен | PW4U-C3-015-BK-EP" src="https://static.plasico.bg/thumbs/10/oricopw4uc301gkmd8l.jpg" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Orico, 4-портов, USB-C 3.0, Черен | PW4U-C3-015-BK-EP" src="https://static.plasico.bg/thumbs/10/oricopw4uc301gkmd8l.jpg" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -2031,7 +2178,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="12742746" data-price="7.99" data-discount-percent="27" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/imageedit877290959563.png">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/usb-hyb-orico-3-portov-2-x-usb-30-1-x-usb-c-cheren-pwc2u-c3-015-bk-ep-12742746.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Orico, 3-портов, USB-C 3.0, Черен | PWC2U-C3-015-BK-EP" src="https://static.plasico.bg/thumbs/10/imageedit877290959563.png" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Orico, 3-портов, USB-C 3.0, Черен | PWC2U-C3-015-BK-EP" src="https://static.plasico.bg/thumbs/10/imageedit877290959563.png" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -2065,7 +2212,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="12820663" data-price="10.99" data-discount-percent="48" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/imageedit292867747956.jpg">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/usb-hyb-baseus-round-box-4-portov-za-kompyutri-i-laptopi-cheren-cahub-g01-12820663.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Baseus Round Box, 4-портов за компютри и лаптопи, Черен | CAHUB-G01" src="https://static.plasico.bg/thumbs/10/imageedit292867747956.jpg" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Baseus Round Box, 4-портов за компютри и лаптопи, Черен | CAHUB-G01" src="https://static.plasico.bg/thumbs/10/imageedit292867747956.jpg" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -2098,7 +2245,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="13015778" data-price="15.99" data-discount-percent="20" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/tplinkua520c1.webp">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/usb-adapter-tp-link-ua520c-usb-type-c-kym-hdmi-13015778.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB Адаптер TP-Link UA520C, USB Type-C към HDMI" src="https://static.plasico.bg/thumbs/10/tplinkua520c1.webp" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB Адаптер TP-Link UA520C, USB Type-C към HDMI" src="https://static.plasico.bg/thumbs/10/tplinkua520c1.webp" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -2132,7 +2279,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="13084569" data-price="71.99" data-discount-percent="54" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/16-in-1-usb-c-docking-station-1.webp">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/doking-stantsiya-qhou-16-in-1-usb-c-hub3x-hdmi-ethernet-100w-pd-35mm-audio-2x-usb-a-usb-c-10gbps-sd-tf-for-mac-pro-air-siv-13084569.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="Професионална Докинг станция Qhou 16 in 1 USB C Hub,3x HDMI, Ethernet, 100W PD, 3.5mm Audio, 2x USB A, USB C 10Gbps, SD/TF for Mac Pro/Air, Сива" src="https://static.plasico.bg/thumbs/10/16-in-1-usb-c-docking-station-1.webp" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="Професионална Докинг станция Qhou 16 in 1 USB C Hub,3x HDMI, Ethernet, 100W PD, 3.5mm Audio, 2x USB A, USB C 10Gbps, SD/TF for Mac Pro/Air, Сива" src="https://static.plasico.bg/thumbs/10/16-in-1-usb-c-docking-station-1.webp" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -2166,7 +2313,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="13120475" data-price="11.99" data-discount-percent="67" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/oberster-usb-c-6in1-hub-with-vga-hdmi-2-usb-30-sd-1.webp">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/doking-stantsiya-oberster-6-in-1-usb-type-c-vga-hdmi-2-usb-30-sd-tf-card-reader-siva-yl-hb101-13120475.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="Докинг станция OBERSTER 6-in-1, USB Type-C, VGA, HDMI, 2 USB 2.0, SD/TF Card Reader, Сива | YL-HB101" src="https://static.plasico.bg/thumbs/10/oberster-usb-c-6in1-hub-with-vga-hdmi-2-usb-30-sd-1.webp" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="Докинг станция OBERSTER 6-in-1, USB Type-C, VGA, HDMI, 2 USB 2.0, SD/TF Card Reader, Сива | YL-HB101" src="https://static.plasico.bg/thumbs/10/oberster-usb-c-6in1-hub-with-vga-hdmi-2-usb-30-sd-1.webp" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -2200,7 +2347,7 @@
 <article data-os="unknown" class="group relative flex flex-col h-full" data-tags="hubs usb-hub" data-id="13175949" data-price="12.99" data-discount-percent="28" data-subcategory="usb-hub" data-image="https://static.plasico.bg/thumbs/10/image-64edadc601f3811zon.webp">
   <div class="aspect-square bg-surface-container squircle intelligent-edge overflow-hidden mb-4 relative block shrink-0">
   <a href="https://plasico.bg/usb-hyb-qoltec-3-in-1-usb-type-c-byal-50426-13175949.html" class="block w-full h-full relative">
-    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Qoltec, 3-in-1, USB Type-C, Бял | 50426" src="https://static.plasico.bg/thumbs/10/image-64edadc601f3811zon.webp" loading="lazy"/>
+    <img class="w-full h-full object-contain p-6 transition-transform duration-500 group-hover:scale-105" alt="USB хъб Qoltec, 3-in-1, USB Type-C, Бял | 50426" src="https://static.plasico.bg/thumbs/10/image-64edadc601f3811zon.webp" loading="lazy" />
     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
@@ -2256,6 +2403,7 @@
         </div>
       </div>
     </section>
+    </div>
   </main>
 <footer class="w-full rounded-t-xl border-t border-edge-light bg-surface-container-lowest shadow-[0_-4px_24px_rgba(0,0,0,0.5)]">
     <!-- Payment methods -->
@@ -2371,42 +2519,11 @@
 <button id="back-to-top" type="button" aria-label="Нагоре" title="Нагоре" class="fixed left-4 bottom-6 z-40 w-11 h-11 rounded-full bg-surface-container-high border border-edge-light text-on-surface shadow-lg flex items-center justify-center opacity-0 pointer-events-none translate-y-2 transition-opacity duration-300 hover:text-apricot hover:border-apricot hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-apricot">
     <span class="material-symbols-outlined text-[22px]" aria-hidden="true">keyboard_arrow_up</span>
   </button>
-<div id="cart-drawer-root" class="cart-drawer-root" hidden aria-hidden="true">
-    <div id="cart-drawer-backdrop" class="cart-drawer-backdrop" aria-hidden="true"></div>
-    <aside id="cart-drawer" class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title" tabindex="-1">
-      <header class="cart-drawer-header">
-        <h2 id="cart-drawer-title" class="cart-drawer-title">Количка<span id="cart-drawer-count" class="cart-drawer-count"></span></h2>
-        <button type="button" id="cart-drawer-close" class="cart-drawer-close" aria-label="Затвори количката">
-          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
-        </button>
-      </header>
-      <div class="cart-drawer-body">
-        <div id="cart-drawer-empty" class="cart-drawer-empty">
-          <span class="material-symbols-outlined text-apricot text-[48px] mb-4" aria-hidden="true">shopping_cart_off</span>
-          <p class="text-on-surface font-semibold mb-2">Количката е празна</p>
-          <p class="text-on-surface-variant text-sm mb-6 max-w-[240px]">Разгледайте летните оферти и добавете продукти с бутона „Купи“.</p>
-          <a href="#catalog" id="cart-drawer-browse" class="cart-drawer-cta cart-drawer-cta--primary">Разгледай продуктите</a>
-        </div>
-        <ul id="cart-drawer-items" class="cart-drawer-items list-none m-0 p-0" hidden></ul>
-      </div>
-      <footer class="cart-drawer-footer">
-        <div class="cart-drawer-subtotal">
-          <span>Междинна сума</span>
-          <strong id="cart-drawer-subtotal">0.00 €</strong>
-        </div>
-        <div class="cart-drawer-actions">
-          <a href="https://plasico.bg/поръчка" id="cart-drawer-checkout" class="cart-drawer-cta cart-drawer-cta--primary">Към количката</a>
-          <button type="button" id="cart-drawer-continue" class="cart-drawer-cta cart-drawer-cta--secondary">Продължи пазаруването</button>
-        </div>
-      </footer>
-    </aside>
-  </div>
   <script>
     window.CATALOG_PAGE = {"mode": "category", "categoryId": "hubs", "categoryName": "USB хъбове и докинг", "sectionId": "catalog", "subcategoryIds": ["usb-hub"], "subcategories": [{"name": "USB Hub", "anchorId": "usb-hub", "productCount": 10}]};
   </script>
   <script src="../catalog-filters.js"></script>
   <script src="../campaign-category-nav.js"></script>
-  <script src="../cart-drawer.js"></script>
 <script src="../theme-switch.js"></script>
   <script>
 

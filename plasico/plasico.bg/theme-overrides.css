@@ -507,8 +507,23 @@ body {
   border-color: var(--theme-border);
 }
 
+[data-theme="light"] #site-header .site-header-logo {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(1352%) hue-rotate(115deg) brightness(95%) contrast(96%);
+}
+
 [data-theme="light"] #product-grid article.group {
-  background-color: var(--theme-surface-container) !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+[data-theme="light"] #product-grid article > .aspect-square {
+  background-color: #ffffff !important;
+  border-radius: 32px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+[data-theme="light"] #product-grid article > .aspect-square.intelligent-edge {
   border-color: var(--theme-border) !important;
 }
 
