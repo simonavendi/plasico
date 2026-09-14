@@ -412,6 +412,80 @@ body {
   border-color: var(--theme-border);
 }
 
+.product-card-actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  bottom: auto;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.product-card-actions .product-fav-btn,
+.product-card-actions .product-add-btn {
+  position: static;
+  pointer-events: auto;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.product-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(7, 168, 87, 0.92);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+
+.product-add-btn:hover {
+  background: #069449;
+  border-color: rgba(7, 168, 87, 0.65);
+}
+
+.product-add-btn:focus-visible,
+.product-fav-btn:focus-visible {
+  outline: 2px solid #07a857;
+  outline-offset: 2px;
+}
+
+.product-add-btn .material-symbols-outlined {
+  font-size: 22px;
+  line-height: 1;
+  font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+}
+
+.group:hover .product-card-actions .product-fav-btn,
+.group:hover .product-card-actions .product-add-btn,
+.product-card-actions .product-fav-btn.is-favorited,
+.product-card-actions .product-fav-btn:focus-visible,
+.product-card-actions .product-add-btn:focus-visible,
+.product-card-actions .product-fav-btn,
+.product-card-actions .product-add-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Discount badges: top-left; stack under UPGRADED when both present */
+#product-grid .discount-badge {
+  top: 1rem !important;
+  left: 1rem !important;
+  right: auto !important;
+}
+
+#product-grid .aspect-square:has(.upgraded-badge) .discount-badge {
+  top: 3.35rem !important;
+}
+
 [data-theme="light"] .product-fav-btn {
   border-color: var(--theme-border);
   background: rgba(255, 255, 255, 0.92);
@@ -420,6 +494,16 @@ body {
 
 [data-theme="light"] .product-fav-btn:hover {
   background: var(--theme-surface-container);
+}
+
+[data-theme="light"] .product-add-btn {
+  border-color: rgba(7, 168, 87, 0.35);
+  background: #07a857;
+  color: #fff;
+}
+
+[data-theme="light"] .product-add-btn:hover {
+  background: #069449;
 }
 
 [data-theme="light"] .site-footer-link {

@@ -1263,10 +1263,20 @@
     body.cart-drawer-open {
       overflow: hidden;
     }
-    .product-fav-btn {
+    .product-card-actions {
       position: absolute;
-      bottom: 1rem;
+      top: 1rem;
       right: 1rem;
+      bottom: auto;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+    .product-fav-btn,
+    .product-add-btn {
+      position: static;
       z-index: 20;
       display: flex;
       align-items: center;
@@ -1275,18 +1285,28 @@
       height: 2.5rem;
       border-radius: 9999px;
       border: 1px solid rgba(255, 255, 255, 0.18);
-      background: rgba(20, 19, 20, 0.72);
-      color: #e5e1e2;
       cursor: pointer;
-      opacity: 0;
-      transform: scale(0.92);
+      opacity: 1;
+      transform: scale(1);
       transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      pointer-events: auto;
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
     }
+    .product-fav-btn {
+      background: rgba(20, 19, 20, 0.72);
+      color: #e5e1e2;
+    }
+    .product-add-btn {
+      background: rgba(7, 168, 87, 0.92);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+    }
     .group:hover .product-fav-btn,
+    .group:hover .product-add-btn,
     .product-fav-btn.is-favorited,
-    .product-fav-btn:focus-visible {
+    .product-fav-btn:focus-visible,
+    .product-add-btn:focus-visible {
       opacity: 1;
       transform: scale(1);
     }
@@ -1295,10 +1315,18 @@
       border-color: rgba(7, 168, 87, 0.45);
       color: #07a857;
     }
-    .product-fav-btn .material-symbols-outlined {
+    .product-add-btn:hover {
+      background: #069449;
+      border-color: rgba(7, 168, 87, 0.65);
+    }
+    .product-fav-btn .material-symbols-outlined,
+    .product-add-btn .material-symbols-outlined {
       font-size: 22px;
       line-height: 1;
       transition: color 0.2s ease;
+    }
+    .product-add-btn .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
     }
     .product-fav-btn.is-favorited {
       border-color: rgba(7, 168, 87, 0.5);
@@ -1601,6 +1629,9 @@
 
     /* Solid opaque badges (override translucent Tailwind utilities on cards) */
     #product-grid .discount-badge {
+      top: 1rem !important;
+      left: 1rem !important;
+      right: auto !important;
       background: linear-gradient(135deg, #FB923C 0%, #F97316 100%) !important;
       color: #ffffff !important;
       border-color: #EA580C !important;
@@ -1609,6 +1640,9 @@
       z-index: 10;
       text-decoration: none;
       transition: transform 0.2s ease, filter 0.2s ease;
+    }
+    #product-grid .aspect-square:has(.upgraded-badge) .discount-badge {
+      top: 3.35rem !important;
     }
     #product-grid .discount-badge:hover {
       transform: scale(1.05);
@@ -1639,7 +1673,7 @@
           <button type="button" id="categories-toggle" class="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full border border-edge-light bg-surface-container-high hover:bg-white/5 transition-colors" aria-expanded="false" aria-controls="categories-panel" title="Меню" aria-label="Меню">
             <span class="material-symbols-outlined text-on-surface text-[22px]">menu</span>
           </button>
-          <a href="https://plasico.bg/" class="shrink-0 flex items-center">
+          <a href="index.html" class="shrink-0 flex items-center" title="Начало" aria-label="Начало">
             <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="site-header-logo h-9 sm:h-10 lg:h-11 w-auto"/>
           </a>
           <form action="https://plasico.bg/tyrsene" method="post" class="header-search-pill flex-1 min-w-0 max-w-2xl mx-auto hidden sm:flex items-center overflow-hidden pl-1 pr-1 py-1">
@@ -1692,7 +1726,7 @@
           <nav class="panel-utility-nav" aria-label="Бързи връзки">
             <div class="header-cat-mega-grid panel-utility-mega-grid">
               <div class="header-cat-mega-cell">
-                <a href="https://plasico.bg/" class="header-cat-mega-parent header-utility-home" aria-label="Начало">
+                <a href="index.html" class="header-cat-mega-parent header-utility-home" aria-label="Начало">
                   <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">home</span></span>
                   <span class="header-cat-mega-parent__label">Начало</span>
                 </a>
@@ -1924,7 +1958,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-38%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-38%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -1959,7 +1993,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-31%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-31%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -1993,7 +2027,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-27%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-27%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2028,7 +2062,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-17%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-17%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2062,7 +2096,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-4%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-4%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2096,7 +2130,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2130,7 +2164,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-23%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-23%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2164,7 +2198,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2198,7 +2232,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2233,7 +2267,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2268,7 +2302,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2302,7 +2336,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-20%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-20%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2337,7 +2371,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-2%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-2%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2372,7 +2406,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2407,7 +2441,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2442,7 +2476,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2477,7 +2511,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-25%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-25%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2512,7 +2546,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-22%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-22%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2547,7 +2581,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2582,7 +2616,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2617,7 +2651,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2652,7 +2686,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2687,7 +2721,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2722,7 +2756,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2757,7 +2791,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2792,7 +2826,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2827,7 +2861,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2861,7 +2895,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2896,7 +2930,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2931,7 +2965,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -2966,7 +3000,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3001,7 +3035,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-29%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-29%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3035,7 +3069,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-10%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-10%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3070,7 +3104,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3105,7 +3139,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3140,7 +3174,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3175,7 +3209,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-18%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-18%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3210,7 +3244,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3245,7 +3279,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3280,7 +3314,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3314,7 +3348,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3349,7 +3383,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3383,7 +3417,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3418,7 +3452,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-3%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-3%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3453,7 +3487,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-3%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-3%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3488,7 +3522,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-19%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-19%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3523,7 +3557,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3558,7 +3592,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3593,7 +3627,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3660,7 +3694,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3695,7 +3729,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3730,7 +3764,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3765,7 +3799,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3800,7 +3834,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3868,7 +3902,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3903,7 +3937,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3937,7 +3971,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-3%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-3%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -3972,7 +4006,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-19%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-19%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4007,7 +4041,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4041,7 +4075,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4076,7 +4110,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-10%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-10%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4111,7 +4145,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4145,7 +4179,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4180,7 +4214,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4215,7 +4249,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4283,7 +4317,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4318,7 +4352,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4353,7 +4387,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4387,7 +4421,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-36%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-36%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4422,7 +4456,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4457,7 +4491,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4491,7 +4525,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4526,7 +4560,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-19%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-19%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4561,7 +4595,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4596,7 +4630,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4631,7 +4665,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4666,7 +4700,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-20%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-20%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4701,7 +4735,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4736,7 +4770,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-17%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-17%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4771,7 +4805,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4806,7 +4840,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4841,7 +4875,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-4%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-4%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4876,7 +4910,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4911,7 +4945,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4946,7 +4980,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -4981,7 +5015,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5016,7 +5050,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-29%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-29%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5051,7 +5085,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-21%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-21%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5086,7 +5120,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5121,7 +5155,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5156,7 +5190,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5191,7 +5225,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-21%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-21%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5226,7 +5260,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5261,7 +5295,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5296,7 +5330,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5331,7 +5365,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5366,7 +5400,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5401,7 +5435,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5436,7 +5470,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-15%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5470,7 +5504,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-4%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-4%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5505,7 +5539,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-18%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-18%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5540,7 +5574,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5575,7 +5609,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-27%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-27%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5610,7 +5644,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5645,7 +5679,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-8%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5680,7 +5714,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-4%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-4%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5748,7 +5782,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5783,7 +5817,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5818,7 +5852,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5853,7 +5887,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5888,7 +5922,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-3%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-3%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5923,7 +5957,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5958,7 +5992,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -5993,7 +6027,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-12%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6028,7 +6062,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-20%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-20%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6063,7 +6097,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6097,7 +6131,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6132,7 +6166,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6200,7 +6234,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6235,7 +6269,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-5%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6270,7 +6304,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-14%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6338,7 +6372,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">ПРОМО</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6372,7 +6406,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-7%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6440,7 +6474,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-22%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-22%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6475,7 +6509,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-21%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-21%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6510,7 +6544,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-18%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-18%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6545,7 +6579,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-24%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-24%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6579,7 +6613,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6613,7 +6647,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-18%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-18%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6647,7 +6681,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-22%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-22%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6681,7 +6715,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-25%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-25%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6715,7 +6749,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-16%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6749,7 +6783,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6783,7 +6817,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6817,7 +6851,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-30%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/20 text-promo border-promo/30 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-30%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6851,7 +6885,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6885,7 +6919,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-10%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-10%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6919,7 +6953,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-11%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6953,7 +6987,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-13%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -6987,7 +7021,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-9%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -7021,7 +7055,7 @@
       <span class="px-6 py-3 bg-white text-surface font-bold rounded-full text-body-sm">Виж продукта</span>
     </div>
   </a>
-    <a href="#laptopi" class="discount-badge absolute top-4 right-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
+    <a href="#laptopi" class="discount-badge absolute top-4 left-4 px-3 py-1 bg-promo/10 text-promo border-promo/20 border rounded-full text-technical-sm font-bold cursor-pointer transition-transform duration-200 hover:scale-105 hover:brightness-110 z-10" aria-label="Виж разпродажата">-6%</a>
 </div>
   <div class="flex flex-col flex-1 min-h-0">
     <h4 class="font-headline-md text-headline-md font-bold leading-tight line-clamp-2 min-h-[3.25rem]">
@@ -7182,7 +7216,7 @@
     <div class="border-t border-edge-light py-6">
       <div class="max-w-7xl mx-auto px-container-padding flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
         <p class="font-body-sm text-on-surface-variant">
-          © 2026 <a href="hot-summer-sale-2026.html" class="text-on-surface hover:text-apricot transition-colors">Plasico.bg</a>. Всички права запазени.
+          © 2026 <a href="index.html" class="text-on-surface hover:text-apricot transition-colors">Plasico.bg</a>. Всички права запазени.
         </p>
         <a href="https://feurona.com" target="_blank" rel="noopener noreferrer" class="font-body-sm text-on-surface-variant hover:text-apricot transition-colors">Редизайн на feurona</a>
       </div>
@@ -7217,7 +7251,7 @@
           <strong id="cart-drawer-subtotal">0.00 €</strong>
         </div>
         <div class="cart-drawer-actions">
-          <a href="https://plasico.bg/поръчка" id="cart-drawer-checkout" class="cart-drawer-cta cart-drawer-cta--primary">Към количката</a>
+          <a href="poruchka.html" id="cart-drawer-checkout" class="cart-drawer-cta cart-drawer-cta--primary">Към количката</a>
           <button type="button" id="cart-drawer-continue" class="cart-drawer-cta cart-drawer-cta--secondary">Продължи пазаруването</button>
         </div>
       </footer>
@@ -7226,6 +7260,7 @@
 
   <script src="theme-switch.js"></script>
   <script src="cart-drawer.js"></script>
+  <script src="product-card-actions.js"></script>
   <script>
     window.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {

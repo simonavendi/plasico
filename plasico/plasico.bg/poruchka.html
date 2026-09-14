@@ -12,19 +12,19 @@
   </script>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Магазини Plasico в България</title>
-  <meta name="description" content="Магазини Plasico в България"/>
+  <title>Вашата поръчка | Plasico.bg</title>
+  <meta name="description" content="Вашата поръчка — количка и checkout mockup в новия Plasico редизайн"/>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E" type="image/svg+xml"/>
   <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E" type="image/svg+xml"/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Plasico.bg"/>
-  <meta property="og:title" content="Hot Summer Sale 2026 | Plasico.bg"/>
+  <meta property="og:title" content="Вашата поръчка | Plasico.bg"/>
   <meta property="og:description" content="Hot Summer Sale 2026 — лаптопи, компютри, компоненти и аксесоари с ексклузивни летни цени в Plasico.bg"/>
   <meta property="og:url" content="https://plasico.vercel.app/hot-summer-sale-2026.html"/>
   <meta property="og:image" content="https://plasico.vercel.app/redesign/1x1.png"/>
   <meta property="og:image:alt" content="Hot Summer Sale 2026 — технологии за твоето лято"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Hot Summer Sale 2026 | Plasico.bg"/>
+  <meta name="twitter:title" content="Вашата поръчка | Plasico.bg"/>
   <meta name="twitter:description" content="Hot Summer Sale 2026 — лаптопи, компютри, компоненти и аксесоари с ексклузивни летни цени в Plasico.bg"/>
   <meta name="twitter:image" content="https://plasico.vercel.app/redesign/1x1.png"/>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -1771,6 +1771,7 @@
     }
 
   </style>
+  <link rel="stylesheet" href="checkout-mock.css"/>
   <link rel="stylesheet" href="theme-overrides.css"/>
 </head>
 <body class="font-body-md selection:bg-apricot/30 custom-scrollbar" data-category-map="category-map.json">
@@ -1781,7 +1782,7 @@
           <button type="button" id="categories-toggle" class="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full border border-edge-light bg-surface-container-high hover:bg-white/5 transition-colors" aria-expanded="false" aria-controls="categories-panel" title="Меню" aria-label="Меню">
             <span class="material-symbols-outlined text-on-surface text-[22px]">menu</span>
           </button>
-          <a href="index.html" class="shrink-0 flex items-center" title="Начало" aria-label="Начало">
+          <a href="index.html" class="shrink-0 flex items-center" title="Към началната страница" aria-label="Към началната страница">
             <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="site-header-logo h-9 sm:h-10 lg:h-11 w-auto"/>
           </a>
           <form action="https://plasico.bg/tyrsene" method="post" class="header-search-pill flex-1 min-w-0 max-w-2xl mx-auto hidden sm:flex items-center overflow-hidden pl-1 pr-1 py-1">
@@ -1897,64 +1898,457 @@
   </header>
 
   <main class="pt-[var(--site-header-offset)]">
+    <div class="max-w-[1100px] mx-auto px-container-padding py-6 lg:py-10 checkout-mock" id="checkout" data-checkout-mode="gate">
+      <nav class="mb-5 text-sm text-on-surface-variant" aria-label="Навигация">
+        <a href="index.html" class="hover:text-apricot transition-colors">Начало</a>
+        <span class="mx-2 opacity-50" aria-hidden="true">›</span>
+        <span class="text-on-surface">Количка</span>
+      </nav>
 
-    <div class="max-w-[1440px] mx-auto px-container-padding py-8 lg:py-12">
-      <nav class="mirror-breadcrumb" aria-label="Навигация"><a href="index.html">Начало</a> <span class="mirror-breadcrumb__sep" aria-hidden="true">›</span> <span>Магазини Plasico в България</span></nav>
-      
-      <article class="mirror-content">
-        <div class="max-w-[1440px] mx-auto px-container-padding py-8 lg:py-12">
-      <nav class="mirror-breadcrumb" aria-label="Навигация"><a href="index.html">Начало</a> <span class="mirror-breadcrumb__sep" aria-hidden="true">›</span> <span>Магазини Plasico в България</span></nav>
-      
-      <article class="mirror-content">
-        <div class="max-w-[1440px] mx-auto px-container-padding py-8 lg:py-12">
-      <nav class="mirror-breadcrumb" aria-label="Навигация"><a href="index.html">Начало</a> <span class="mirror-breadcrumb__sep" aria-hidden="true">›</span> <span>Магазини</span></nav>
-      
-      <article class="mirror-content">
-        <div class="orn">
-                <div id="category" class="pw cl">
-                    <h1>Магазини</h1>
-                        <div id="shops">
-        <div class="pw cl">
-                            <section>
-                    <h2>Варна</h2>
-                    <article class="cl shop">
-            <h3 class="sprp">
-                <a href="magazini/magazin-varna.html">
-                    
-                    <span>Магазин</span> Plasico IT Superstore Варна
+      <header class="checkout-page-head mb-6">
+        <h1 class="font-headline-lg text-2xl sm:text-3xl font-bold text-on-surface">Количка</h1>
+        <a href="hot-summer-sale-2026.html#laptopi" class="checkout-link-muted">Продължи пазаруването</a>
+      </header>
+
+      <div class="checkout-layout">
+        <div class="checkout-layout__main">
+          <!-- CART ITEMS -->
+          <section id="checkout-cart" class="checkout-block" aria-labelledby="cart-heading">
+            <h2 id="cart-heading" class="sr-only">Продукти в количката</h2>
+            <ul class="cart-cards" role="list">
+              <li class="cart-card" data-cart-id="13138817" data-unit="460.98" data-name="UPGRADED HP 250R G10">
+                <a href="https://plasico.bg/hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
+                  <img src="https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp" alt="UPGRADED HP 250R G10" width="84" height="84" loading="lazy" class="cart-card__image"/>
                 </a>
-            </h3>
-            <span class="fl">
-                <a href="magazini/magazin-varna.html" class="cimg"><img width="188" height="125" src="https://static.plasico.bg/thumbs/10/308641186319281745424997995n.jpg" loading="lazy" alt="Магазин за лаптопи и компютри  Варна" /></a>
-                <a href="magazini/magazin-varna.html#google-map" class="sprp pnt">Виж на картата</a>
-            </span>
-            <div class="acc">Магазин за компютри и лаптопи Варна, улица „Радост“ 8, Телефон: +359 52 812 991<a class="btn" href="magazini/magazin-varna.html">Виж повече</a></div>
-        </article>                </section>
-                                <section>
-                    <h2>София</h2>
-                    <article class="cl shop">
-            <h3 class="sprp">
-                <a href="magazini/magazin-sofiya.html">
-                    
-                    <span>Магазин</span> Plasico IT Superstore София
-                </a>
-            </h3>
-            <span class="fl">
-                <a href="magazini/magazin-sofiya.html" class="cimg"><img width="188" height="125" src="https://static.plasico.bg/thumbs/10/dscf1051.jpg" loading="lazy" alt="Магазин за лаптопи и компютри София" /></a>
-                <a href="magazini/magazin-sofiya.html#google-map" class="sprp pnt">Виж на картата</a>
-            </span>
-            <div class="acc">Магазин за компютри и лаптопи  София, Младост 2 Блок 261В (бул. Андрей Ляпчев), Телефон: +359 2 445 0808<a class="btn" href="magazini/magazin-sofiya.html">Виж повече</a></div>
-        </article>                </section>
-                        </div>
-    </div>
+                <div class="cart-card__content">
+                  <a href="https://plasico.bg/hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html" class="cart-card__title">
+                    UPGRADED HP 250R G10, 15.6&quot; FHD IPS, Intel Core 3 100U, 16 GB, 512GB SSD, Turbo silver | B9YN1ET
+                  </a>
+                  <p class="cart-card__price"><strong class="js-line-total">460.98 €</strong></p>
+                  <div class="cart-card__row">
+                    <div class="qty-control" role="group" aria-label="Количество">
+                      <button type="button" class="qty-control__btn" data-qty-delta="-1" aria-label="Намали количество">
+                        <span class="material-symbols-outlined" aria-hidden="true">remove</span>
+                      </button>
+                      <span class="qty-control__value" aria-live="polite">1</span>
+                      <button type="button" class="qty-control__btn" data-qty-delta="1" aria-label="Увеличи количество">
+                        <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                      </button>
                     </div>
+                    <button type="button" class="cart-card__remove" data-remove aria-label="Премахни продукта">
+                      <span class="material-symbols-outlined" aria-hidden="true">delete</span>
+                      <span>Премахни</span>
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li class="cart-card" data-cart-id="13128355" data-unit="609.99" data-name="UPGRADED HP 15-fc0014nu">
+                <a href="https://plasico.bg/hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
+                  <img src="https://static.plasico.bg/thumbs/10/251124151840hp-15-fc0013nu-1.webp" alt="UPGRADED HP 15-fc0014nu" width="84" height="84" loading="lazy" class="cart-card__image"/>
+                </a>
+                <div class="cart-card__content">
+                  <a href="https://plasico.bg/hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html" class="cart-card__title">
+                    UPGRADED HP 15-fc0014nu, 15.6&quot; FHD, AMD Ryzen 5 5625U, 32 GB, 512GB SSD, Chalkboard Gray | BM0S9EA
+                  </a>
+                  <p class="cart-card__price"><strong class="js-line-total">609.99 €</strong></p>
+                  <div class="cart-card__row">
+                    <div class="qty-control" role="group" aria-label="Количество">
+                      <button type="button" class="qty-control__btn" data-qty-delta="-1" aria-label="Намали количество">
+                        <span class="material-symbols-outlined" aria-hidden="true">remove</span>
+                      </button>
+                      <span class="qty-control__value" aria-live="polite">1</span>
+                      <button type="button" class="qty-control__btn" data-qty-delta="1" aria-label="Увеличи количество">
+                        <span class="material-symbols-outlined" aria-hidden="true">add</span>
+                      </button>
+                    </div>
+                    <button type="button" class="cart-card__remove" data-remove aria-label="Премахни продукта">
+                      <span class="material-symbols-outlined" aria-hidden="true">delete</span>
+                      <span>Премахни</span>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="promo-disclosure mt-4">
+              <button type="button" class="promo-disclosure__toggle" id="promo-toggle" aria-expanded="false" aria-controls="promo-panel">
+                Имаш промо код?
+                <span class="promo-disclosure__plus" aria-hidden="true">+</span>
+              </button>
+              <form class="promo-disclosure__panel" id="promo-panel" hidden action="#" method="post" onsubmit="return false;">
+                <label for="promo-code" class="sr-only">Промо код</label>
+                <div class="promo-disclosure__fields">
+                  <input id="promo-code" name="code" type="text" class="checkout-input" placeholder="Въведи промо код" autocomplete="off"/>
+                  <button type="submit" class="checkout-btn checkout-btn--ghost" id="promo-apply">Приложи</button>
+                </div>
+                <p class="promo-disclosure__msg" id="promo-msg" hidden></p>
+              </form>
             </div>
-      </article>
+          </section>
+
+          <!-- MOBILE COMPACT SUMMARY -->
+          <details class="order-summary-compact lg:hidden" id="order-summary-compact">
+            <summary class="order-summary-compact__summary">
+              <span>
+                <span class="order-summary-compact__label">Вашата поръчка</span>
+                <span class="order-summary-compact__meta"><span class="js-item-count">2</span> продукта · <span class="js-summary-total">1074.54 €</span></span>
+              </span>
+              <span class="material-symbols-outlined order-summary-compact__chevron" aria-hidden="true">expand_more</span>
+            </summary>
+            <div class="order-summary-compact__body">
+              <div class="summary-row js-summary-lines">
+                <span>UPGRADED HP 250R G10 × <span class="js-qty-label">1</span></span>
+                <span>460.98 €</span>
+              </div>
+              <div class="summary-row">
+                <span>UPGRADED HP 15-fc0014nu × 1</span>
+                <span>609.99 €</span>
+              </div>
+              <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping">3.57 €</span></div>
+              <div class="summary-row summary-row--total"><span>Общо с ДДС</span><strong class="js-summary-total">1074.54 €</strong></div>
+            </div>
+          </details>
+
+          <!-- PROGRESS -->
+          <ol class="checkout-progress" id="checkout-progress" aria-label="Прогрес на поръчката">
+            <li class="checkout-progress__item is-current" data-step-indicator="1"><span class="checkout-progress__dot" aria-hidden="true"></span>Данни</li>
+            <li class="checkout-progress__item" data-step-indicator="2"><span class="checkout-progress__dot" aria-hidden="true"></span>Доставка</li>
+            <li class="checkout-progress__item" data-step-indicator="3"><span class="checkout-progress__dot" aria-hidden="true"></span>Плащане</li>
+          </ol>
+
+          <!-- GATE: guest primary -->
+          <section class="checkout-gate checkout-block" id="checkout-gate" data-panel="gate">
+            <h2 class="checkout-block__title">Как искаш да поръчаш?</h2>
+            <p class="checkout-block__lead">Една ясна стъпка напред — без излишни опции в началото.</p>
+
+            <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl w-full" id="btn-guest-primary" data-start-guest>
+              Продължи като гост
+            </button>
+
+            <button type="button" class="checkout-btn checkout-btn--text w-full mt-3" id="btn-account-secondary" data-open-account>
+              Регистрация
+            </button>
+
+            <div class="checkout-alt-links" id="checkout-alt-links">
+              <button type="button" class="checkout-text-link" data-start-fast>Бърза поръчка</button>
+              <span aria-hidden="true">·</span>
+              <button type="button" class="checkout-text-link" data-start-reserve>Резервирай в магазин</button>
+            </div>
+
+            <!-- Account path (secondary, progressive) -->
+            <div class="account-panel" id="account-panel" hidden>
+              <h3 class="checkout-subhead">Имам регистрация</h3>
+              <div class="field-stack mt-4">
+                <div class="field">
+                  <label for="login-email">Ел. поща</label>
+                  <input id="login-email" name="logged_email" type="email" class="checkout-input" autocomplete="username"/>
+                </div>
+                <div class="field">
+                  <label for="login-pass">Парола</label>
+                  <input id="login-pass" name="password" type="password" class="checkout-input" autocomplete="current-password"/>
+                </div>
+                <button type="button" class="checkout-btn checkout-btn--primary w-full">Вход</button>
+              </div>
+              <div class="oauth-stack mt-4">
+                <button type="button" class="oauth-btn">Продължи с Facebook</button>
+                <button type="button" class="oauth-btn">Продължи с Google</button>
+              </div>
+              <button type="button" class="checkout-text-link mt-4" data-close-account>← Назад</button>
+            </div>
+
+            <!-- Hidden radios for mode compatibility -->
+            <div class="sr-only" id="checkout-type" aria-hidden="true">
+              <input type="radio" name="type" value="1" checked/>
+              <input type="radio" name="type" value="2"/>
+              <input type="radio" name="type" value="3"/>
+              <input type="radio" name="type" value="4"/>
+            </div>
+          </section>
+
+          <!-- STEP 1: ДАННИ -->
+          <section class="checkout-step checkout-block" id="step-data" data-step="1" hidden>
+            <button type="button" class="step-summary" data-edit-step="1" hidden>
+              <span class="step-summary__check material-symbols-outlined" aria-hidden="true">check_circle</span>
+              <span class="step-summary__copy">
+                <span class="step-summary__title">Данни</span>
+                <span class="step-summary__meta js-summary-data">—</span>
+              </span>
+              <span class="step-summary__edit">Редактирай</span>
+            </button>
+
+            <div class="step-body" data-step-body="1">
+              <h2 class="checkout-block__title">1. Данни</h2>
+              <p class="checkout-block__lead">Само необходимото, за да продължим.</p>
+              <div class="field-stack">
+                <div class="field">
+                  <label for="field-name">Име *</label>
+                  <input id="field-name" name="name" type="text" class="checkout-input" autocomplete="name" required placeholder="Иван Иванов"/>
+                </div>
+                <div class="field">
+                  <label for="field-phone">Телефон *</label>
+                  <input id="field-phone" name="address_phone" type="tel" class="checkout-input telephone" autocomplete="tel" required placeholder="08xxxxxxxx"/>
+                </div>
+                <div class="field">
+                  <label for="field-email">Email *</label>
+                  <input id="field-email" name="email" type="email" class="checkout-input" autocomplete="email" required placeholder="name@email.com"/>
+                </div>
+              </div>
+              <p class="field-error" id="step1-error" hidden>Попълни име, телефон и email.</p>
+              <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl w-full mt-5 desktop-step-cta" data-goto-step="2">
+                Продължи към доставка →
+              </button>
+            </div>
+          </section>
+
+          <!-- STEP 2: ДОСТАВКА -->
+          <section class="checkout-step checkout-block" id="step-delivery" data-step="2" hidden>
+            <button type="button" class="step-summary" data-edit-step="2" hidden>
+              <span class="step-summary__check material-symbols-outlined" aria-hidden="true">check_circle</span>
+              <span class="step-summary__copy">
+                <span class="step-summary__title">Доставка</span>
+                <span class="step-summary__meta js-summary-delivery">—</span>
+              </span>
+              <span class="step-summary__edit">Редактирай</span>
+            </button>
+
+            <div class="step-body" data-step-body="2" hidden>
+              <h2 class="checkout-block__title">2. Доставка</h2>
+
+              <fieldset class="ship-to-fieldset">
+                <legend class="checkout-subhead">Как да получиш поръчката?</legend>
+                <div class="segmented" role="radiogroup" aria-label="Начин на получаване">
+                  <label class="segmented__option">
+                    <input type="radio" name="ship_to_id[2]" value="1" checked/>
+                    <span>До адрес</span>
+                  </label>
+                  <label class="segmented__option">
+                    <input type="radio" name="ship_to_id[2]" value="2"/>
+                    <span>До офис</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <div class="field-stack mt-5" data-ship-panel="address">
+                <div class="field">
+                  <label for="field-city">Град</label>
+                  <div class="search-field" data-searchable="city">
+                    <span class="material-symbols-outlined search-field__icon" aria-hidden="true">search</span>
+                    <input id="field-city" name="address_city[2]" type="text" class="checkout-input search-field__input" placeholder="Въведете град" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="city-results"/>
+                    <ul class="search-field__results" id="city-results" role="listbox" hidden></ul>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="field-address">Адрес</label>
+                  <textarea id="field-address" name="address_address[2]" class="checkout-input min-h-[96px]" placeholder="Квартал, улица, номер..."></textarea>
+                </div>
+                <div class="field">
+                  <label for="field-address-person">Получател</label>
+                  <input id="field-address-person" name="address_person" type="text" class="checkout-input" placeholder="Име на получателя"/>
+                </div>
+              </div>
+
+              <div class="field-stack mt-5" data-ship-panel="office" hidden>
+                <div class="field">
+                  <label for="field-office-city">Град</label>
+                  <div class="search-field" data-searchable="city">
+                    <span class="material-symbols-outlined search-field__icon" aria-hidden="true">search</span>
+                    <input id="field-office-city" type="text" class="checkout-input search-field__input" placeholder="Въведете град" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="office-city-results"/>
+                    <ul class="search-field__results" id="office-city-results" role="listbox" hidden></ul>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="field-office">Офис</label>
+                  <div class="search-field" data-searchable="office">
+                    <span class="material-symbols-outlined search-field__icon" aria-hidden="true">search</span>
+                    <input id="field-office-search" type="text" class="checkout-input search-field__input" placeholder="Изберете офис" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="office-results"/>
+                    <input type="hidden" id="field-office" name="courier_address[2]" value="0"/>
+                    <ul class="search-field__results" id="office-results" role="listbox" hidden></ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6">
+                <h3 class="checkout-subhead mb-3">Куриер</h3>
+                <div class="option-stack" role="radiogroup" aria-label="Куриер">
+                  <label class="option-row">
+                    <input type="radio" name="courier_id" value="2" data-shipping="3.57" data-label="Спиди" checked/>
+                    <span class="option-row__body">
+                      <span class="option-row__title">Спиди <em class="option-row__badge">Препоръчан</em></span>
+                      <span class="option-row__price">3.57 €</span>
+                    </span>
+                  </label>
+                  <label class="option-row">
+                    <input type="radio" name="courier_id" value="1" data-shipping="4.60" data-label="Еконт"/>
+                    <span class="option-row__body">
+                      <span class="option-row__title">Еконт <span class="option-row__hint">до офис</span></span>
+                      <span class="option-row__price">4.60 €</span>
+                    </span>
+                  </label>
+                  <label class="option-row">
+                    <input type="radio" name="courier_id" value="4" data-shipping="3.57" data-label="Транспрес"/>
+                    <span class="option-row__body">
+                      <span class="option-row__title">Транспрес</span>
+                      <span class="option-row__price">3.57 €</span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <input type="hidden" name="country_id" value="33"/>
+              <p class="field-error" id="step2-error" hidden>Избери град и адрес или офис.</p>
+              <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl w-full mt-5 desktop-step-cta" data-goto-step="3">
+                Продължи към плащане →
+              </button>
+            </div>
+          </section>
+
+          <!-- STEP 3: ПЛАЩАНЕ -->
+          <section class="checkout-step checkout-block" id="step-payment" data-step="3" hidden>
+            <button type="button" class="step-summary" data-edit-step="3" hidden>
+              <span class="step-summary__check material-symbols-outlined" aria-hidden="true">check_circle</span>
+              <span class="step-summary__copy">
+                <span class="step-summary__title">Плащане</span>
+                <span class="step-summary__meta js-summary-payment">—</span>
+              </span>
+              <span class="step-summary__edit">Редактирай</span>
+            </button>
+
+            <div class="step-body" data-step-body="3" hidden>
+              <h2 class="checkout-block__title">3. Плащане</h2>
+
+              <div class="option-stack" id="checkout-payments" role="radiogroup" aria-label="Метод на плащане">
+                <label class="option-row">
+                  <input type="radio" name="payment_id" value="1" data-label="Наложен платеж" checked/>
+                  <span class="option-row__body"><span class="option-row__title">Наложен платеж</span></span>
+                </label>
+                <label class="option-row">
+                  <input type="radio" name="payment_id" value="7" data-label="Банков превод"/>
+                  <span class="option-row__body"><span class="option-row__title">Банков превод</span></span>
+                </label>
+                <label class="option-row">
+                  <input type="radio" name="payment_id" value="8" data-label="На изплащане"/>
+                  <span class="option-row__body"><span class="option-row__title">На изплащане</span></span>
+                </label>
+              </div>
+
+              <div class="mt-6">
+                <h3 class="checkout-subhead mb-3">Клиент</h3>
+                <div class="segmented" id="checkout-person" role="radiogroup" aria-label="Тип клиент">
+                  <label class="segmented__option">
+                    <input type="radio" name="person" value="1" checked/>
+                    <span>Физическо лице</span>
+                  </label>
+                  <label class="segmented__option">
+                    <input type="radio" name="person" value="2"/>
+                    <span>Фирма / фактура</span>
+                  </label>
+                </div>
+                <div id="checkout-firms" class="field-stack mt-4" hidden>
+                  <div class="field"><label for="firm-name">Фирма</label><input id="firm-name" name="firm_name" class="checkout-input"/></div>
+                  <div class="field"><label for="firm-mol">МОЛ</label><input id="firm-mol" name="firm_mol" class="checkout-input"/></div>
+                  <div class="field"><label for="firm-idn">ЕИК / Булстат</label><input id="firm-idn" name="firm_idn" class="checkout-input"/></div>
+                  <div class="field"><label for="firm-address">Адрес</label><input id="firm-address" name="firm_address" class="checkout-input"/></div>
+                </div>
+              </div>
+
+              <div class="consent-stack mt-6">
+                <label class="consent-hit">
+                  <input type="checkbox" name="approve_conditions" value="1" id="approve-conditions"/>
+                  <span>Имам навършени 18 години и съм съгласен с <a href="https://plasico.bg/help?info=52" target="_blank" rel="noopener" class="text-apricot">общите условия</a> и обработката на лични данни</span>
+                </label>
+                <label class="consent-hit">
+                  <input type="checkbox" name="phonecall_confirm" value="1"/>
+                  <span>Желая потвърждение по телефон</span>
+                </label>
+                <p class="field-error" id="consent-error" hidden>Моля, приеми общите условия.</p>
+              </div>
+
+              <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl w-full mt-5 checkout-finish desktop-step-cta" id="checkout-finish">
+                Поръчай →
+              </button>
+              <p class="checkout-note" id="checkout-mock-note" hidden></p>
+            </div>
+          </section>
+
+          <!-- FAST / RESERVE lightweight panes -->
+          <section class="checkout-block" id="pane-fast" hidden>
+            <h2 class="checkout-block__title">Бърза поръчка</h2>
+            <div class="field-stack">
+              <div class="field"><label for="fast-name">Име *</label><input id="fast-name" name="fast_name" class="checkout-input"/></div>
+              <div class="field"><label for="fast-phone">Телефон *</label><input id="fast-phone" name="phone" class="checkout-input"/></div>
+            </div>
+            <button type="button" class="checkout-btn checkout-btn--primary w-full mt-4 checkout-finish">Поръчай →</button>
+            <button type="button" class="checkout-text-link mt-3" data-back-gate>← Назад</button>
+          </section>
+
+          <section class="checkout-block" id="pane-reserve" hidden>
+            <h2 class="checkout-block__title">Резервирай в магазин</h2>
+            <div class="field-stack">
+              <div class="field"><label for="reserve-name">Име *</label><input id="reserve-name" class="checkout-input"/></div>
+              <div class="field"><label for="reserve-phone">Телефон *</label><input id="reserve-phone" name="phone" class="checkout-input"/></div>
+              <div class="field">
+                <label for="reserve-shop">Магазин</label>
+                <select id="reserve-shop" name="reserve" class="checkout-input">
+                  <option>Plasico IT Superstore Варна</option>
+                  <option>Plasico IT Superstore София</option>
+                </select>
+              </div>
+            </div>
+            <button type="button" class="checkout-btn checkout-btn--primary w-full mt-4 checkout-finish">Резервирай →</button>
+            <button type="button" class="checkout-text-link mt-3" data-back-gate>← Назад</button>
+          </section>
+        </div>
+
+        <!-- DESKTOP ASIDE SUMMARY -->
+        <aside class="checkout-layout__aside" aria-label="Обобщение на поръчката">
+          <div class="checkout-aside sticky top-[calc(var(--site-header-offset)+1rem)]">
+            <h2 class="checkout-aside__title">Вашата поръчка</h2>
+            <div class="summary-row"><span>Продукти</span><span class="js-summary-products">1070.97 €</span></div>
+            <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping">3.57 €</span></div>
+            <div class="summary-row summary-row--total"><span>Общо с ДДС</span><strong class="text-secondary js-summary-total">1074.54 €</strong></div>
+            <p class="checkout-aside__hint js-aside-hint">Продължи като гост, за да завършиш поръчката.</p>
+          </div>
+
+          <section class="checkout-recs" aria-labelledby="checkout-recs-title">
+            <h2 id="checkout-recs-title" class="checkout-recs__title">Препоръчани за вас</h2>
+            <ul class="checkout-recs__list" role="list">
+              <li>
+                <a class="checkout-rec" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">
+                  <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" alt="" width="56" height="56" loading="lazy"/>
+                  <span class="checkout-rec__body">
+                    <span class="checkout-rec__name">ASUS TUF Gaming A16 2024 FA607NUG-RL117</span>
+                    <span class="checkout-rec__price">949.99 €</span>
+                  </span>
+                  <span class="checkout-rec__add material-symbols-outlined" aria-hidden="true">add_circle</span>
+                </a>
+              </li>
+              <li>
+                <a class="checkout-rec" href="hot-summer-sale-2026.html#laptopi">
+                  <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp" alt="" width="56" height="56" loading="lazy"/>
+                  <span class="checkout-rec__body">
+                    <span class="checkout-rec__name">Още лаптопи от Hot Summer Sale</span>
+                    <span class="checkout-rec__price">от 460.98 €</span>
+                  </span>
+                  <span class="checkout-rec__add material-symbols-outlined" aria-hidden="true">add_circle</span>
+                </a>
+              </li>
+            </ul>
+          </section>
+        </aside>
+      </div>
+
+      <!-- STICKY MOBILE BAR -->
+      <div class="checkout-sticky-bar" id="checkout-sticky-bar">
+        <div class="checkout-sticky-bar__total">
+          <span class="checkout-sticky-bar__label">Общо</span>
+          <strong class="js-summary-total">1074.54 €</strong>
+        </div>
+        <button type="button" class="checkout-btn checkout-btn--primary" id="sticky-cta" data-sticky-cta>
+          Продължи →
+        </button>
+      </div>
     </div>
-      </article>
-    </div>
-      </article>
-    </div>
+
   </main>
 <footer class="w-full rounded-t-xl border-t border-edge-light bg-surface-container-lowest shadow-[0_-4px_24px_rgba(0,0,0,0.5)]">
     <!-- Payment methods -->
@@ -2071,6 +2465,8 @@
     <span class="material-symbols-outlined text-[22px]" aria-hidden="true">keyboard_arrow_up</span>
   </button>
 <script src="theme-switch.js"></script>
+<script src="cart-drawer.js"></script>
+<script src="checkout-mock.js"></script>
   <script>
 
     (function initHeaderCategories() {

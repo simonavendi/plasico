@@ -1,6 +1,6 @@
 (function initCartDrawer() {
   const CART_STORAGE_KEY = 'plasico-hss2026-cart';
-  const CHECKOUT_URL = 'https://plasico.bg/поръчка';
+  const CHECKOUT_URL = 'poruchka.html';
 
   const root = document.getElementById('cart-drawer-root');
   const backdrop = document.getElementById('cart-drawer-backdrop');
@@ -296,6 +296,14 @@
     browseBtn.addEventListener('click', () => closeDrawer());
   }
 
+  function addFromArticle(article) {
+    const product = extractProductFromArticle(article);
+    if (!product) return false;
+    addToCart(product);
+    openDrawer();
+    return true;
+  }
+
   if (productGrid) {
     productGrid.addEventListener('submit', e => {
       const form = e.target.closest('form');
@@ -303,15 +311,20 @@
       const article = form.closest('article[data-id]');
       if (!article) return;
       e.preventDefault();
-      const product = extractProductFromArticle(article);
-      if (!product) return;
-      addToCart(product);
-      openDrawer();
+      addFromArticle(article);
     });
   }
+
+  const checkoutLink = document.getElementById('cart-drawer-checkout');
+  if (checkoutLink) checkoutLink.href = CHECKOUT_URL;
 
   const initial = readCart();
   renderCart(initial);
   updateHeaderBadge(initial);
   window.__closeCartDrawer = closeDrawer;
+  window.__plasicoCart = {
+    addFromArticle,
+    open: openDrawer,
+    close: closeDrawer,
+  };
 })();
