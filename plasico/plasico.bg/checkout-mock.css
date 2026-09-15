@@ -769,6 +769,13 @@ body:has(.checkout-mock) {
   font-size: 0.875rem;
 }
 
+.invoice-person-type__label {
+  margin: 1rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--co-text);
+}
+
 /* Segmented (person type etc.) */
 .segmented {
   display: grid;

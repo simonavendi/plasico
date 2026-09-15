@@ -2432,18 +2432,35 @@
 
               <div class="mt-6">
                 <label class="invoice-check" for="want-invoice">
-                  <input type="checkbox" name="want_invoice" id="want-invoice" value="1" aria-controls="checkout-firms"/>
+                  <input type="checkbox" name="want_invoice" id="want-invoice" value="1" aria-controls="checkout-invoice-fields"/>
                   <span class="invoice-check__copy">
                     <strong class="invoice-check__title">Искам фактура</strong>
                     <span class="invoice-check__hint">Попълни данните за фактура, ако поръчката е за фирма или ти е необходим счетоводен документ.</span>
                   </span>
                 </label>
                 <input type="hidden" name="person" id="checkout-person-value" value="1"/>
-                <div id="checkout-firms" class="field-stack mt-4" hidden>
-                  <div class="field"><label for="firm-name">Фирма</label><input id="firm-name" name="firm_name" class="checkout-input"/></div>
-                  <div class="field"><label for="firm-mol">МОЛ</label><input id="firm-mol" name="firm_mol" class="checkout-input"/></div>
-                  <div class="field"><label for="firm-idn">ЕИК / Булстат</label><input id="firm-idn" name="firm_idn" class="checkout-input"/></div>
-                  <div class="field"><label for="firm-address">Адрес</label><input id="firm-address" name="firm_address" class="checkout-input"/></div>
+                <div id="checkout-invoice-fields" hidden>
+                  <p class="invoice-person-type__label" id="invoice-person-type-label">Тип лице</p>
+                  <div class="segmented" role="radiogroup" aria-labelledby="invoice-person-type-label">
+                    <label class="segmented__option">
+                      <input type="radio" name="invoice_person_type" id="invoice-person-1" value="1"/>
+                      <span>Физическо лице</span>
+                    </label>
+                    <label class="segmented__option">
+                      <input type="radio" name="invoice_person_type" id="invoice-person-2" value="2" checked/>
+                      <span>Юридическо лице (фирма)</span>
+                    </label>
+                  </div>
+                  <div id="checkout-person-individual" class="field-stack mt-4" hidden>
+                    <div class="field"><label for="person-address">Адрес</label><input id="person-address" name="person_address" class="checkout-input"/></div>
+                    <div class="field"><label for="person-egn">ЕГН</label><input id="person-egn" name="egn" class="checkout-input" inputmode="numeric" autocomplete="off"/></div>
+                  </div>
+                  <div id="checkout-firms" class="field-stack mt-4">
+                    <div class="field"><label for="firm-name">Фирма</label><input id="firm-name" name="firm_name" class="checkout-input"/></div>
+                    <div class="field"><label for="firm-mol">МОЛ</label><input id="firm-mol" name="firm_mol" class="checkout-input"/></div>
+                    <div class="field"><label for="firm-idn">ЕИК / Булстат</label><input id="firm-idn" name="firm_idn" class="checkout-input"/></div>
+                    <div class="field"><label for="firm-address">Адрес</label><input id="firm-address" name="firm_address" class="checkout-input"/></div>
+                  </div>
                 </div>
               </div>
 

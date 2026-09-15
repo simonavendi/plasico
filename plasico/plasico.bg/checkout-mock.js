@@ -470,12 +470,27 @@
   }
 
   function syncPerson() {
+    const invoiceFields = document.getElementById('checkout-invoice-fields');
+    const individual = document.getElementById('checkout-person-individual');
     const firms = document.getElementById('checkout-firms');
     const invoice = document.getElementById('want-invoice');
     const personHidden = document.getElementById('checkout-person-value');
     const wantsInvoice = !!invoice?.checked;
-    if (firms) firms.hidden = !wantsInvoice;
-    if (personHidden) personHidden.value = wantsInvoice ? '2' : '1';
+    const typeRadio = root.querySelector('input[name="invoice_person_type"]:checked');
+    const personType = typeRadio?.value === '1' ? '1' : '2';
+
+    if (invoiceFields) invoiceFields.hidden = !wantsInvoice;
+
+    if (wantsInvoice) {
+      const isIndividual = personType === '1';
+      if (individual) individual.hidden = !isIndividual;
+      if (firms) firms.hidden = isIndividual;
+      if (personHidden) personHidden.value = personType;
+    } else {
+      if (individual) individual.hidden = true;
+      if (firms) firms.hidden = true;
+      if (personHidden) personHidden.value = '1';
+    }
   }
 
   function syncRecipientPhone() {
@@ -729,6 +744,9 @@
   });
   const wantInvoice = document.getElementById('want-invoice');
   if (wantInvoice) wantInvoice.addEventListener('change', syncPerson);
+  root.querySelectorAll('input[name="invoice_person_type"]').forEach((el) => {
+    el.addEventListener('change', syncPerson);
+  });
 
   const wantRecipientPhone = document.getElementById('want-recipient-phone');
   if (wantRecipientPhone) wantRecipientPhone.addEventListener('change', syncRecipientPhone);
