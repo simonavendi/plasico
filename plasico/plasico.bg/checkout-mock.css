@@ -171,37 +171,14 @@ body:has(.checkout-mock) {
 }
 
 .co-profile-cta__actions {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.65rem;
-}
-
-@media (min-width: 480px) {
-  .co-profile-cta__actions {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.checkout-btn--google {
-  width: 100%;
-  gap: 0.55rem;
-  background: #fff;
-  color: var(--co-text);
-  border-color: var(--co-border);
-  font-weight: 600;
-  box-shadow: var(--co-shadow);
-}
-
-.checkout-btn--google:hover {
-  border-color: var(--co-accent-border);
-  background: rgba(7, 168, 87, 0.06);
-  color: var(--co-accent-hover);
-}
-
-.checkout-btn__google-icon {
-  flex-shrink: 0;
   display: block;
 }
+
+.co-profile-cta__actions .checkout-btn {
+  width: 100%;
+}
+
+/* Auth modal styles live in auth-modal.css (loaded by auth-modal.js / pages) */
 
 /* Cart cards */
 .cart-cards {

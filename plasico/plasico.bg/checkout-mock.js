@@ -516,6 +516,16 @@
     return true;
   }
 
+  function validateFastOrder() {
+    const name = root.querySelector('#fast-name')?.value.trim();
+    const phone = root.querySelector('#fast-phone')?.value.trim();
+    const email = root.querySelector('#field-fast-email')?.value.trim();
+    const err = document.getElementById('fast-error');
+    const ok = Boolean(name && phone && email);
+    if (err) err.hidden = ok;
+    return ok;
+  }
+
   function validateStep2() {
     const shipTo = getShipTo();
     const err = document.getElementById('step2-error');
@@ -656,6 +666,7 @@
 
     if (e.target.closest('.checkout-finish')) {
       if (checkoutPhase === 'form' && !validateCheckout()) return;
+      if (checkoutPhase === 'fast' && !validateFastOrder()) return;
       attemptOrder();
     }
   });
@@ -840,6 +851,8 @@
       filterItems: () => getOfficesForCourier(getOfficeCourier()),
     });
   }
+
+  /* Auth modal: handled by auth-modal.js ([data-open-auth-modal]) */
 
   renderStoredCart();
   syncShipPanels();

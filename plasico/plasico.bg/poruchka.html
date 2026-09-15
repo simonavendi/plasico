@@ -1812,7 +1812,7 @@
           <button type="button" class="mm-iconbtn mm-search-toggle" data-search-toggle aria-label="Търсене" aria-expanded="false">
             <span class="material-symbols-outlined" aria-hidden="true">search</span>
           </button>
-          <a href="https://plasico.bg/account" class="mm-iconbtn" aria-label="Вход" title="Вход">
+          <a href="#" class="mm-iconbtn" aria-label="Вход" title="Вход" data-open-auth-modal>
             <span class="material-symbols-outlined" aria-hidden="true">person</span>
           </a>
         </div>
@@ -1910,7 +1910,7 @@
             <a href="game-zone.html">Гейминг</a>
             <a href="laptopi-i-aksesoari.html">Лаптопи</a>
             <a href="lyubimi.html">Любими</a>
-            <a href="https://plasico.bg/account">Вход</a>
+            <a href="#" data-open-auth-modal>Вход</a>
           </div>
           <div class="mm-mobile-nav-section">
             <span class="mm-mobile-nav-title">Полезни връзки</span>
@@ -2079,28 +2079,13 @@
               </div>
 
               <aside class="co-profile-cta" aria-label="Профил">
-                <p class="co-profile-cta__text">Направете си профил за да следите доставки, документи и др <span class="co-profile-cta__optional">(незадължително)</span></p>
+                <p class="co-profile-cta__text">Направете си профил за да следите доставки, списък покупки, фактури, ел. касови бележки и др. <span class="co-profile-cta__optional">(незадължително)</span></p>
                 <div class="co-profile-cta__actions">
-                  <a href="https://plasico.bg/account" class="checkout-btn checkout-btn--google" id="btn-account-register" data-open-account>
-                    <svg class="checkout-btn__google-icon" width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-                      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    </svg>
-                    Регистрация
-                  </a>
-                  <a href="https://plasico.bg/account" class="checkout-btn checkout-btn--google" id="btn-account-login" data-open-account>
-                    <svg class="checkout-btn__google-icon" width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-                      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    </svg>
-                    Вход
-                  </a>
+                  <button type="button" class="checkout-btn checkout-btn--outline" id="btn-account-auth" data-open-auth-modal>Вход/Регистрация</button>
                 </div>
               </aside>
+
+              <h3 class="checkout-subhead mb-3">Поръчка без регистрация</h3>
 
               <div class="field-stack field-stack--2">
                 <div class="field">
@@ -2397,12 +2382,12 @@
 
               <div class="option-stack" id="checkout-payments" role="radiogroup" aria-label="Метод на плащане">
                 <label class="option-row">
-                  <input type="radio" name="payment_id" value="1" data-label="Наложен платеж" checked/>
+                  <input type="radio" name="payment_id" value="1" data-label="Наложен платеж"/>
                   <span class="option-row__body">
                     <span class="option-row__badge-icon" aria-hidden="true">COD</span>
                     <span class="option-row__copy">
                       <span class="option-row__title">Наложен платеж</span>
-                      <span class="option-row__hint">Плащаш при доставка, такса от 1&nbsp;€</span>
+                      <span class="option-row__hint">Плащаш при доставка</span>
                     </span>
                   </span>
                 </label>
@@ -2417,7 +2402,7 @@
                   </span>
                 </label>
                 <label class="option-row">
-                  <input type="radio" name="payment_id" value="7" data-label="Банков превод"/>
+                  <input type="radio" name="payment_id" value="7" data-label="Банков превод" checked/>
                   <span class="option-row__body">
                     <span class="option-row__badge-icon" aria-hidden="true">€</span>
                     <span class="option-row__copy">
@@ -2427,23 +2412,23 @@
                   </span>
                 </label>
                 <label class="option-row">
-                  <input type="radio" name="payment_id" value="8" data-label="На изплащане"/>
+                  <input type="radio" name="payment_id" value="8" data-label="На изплащане с PostBank"/>
                   <span class="option-row__body">
                     <span class="option-row__badge-icon" aria-hidden="true">€/м</span>
                     <span class="option-row__copy">
-                      <span class="option-row__title">На изплащане</span>
+                      <span class="option-row__title">На изплащане с PostBank</span>
                       <span class="option-row__hint">Избери схема след избор на метода</span>
                     </span>
                   </span>
                 </label>
                 <div id="installment-options" class="installment-options" hidden>
-                  <p class="installment-options__label">Избери вариант</p>
-                  <div class="installment-options__grid" role="radiogroup" aria-label="Вариант на изплащане">
+                  <p class="installment-options__label">Избери схема с PostBank</p>
+                  <div class="installment-options__grid" role="radiogroup" aria-label="Схема на изплащане с PostBank">
                     <button type="button" class="installment-option" data-installment="bnp" aria-pressed="false">
-                      <img src="https://static.plasico.bg/images/bnp_button_new.webp" alt="BNP изплащане" width="240" height="80" loading="lazy"/>
+                      <img src="https://static.plasico.bg/images/bnp_button_new.webp" alt="PostBank изплащане" width="240" height="80" loading="lazy"/>
                     </button>
                     <button type="button" class="installment-option" data-installment="bnp-card" aria-pressed="false">
-                      <img src="https://static.plasico.bg/images/bnp_button_card.webp" alt="BNP карта" width="240" height="80" loading="lazy"/>
+                      <img src="https://static.plasico.bg/images/bnp_button_card.webp" alt="PostBank карта" width="240" height="80" loading="lazy"/>
                     </button>
                   </div>
                 </div>
@@ -2493,7 +2478,12 @@
             <div class="field-stack">
               <div class="field"><label for="fast-name">Име *</label><input id="fast-name" name="fast_name" class="checkout-input"/></div>
               <div class="field"><label for="fast-phone">Телефон *</label><input id="fast-phone" name="phone" class="checkout-input"/></div>
+              <div class="field">
+                <label for="field-fast-email">Email *</label>
+                <input id="field-fast-email" name="fast_email" type="email" class="checkout-input" autocomplete="email" required placeholder="name@email.com"/>
+              </div>
             </div>
+            <p class="field-error" id="fast-error" hidden>Попълни име, телефон и email.</p>
             <button type="button" class="checkout-btn checkout-btn--primary w-full mt-4 checkout-finish">Поръчай →</button>
             <button type="button" class="checkout-text-link mt-3" data-back-gate>← Назад</button>
           </section>
@@ -2581,6 +2571,50 @@
     </div>
 
   </main>
+
+  <!-- Auth modal (Вход/Регистрация) -->
+  <div class="auth-modal" id="auth-modal" hidden aria-hidden="true">
+    <div class="auth-modal__backdrop" data-auth-close tabindex="-1"></div>
+    <div class="auth-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" tabindex="-1">
+      <button type="button" class="auth-modal__close" data-auth-close aria-label="Затвори">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+      <h2 class="auth-modal__greeting" id="auth-modal-title">Здравей!</h2>
+      <form class="auth-modal__form" id="auth-modal-form" novalidate>
+        <label class="auth-modal__label" for="auth-email">Моля въведи имейл адрес</label>
+        <input id="auth-email" name="auth_email" type="email" class="auth-modal__input" autocomplete="email" placeholder="name@email.com" required/>
+        <button type="submit" class="auth-modal__continue">Продължи</button>
+      </form>
+      <p class="auth-modal__help">Нямаш акаунт? Не се тревожи! Можеш да си създадеш в следващата стъпка.</p>
+      <div class="auth-modal__divider" role="separator">
+        <span class="auth-modal__divider-line" aria-hidden="true"></span>
+        <span class="auth-modal__divider-or">или</span>
+        <span class="auth-modal__divider-line" aria-hidden="true"></span>
+      </div>
+      <p class="auth-modal__social-hint">използвайте твоя социален акаунт</p>
+      <div class="auth-modal__socials">
+        <button type="button" class="auth-social auth-social--facebook" data-auth-social="Facebook">
+          <span class="auth-social__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H7v3h3v7h3v-7h3l1-3h-4v-2c0-.6.4-1 1-1z"/></svg>
+          </span>
+          <span class="auth-social__label">Facebook</span>
+        </button>
+        <button type="button" class="auth-social auth-social--google" data-auth-social="Google">
+          <span class="auth-social__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 11v2.4h5.5c-.2 1.3-1.6 3.9-5.5 3.9-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.7 2.7 14.6 1.7 12 1.7 6.9 1.7 2.7 5.9 2.7 11S6.9 20.3 12 20.3c6.9 0 8.5-4.8 8.5-7.3 0-.5 0-.8-.1-1.2H12z"/></svg>
+          </span>
+          <span class="auth-social__label">Google</span>
+        </button>
+        <button type="button" class="auth-social auth-social--apple" data-auth-social="Apple">
+          <span class="auth-social__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16.4 12.6c0-1.7.9-3.2 2.3-4.1-.9-1.3-2.3-2.1-3.9-2.2-1.6-.2-3.3.9-3.9.9-.7 0-2.1-.9-3.4-.8-1.8.1-3.4 1-4.3 2.6-1.8 3.2-.5 7.9 1.3 10.5.9 1.3 1.9 2.7 3.3 2.6 1.3-.1 1.8-.8 3.4-.8s2 .8 3.4.8c1.4 0 2.3-1.3 3.2-2.6.6-.9 1.1-1.9 1.4-2.9-1.7-.6-2.8-2.3-2.8-4zM13.9 5.1c.7-.9 1.2-2.1 1.1-3.3-1.1.1-2.4.7-3.1 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.4-.6 3.1-1.6z"/></svg>
+          </span>
+          <span class="auth-social__label">Apple</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
 <footer class="w-full rounded-t-xl border-t border-edge-light bg-surface-container-lowest shadow-[0_-4px_24px_rgba(0,0,0,0.5)]">
     <!-- Navigation columns -->
     <div class="max-w-7xl mx-auto px-container-padding py-10">
@@ -2683,6 +2717,7 @@
 <script src="theme-switch.js"></script>
 <script src="cart-drawer.js"></script>
 <script src="header-megamag.js"></script>
+<script src="auth-modal.js"></script>
 <script src="checkout-mock.js"></script>
   <script>
 

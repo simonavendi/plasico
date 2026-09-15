@@ -49,7 +49,7 @@ NEW_HEADER = '''  <header id="site-header" class="mm-header font-sans">
           <button type="button" class="mm-iconbtn mm-search-toggle" data-search-toggle aria-label="Търсене" aria-expanded="false">
             <span class="material-symbols-outlined" aria-hidden="true">search</span>
           </button>
-          <a href="https://plasico.bg/account" class="mm-iconbtn" aria-label="Вход" title="Вход">
+          <a href="#" class="mm-iconbtn" aria-label="Вход" title="Вход" data-open-auth-modal>
             <span class="material-symbols-outlined" aria-hidden="true">person</span>
           </a>
         </div>
@@ -147,7 +147,7 @@ NEW_HEADER = '''  <header id="site-header" class="mm-header font-sans">
             <a href="game-zone.html">Гейминг</a>
             <a href="laptopi-i-aksesoari.html">Лаптопи</a>
             <a href="lyubimi.html">Любими</a>
-            <a href="https://plasico.bg/account">Вход</a>
+            <a href="#" data-open-auth-modal>Вход</a>
           </div>
           <div class="mm-mobile-nav-section">
             <span class="mm-mobile-nav-title">Полезни връзки</span>

@@ -278,6 +278,7 @@ CONTENT_PAGE_SCRIPTS = (
   "  <script src=\"theme-switch.js\"></script>\n"
   "  <script src=\"product-card-actions.js\"></script>\n"
   "  <script src=\"header-megamag.js\"></script>\n"
+  "  <script src=\"auth-modal.js\"></script>\n"
   "  <script>\n"
   + """
     (function initBackToTop() {
@@ -521,9 +522,11 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
     for asset in (
         "theme-overrides.css",
         "megamag-header.css",
+        "auth-modal.css",
         "theme-switch.js",
         "product-card-actions.js",
         "header-megamag.js",
+        "auth-modal.js",
         "logo-plasico.svg",
     ):
         part = part.replace(f'href="{asset}"', f'href="{prefix}{asset}"')
