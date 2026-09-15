@@ -1,6 +1,7 @@
 (function initCartDrawer() {
   const CART_STORAGE_KEY = 'plasico-hss2026-cart';
   const CHECKOUT_URL = 'poruchka.html';
+  const MOBILE_CART_MQ = '(max-width: 768px)';
 
   const root = document.getElementById('cart-drawer-root');
   const backdrop = document.getElementById('cart-drawer-backdrop');
@@ -10,6 +11,7 @@
   const continueBtn = document.getElementById('cart-drawer-continue');
   const browseBtn = document.getElementById('cart-drawer-browse');
   const headerBadge = document.getElementById('header-cart-badge');
+  const headerCartTotal = document.getElementById('header-cart-total');
   const countLabel = document.getElementById('cart-drawer-count');
   const emptyEl = document.getElementById('cart-drawer-empty');
   const itemsEl = document.getElementById('cart-drawer-items');
@@ -20,6 +22,27 @@
 
   let isOpen = false;
   let lastFocused = null;
+
+  function isMobileCartViewport() {
+    return window.matchMedia(MOBILE_CART_MQ).matches;
+  }
+
+  function isOnCartPage() {
+    const path = decodeURIComponent(window.location.pathname).toLowerCase().replace(/\/+$/, '');
+    return (
+      path.endsWith('/poruchka.html') ||
+      path.endsWith('/poruchka') ||
+      path.endsWith('/поръчка')
+    );
+  }
+
+  function goToCartPage() {
+    if (isOnCartPage()) {
+      document.getElementById('checkout-cart')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    window.location.href = CHECKOUT_URL;
+  }
 
   function readCart() {
     try {
@@ -74,10 +97,18 @@
 
   function updateHeaderBadge(items) {
     const count = getTotalQty(items);
-    if (!headerBadge) return;
-    headerBadge.textContent = String(count);
-    headerBadge.classList.toggle('is-empty', count === 0);
-    headerBadge.setAttribute('aria-hidden', count === 0 ? 'true' : 'false');
+    if (headerBadge) {
+      headerBadge.textContent = String(count);
+      headerBadge.classList.toggle('is-empty', count === 0);
+      headerBadge.setAttribute('aria-hidden', count === 0 ? 'true' : 'false');
+    }
+    if (headerCartTotal) {
+      const total = getSubtotal(items);
+      headerCartTotal.textContent = total.toLocaleString('bg-BG', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      }) + ' €';
+    }
   }
 
   function extractProductFromArticle(article) {
@@ -243,6 +274,7 @@
 
   function openDrawer() {
     if (isOpen) return;
+    renderCart(readCart());
     window.__closeHeaderAuth?.();
     isOpen = true;
     lastFocused = document.activeElement;
@@ -257,6 +289,15 @@
     });
     document.addEventListener('keydown', onKeydown);
     document.addEventListener('keydown', trapFocus);
+  }
+
+  /** Mobile: full cart page. Desktop: slide-over drawer. */
+  function openCart() {
+    if (isMobileCartViewport()) {
+      goToCartPage();
+      return;
+    }
+    openDrawer();
   }
 
   function closeDrawer() {
@@ -288,7 +329,7 @@
     }
   }
 
-  toggleBtn.addEventListener('click', openDrawer);
+  toggleBtn.addEventListener('click', openCart);
   closeBtn.addEventListener('click', closeDrawer);
   backdrop.addEventListener('click', closeDrawer);
   continueBtn.addEventListener('click', closeDrawer);
@@ -300,7 +341,7 @@
     const product = extractProductFromArticle(article);
     if (!product) return false;
     addToCart(product);
-    openDrawer();
+    openCart();
     return true;
   }
 
@@ -324,7 +365,9 @@
   window.__closeCartDrawer = closeDrawer;
   window.__plasicoCart = {
     addFromArticle,
-    open: openDrawer,
+    open: openCart,
+    openDrawer,
     close: closeDrawer,
+    isMobile: isMobileCartViewport,
   };
 })();

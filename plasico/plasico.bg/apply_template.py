@@ -276,8 +276,9 @@ HEADER_AUTH_SCRIPT = r"""
 
 CONTENT_PAGE_SCRIPTS = (
   "  <script src=\"theme-switch.js\"></script>\n"
+  "  <script src=\"product-card-actions.js\"></script>\n"
+  "  <script src=\"header-megamag.js\"></script>\n"
   "  <script>\n"
-  + HEADER_CATEGORIES_SCRIPT
   + """
     (function initBackToTop() {
       const btn = document.getElementById('back-to-top');
@@ -492,6 +493,12 @@ def patch_header_site_home_links(part: str) -> str:
         count=1,
         flags=re.DOTALL,
     )
+    part = re.sub(
+        r'(<a href=")[^"]*(" class="mm-logo")',
+        rf"\1{SITE_HOME_URL}\2",
+        part,
+        count=1,
+    )
     return part
 
 
@@ -511,7 +518,14 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
         f'data-category-map="{prefix}category-map.json"',
     )
 
-    for asset in ("theme-overrides.css", "theme-switch.js"):
+    for asset in (
+        "theme-overrides.css",
+        "megamag-header.css",
+        "theme-switch.js",
+        "product-card-actions.js",
+        "header-megamag.js",
+        "logo-plasico.svg",
+    ):
         part = part.replace(f'href="{asset}"', f'href="{prefix}{asset}"')
         part = part.replace(f'src="{asset}"', f'src="{prefix}{asset}"')
 
@@ -574,6 +588,12 @@ def adapt_shell_part(part: str, link_map: dict, from_page: str, active_utility: 
     part = re.sub(
         r'<a href="[^"]*" class="(header-cat-mega-parent panel-utility-mega-parent--sale[^"]*)"(.*?)>',
         patch_sale_cta,
+        part,
+    )
+    # Megamag-style subnav "Разпродажба" link
+    part = re.sub(
+        r'(<a href=")[^"]*(">Разпродажба</a>)',
+        rf"\1{sale_href}\2",
         part,
     )
 

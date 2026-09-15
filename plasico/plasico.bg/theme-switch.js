@@ -1,53 +1,39 @@
-(function () {
+(function forceLightTheme() {
   const STORAGE_KEY = 'plasico-theme';
+  const FAV_STORAGE_KEY = 'plasico-hss2026-favs';
+  const root = document.documentElement;
 
-  function getPreferredTheme() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === 'light' || stored === 'dark') return stored;
-    if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
-    return 'dark';
-  }
-
-  function applyTheme(theme) {
-    const root = document.documentElement;
-    root.setAttribute('data-theme', theme);
-    root.classList.toggle('dark', theme === 'dark');
-    const btn = document.getElementById('theme-toggle');
-    if (btn) {
-      const label = theme === 'dark' ? 'Светла тема' : 'Тъмна тема';
-      btn.setAttribute('aria-label', label);
-      btn.setAttribute('title', label);
+  function applyLight() {
+    try {
+      localStorage.setItem(STORAGE_KEY, 'light');
+    } catch (_) {
+      /* ignore quota / private mode */
     }
+    root.setAttribute('data-theme', 'light');
+    root.classList.remove('dark');
   }
 
-  function init() {
-    let theme = document.documentElement.getAttribute('data-theme');
-    if (theme !== 'light' && theme !== 'dark') {
-      theme = getPreferredTheme();
+  function syncFavBadge() {
+    const badge = document.getElementById('header-fav-badge');
+    if (!badge) return;
+    let count = 0;
+    try {
+      const raw = localStorage.getItem(FAV_STORAGE_KEY);
+      const parsed = raw ? JSON.parse(raw) : [];
+      count = Array.isArray(parsed) ? parsed.length : 0;
+    } catch (_) {
+      count = 0;
     }
-    applyTheme(theme);
-
-    document.getElementById('theme-toggle')?.addEventListener('click', () => {
-      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      localStorage.setItem(STORAGE_KEY, next);
-      applyTheme(next);
-    });
-
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        applyTheme(e.matches ? 'dark' : 'light');
-      }
-    });
+    badge.textContent = String(count);
+    badge.classList.toggle('is-empty', count === 0);
+    badge.setAttribute('aria-hidden', count === 0 ? 'true' : 'false');
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  applyLight();
+  syncFavBadge();
 
   window.plasicoTheme = {
-    apply: applyTheme,
-    get: () => document.documentElement.getAttribute('data-theme'),
+    apply: () => applyLight(),
+    get: () => 'light',
   };
 })();

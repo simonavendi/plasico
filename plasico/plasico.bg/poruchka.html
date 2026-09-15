@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="bg" data-redesign="spatial-minimalism">
+<html data-theme="light" lang="bg" data-redesign="spatial-minimalism">
 <head>
-  <script>
+    <script>
     (function () {
-      var k = 'plasico-theme', s = localStorage.getItem(k);
-      if (!s && window.matchMedia('(prefers-color-scheme: light)').matches) s = 'light';
-      if (s !== 'light' && s !== 'dark') s = 'dark';
-      document.documentElement.setAttribute('data-theme', s);
-      document.documentElement.classList.toggle('dark', s === 'dark');
+      try { localStorage.setItem('plasico-theme', 'light'); } catch (e) {}
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.classList.remove('dark');
     })();
   </script>
   <meta charset="utf-8"/>
@@ -582,13 +580,7 @@
       transition: transform 0.3s ease;
     }
     :root {
-      --site-header-offset: 8rem;
-    }
-    @media (min-width: 640px) and (max-width: 1023px) {
-      :root { --site-header-offset: 4.5rem; }
-    }
-    @media (min-width: 1024px) {
-      :root { --site-header-offset: 5rem; }
+      --site-header-offset: 0rem;
     }
 .header-utility-bar { display: none !important; }
     .header-utility-item {
@@ -1773,65 +1765,93 @@
   </style>
   <link rel="stylesheet" href="checkout-mock.css"/>
   <link rel="stylesheet" href="theme-overrides.css"/>
+  <link rel="stylesheet" href="megamag-header.css"/>
 </head>
 <body class="font-body-md selection:bg-apricot/30 custom-scrollbar" data-category-map="category-map.json">
-<header id="site-header" class="fixed top-0 w-full z-50 font-sans bg-surface/90 backdrop-blur-xl border-b border-edge-light shadow-[0_2px_0_0_rgba(255,255,255,0.06)_inset,0_8px_32px_rgba(0,0,0,0.35)]">
-    <div>
-      <div class="max-w-[1440px] mx-auto px-container-padding py-3">
-        <div class="flex items-center gap-3 lg:gap-5">
-          <button type="button" id="categories-toggle" class="shrink-0 inline-flex items-center justify-center w-10 h-10 rounded-full border border-edge-light bg-surface-container-high hover:bg-white/5 transition-colors" aria-expanded="false" aria-controls="categories-panel" title="Меню" aria-label="Меню">
-            <span class="material-symbols-outlined text-on-surface text-[22px]">menu</span>
+  <header id="site-header" class="mm-header font-sans">
+    <div class="mm-header-shell">
+      <div class="mm-header-main mm-wrap">
+        <a href="index.html" class="mm-logo" title="Начало" aria-label="Начало">
+          <img src="logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="site-header-logo"/>
+        </a>
+        <form action="https://plasico.bg/tyrsene" method="post" class="mm-search" role="search">
+          <label for="header-search" class="sr-only">Търси продукт</label>
+          <select name="category" aria-label="Категория">
+            <option value="">Всички категории</option>
+            <option value="laptopi">Лаптопи и аксесоари</option>
+            <option value="komponenti">Компоненти</option>
+            <option value="monitori">Монитори и проектори</option>
+            <option value="kompyutri">Компютри и сървъри</option>
+            <option value="smartfoni">Смартфони и таблети</option>
+            <option value="aksesoari">Аксесоари</option>
+            <option value="mrezha">Мрежово оборудване</option>
+            <option value="ofis">Офис</option>
+          </select>
+          <input type="text" id="header-search" name="search" value="" placeholder="Търси марка, модел, артикул…" autocomplete="off"/>
+          <button type="submit" aria-label="Търси">
+            <span class="material-symbols-outlined" aria-hidden="true" style="font-size:16px">search</span>
+            <span class="search-button-text">Търси</span>
           </button>
-          <a href="index.html" class="shrink-0 flex items-center" title="Към началната страница" aria-label="Към началната страница">
-            <img src="https://static.plasico.bg/css/campaign/hot-summer-sale-2026/logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="site-header-logo h-9 sm:h-10 lg:h-11 w-auto"/>
+        </form>
+        <a href="tel:070020810" class="mm-contact" title="Обадете се на 0700 20 810">
+          <span class="mm-contact__icon" aria-hidden="true"><span class="material-symbols-outlined">call</span></span>
+          <span class="mm-contact__text">
+            <small>Онлайн съпорт</small>
+            <b>0700 20 810</b>
+          </span>
+        </a>
+        <div class="mm-header-icons">
+          <a href="#compare" class="mm-iconbtn" id="header-compare-link" aria-label="Сравни" title="Сравни">
+            <span class="material-symbols-outlined" aria-hidden="true">compare_arrows</span>
+            <span class="header-compare-badge badge is-empty" id="header-compare-badge" aria-hidden="true">0</span>
           </a>
-          <form action="https://plasico.bg/tyrsene" method="post" class="header-search-pill flex-1 min-w-0 max-w-2xl mx-auto hidden sm:flex items-center overflow-hidden pl-1 pr-1 py-1">
-            <label for="header-search" class="sr-only">Търси продукт</label>
-            <span class="material-symbols-outlined text-on-surface-variant text-[20px] pl-3 shrink-0 pointer-events-none" aria-hidden="true">search</span>
-            <input type="text" id="header-search" name="search" value="" placeholder="Търси продукт..." autocomplete="off" class="flex-1 min-w-0 bg-transparent border-0 py-2 px-2 text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:ring-0"/>
-            <button type="submit" class="header-search-btn shrink-0 px-4 py-2 text-sm" aria-label="Търси">Търси</button>
-          </form>
-          <div class="flex items-center gap-0.5 sm:gap-1 lg:gap-2 ml-auto">
-            <a href="#" class="header-utility-item hidden md:flex" title="Онлайн чат">
-              <span class="material-symbols-outlined">chat</span>
-              <span class="hidden lg:inline">Онлайн чат</span>
-            </a>
-            <a href="https://plasico.bg/любими" class="header-utility-item hidden sm:flex" title="Списък с любими" id="header-fav-link">
-              <span class="relative inline-flex">
-                <span class="material-symbols-outlined">favorite</span>
-                <span class="header-fav-badge is-empty" id="header-fav-badge" aria-hidden="true">0</span>
-              </span>
-              <span class="hidden lg:inline">Любими</span>
-            </a>
-            <a href="tel:070020810" class="header-utility-item hidden md:flex" title="Обадете се на 0700 20 810">
-              <span class="material-symbols-outlined">call</span>
-              <span class="hidden lg:inline">0700 20 810</span>
-            </a>
-            <button type="button" id="theme-toggle" class="header-theme-toggle" aria-label="Светла тема" title="Светла тема">
-              <span class="material-symbols-outlined theme-toggle-icon theme-toggle-icon--dark" aria-hidden="true">light_mode</span>
-              <span class="material-symbols-outlined theme-toggle-icon theme-toggle-icon--light" aria-hidden="true">dark_mode</span>
-            </button>
-            <a href="https://plasico.bg/account" class="header-toolbar-signin" title="Вход">
-              <span class="material-symbols-outlined" aria-hidden="true">login</span>
-              <span class="hidden sm:inline">Вход</span>
-            </a>
-            <button type="button" id="header-cart-toggle" class="inline-flex items-center gap-2 rounded-full hover:bg-white/5 transition-colors p-2 lg:px-3 lg:py-2" title="Количка" aria-haspopup="dialog" aria-controls="cart-drawer" aria-expanded="false">
-              <span class="relative inline-flex">
-                <span class="material-symbols-outlined text-on-surface text-[24px]">shopping_cart</span>
-                <span class="header-cart-badge is-empty" id="header-cart-badge" aria-hidden="true">0</span>
-              </span>
-              <span class="hidden lg:inline text-sm font-medium text-on-surface-variant">Количка</span>
-            </button>
+          <a href="lyubimi.html" class="mm-iconbtn" id="header-fav-link" aria-label="Любими" title="Списък с любими">
+            <span class="material-symbols-outlined" aria-hidden="true">favorite</span>
+            <span class="header-fav-badge badge is-empty" id="header-fav-badge" aria-hidden="true">0</span>
+          </a>
+          <button type="button" class="mm-iconbtn mm-search-toggle" data-search-toggle aria-label="Търсене" aria-expanded="false">
+            <span class="material-symbols-outlined" aria-hidden="true">search</span>
+          </button>
+          <a href="https://plasico.bg/account" class="mm-iconbtn" aria-label="Вход" title="Вход">
+            <span class="material-symbols-outlined" aria-hidden="true">person</span>
+          </a>
+        </div>
+        <button type="button" id="header-cart-toggle" class="mm-header-cta" title="Количка" aria-label="Количка" aria-haspopup="dialog" aria-controls="cart-drawer" aria-expanded="false">
+          <span class="mm-iconbtn" aria-hidden="true">
+            <span class="material-symbols-outlined">shopping_cart</span>
+            <span class="header-cart-badge badge is-empty" id="header-cart-badge">0</span>
+          </span>
+          <span class="mm-header-cta__text">
+            <small>Количка</small>
+            <b id="header-cart-total">0,00 €</b>
+          </span>
+        </button>
+      </div>
+      <div class="mm-subnav">
+        <div class="mm-wrap">
+          <button type="button" id="categories-toggle" class="mm-cat-btn" aria-expanded="false" aria-controls="categories-panel" title="Категории">
+            <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+            Категории
+          </button>
+          <button type="button" class="mm-mobile-menu-btn" data-mobile-menu-toggle aria-label="Отвори меню" aria-expanded="false">
+            <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+            Меню
+          </button>
+          <nav class="mm-subnav-nav" aria-label="Бързи връзки">
+            <a href="promotsii.html" class="hot">% Промоции</a>
+            <a href="hot-summer-sale-2026.html">Разпродажба</a>
+            <a href="game-zone.html">Гейминг</a>
+            <a href="laptopi-i-aksesoari.html">Лаптопи</a>
+          </nav>
+          <div class="mm-subnav-right">
+            <a href="kontakti.html"><span class="material-symbols-outlined" aria-hidden="true">mail</span>Контакти</a>
+            <a href="magazini.html"><span class="material-symbols-outlined" aria-hidden="true">storefront</span>Магазини</a>
+            <a href="serviz.html"><span class="material-symbols-outlined" aria-hidden="true">handyman</span>Сервиз</a>
           </div>
         </div>
-        <form action="https://plasico.bg/tyrsene" method="post" class="header-search-pill sm:hidden mt-3 flex items-center overflow-hidden pl-1 pr-1 py-1">
-          <span class="material-symbols-outlined text-on-surface-variant text-[20px] pl-3 shrink-0 pointer-events-none" aria-hidden="true">search</span>
-          <input type="text" name="search" placeholder="Търси продукт..." autocomplete="off" class="flex-1 min-w-0 bg-transparent border-0 py-2 px-2 text-sm text-on-surface placeholder:text-on-surface-variant/70 focus:ring-0"/>
-          <button type="submit" class="header-search-btn shrink-0 px-3 py-2 text-sm" aria-label="Търси">Търси</button>
-        </form>
       </div>
-      <div id="categories-panel" class="border-t border-edge-light/30 bg-surface-container-low/90" aria-hidden="true">
-        <div class="max-w-[1440px] mx-auto px-container-padding py-3 text-sm">
+      <div id="categories-panel" aria-hidden="true">
+        <div class="mm-wrap py-3 text-sm">
           <nav class="panel-utility-nav" aria-label="Бързи връзки">
             <div class="header-cat-mega-grid panel-utility-mega-grid">
               <div class="header-cat-mega-cell">
@@ -1840,8 +1860,8 @@
                   <span class="header-cat-mega-parent__label">Начало</span>
                 </a>
               </div>
-              <div class="header-cat-mega-cell is-active">
-                <a href="magazini.html" class="header-cat-mega-parent" aria-current="page">
+              <div class="header-cat-mega-cell">
+                <a href="magazini.html" class="header-cat-mega-parent">
                   <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">storefront</span></span>
                   <span class="header-cat-mega-parent__label">Магазини</span>
                 </a>
@@ -1870,20 +1890,8 @@
                   <span class="header-cat-mega-parent__label">Контакти</span>
                 </a>
               </div>
-              <div class="header-cat-mega-cell">
-                <a href="tel:070020810" class="header-cat-mega-parent" aria-label="Обадете се на 0700 20 810" title="Обадете се на 0700 20 810">
-                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">call</span></span>
-                  <span class="header-cat-mega-parent__label">0700 20 810</span>
-                </a>
-              </div>
-              <div class="header-cat-mega-cell">
-                <a href="https://plasico.bg/account" class="header-cat-mega-parent" aria-label="Потребителски профил" title="Вход">
-                  <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">person</span></span>
-                  <span class="header-cat-mega-parent__label">Потребителски профил</span>
-                </a>
-              </div>
-              <div class="header-cat-mega-cell panel-utility-mega-cell--sale">
-                <a href="hot-summer-sale-2026.html" class="header-cat-mega-parent panel-utility-mega-parent--sale" aria-label="Разпродажба Hot Summer Sale 2026">
+              <div class="header-cat-mega-cell panel-utility-mega-cell--sale is-active">
+                <a href="hot-summer-sale-2026.html" class="header-cat-mega-parent panel-utility-mega-parent--sale" aria-label="Разпродажба Hot Summer Sale 2026" aria-current="page">
                   <span class="header-cat-mega-parent__icon" aria-hidden="true"><span class="material-symbols-outlined">local_fire_department</span></span>
                   <span class="header-cat-mega-parent__label">РАЗПРОДАЖБА</span>
                 </a>
@@ -1893,28 +1901,53 @@
           <div id="site-categories-panel-mobile" class="mb-4"></div>
         </div>
       </div>
+      <div class="mm-mobile-nav-panel" data-mobile-menu hidden>
+        <div class="mm-wrap">
+          <div class="mm-mobile-nav-section">
+            <span class="mm-mobile-nav-title">Меню</span>
+            <a href="promotsii.html" class="hot">% Промоции</a>
+            <a href="hot-summer-sale-2026.html">Разпродажба</a>
+            <a href="game-zone.html">Гейминг</a>
+            <a href="laptopi-i-aksesoari.html">Лаптопи</a>
+            <a href="lyubimi.html">Любими</a>
+            <a href="https://plasico.bg/account">Вход</a>
+          </div>
+          <div class="mm-mobile-nav-section">
+            <span class="mm-mobile-nav-title">Полезни връзки</span>
+            <a href="kontakti.html"><span class="material-symbols-outlined" aria-hidden="true">mail</span>Контакти</a>
+            <a href="magazini.html"><span class="material-symbols-outlined" aria-hidden="true">storefront</span>Магазини</a>
+            <a href="serviz.html"><span class="material-symbols-outlined" aria-hidden="true">handyman</span>Сервиз</a>
+            <a href="za-nas.html"><span class="material-symbols-outlined" aria-hidden="true">groups</span>За нас</a>
+            <a href="tel:070020810"><span class="material-symbols-outlined" aria-hidden="true">call</span>0700 20 810</a>
+          </div>
+        </div>
+      </div>
     </div>
     <div id="categories-backdrop" class="header-cat-backdrop" aria-hidden="true"></div>
   </header>
 
+
   <main class="pt-[var(--site-header-offset)]">
-    <div class="max-w-[1100px] mx-auto px-container-padding py-6 lg:py-10 checkout-mock" id="checkout" data-checkout-mode="gate">
+    <div class="max-w-[1100px] mx-auto px-container-padding py-6 lg:py-10 checkout-mock" id="checkout" data-checkout-mode="form">
       <nav class="mb-5 text-sm text-on-surface-variant" aria-label="Навигация">
         <a href="index.html" class="hover:text-apricot transition-colors">Начало</a>
         <span class="mx-2 opacity-50" aria-hidden="true">›</span>
         <span class="text-on-surface">Количка</span>
       </nav>
 
-      <header class="checkout-page-head mb-6">
-        <h1 class="font-headline-lg text-2xl sm:text-3xl font-bold text-on-surface">Количка</h1>
-        <a href="hot-summer-sale-2026.html#laptopi" class="checkout-link-muted">Продължи пазаруването</a>
+      <header class="checkout-page-head mb-4">
+        <h1 class="font-headline-lg text-2xl sm:text-3xl font-bold text-on-surface">Завършване на поръчката</h1>
+        <p class="checkout-page-head__lead">Още една стъпка и поръчката е твоя.</p>
       </header>
 
       <div class="checkout-layout">
         <div class="checkout-layout__main">
-          <!-- CART ITEMS -->
-          <section id="checkout-cart" class="checkout-block" aria-labelledby="cart-heading">
-            <h2 id="cart-heading" class="sr-only">Продукти в количката</h2>
+          <!-- CART ITEMS (mobile; desktop summary in aside) -->
+          <section id="checkout-cart" class="checkout-block checkout-cart--mobile" aria-labelledby="cart-heading">
+            <div class="co-section-head">
+              <span class="co-section-num" aria-hidden="true">00</span>
+              <h2 id="cart-heading" class="checkout-block__title">Количка</h2>
+            </div>
             <ul class="cart-cards" role="list">
               <li class="cart-card" data-cart-id="13138817" data-unit="460.98" data-name="UPGRADED HP 250R G10">
                 <a href="https://plasico.bg/hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
@@ -1924,7 +1957,7 @@
                   <a href="https://plasico.bg/hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html" class="cart-card__title">
                     UPGRADED HP 250R G10, 15.6&quot; FHD IPS, Intel Core 3 100U, 16 GB, 512GB SSD, Turbo silver | B9YN1ET
                   </a>
-                  <p class="cart-card__price"><strong class="js-line-total">460.98 €</strong></p>
+                  <p class="cart-card__price"><strong class="js-line-total">460.98&nbsp;€</strong></p>
                   <div class="cart-card__row">
                     <div class="qty-control" role="group" aria-label="Количество">
                       <button type="button" class="qty-control__btn" data-qty-delta="-1" aria-label="Намали количество">
@@ -1950,7 +1983,7 @@
                   <a href="https://plasico.bg/hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html" class="cart-card__title">
                     UPGRADED HP 15-fc0014nu, 15.6&quot; FHD, AMD Ryzen 5 5625U, 32 GB, 512GB SSD, Chalkboard Gray | BM0S9EA
                   </a>
-                  <p class="cart-card__price"><strong class="js-line-total">609.99 €</strong></p>
+                  <p class="cart-card__price"><strong class="js-line-total">609.99&nbsp;€</strong></p>
                   <div class="cart-card__row">
                     <div class="qty-control" role="group" aria-label="Количество">
                       <button type="button" class="qty-control__btn" data-qty-delta="-1" aria-label="Намали количество">
@@ -1970,7 +2003,7 @@
               </li>
             </ul>
 
-            <div class="promo-disclosure mt-4">
+            <div class="promo-disclosure promo-disclosure--cart mt-4">
               <button type="button" class="promo-disclosure__toggle" id="promo-toggle" aria-expanded="false" aria-controls="promo-panel">
                 Имаш промо код?
                 <span class="promo-disclosure__plus" aria-hidden="true">+</span>
@@ -1984,102 +2017,92 @@
                 <p class="promo-disclosure__msg" id="promo-msg" hidden></p>
               </form>
             </div>
-          </section>
 
-          <!-- MOBILE COMPACT SUMMARY -->
-          <details class="order-summary-compact lg:hidden" id="order-summary-compact">
-            <summary class="order-summary-compact__summary">
-              <span>
+            <!-- Mobile totals (same card as cart; desktop uses aside) -->
+            <div class="order-summary-compact lg:hidden" id="order-summary-compact">
+              <div class="order-summary-compact__summary">
                 <span class="order-summary-compact__label">Вашата поръчка</span>
-                <span class="order-summary-compact__meta"><span class="js-item-count">2</span> продукта · <span class="js-summary-total">1074.54 €</span></span>
-              </span>
-              <span class="material-symbols-outlined order-summary-compact__chevron" aria-hidden="true">expand_more</span>
-            </summary>
-            <div class="order-summary-compact__body">
-              <div class="summary-row js-summary-lines">
-                <span>UPGRADED HP 250R G10 × <span class="js-qty-label">1</span></span>
-                <span>460.98 €</span>
+                <span class="order-summary-compact__meta"><span class="js-item-count">2</span> продукта</span>
               </div>
-              <div class="summary-row">
-                <span>UPGRADED HP 15-fc0014nu × 1</span>
-                <span>609.99 €</span>
+              <div class="order-summary-compact__body">
+                <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping is-pending">—</span></div>
+                <div class="summary-row summary-row--total"><span>Общо с ДДС</span><strong class="js-summary-total">1070.97&nbsp;€</strong></div>
               </div>
-              <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping">3.57 €</span></div>
-              <div class="summary-row summary-row--total"><span>Общо с ДДС</span><strong class="js-summary-total">1074.54 €</strong></div>
             </div>
-          </details>
 
-          <!-- PROGRESS -->
-          <ol class="checkout-progress" id="checkout-progress" aria-label="Прогрес на поръчката">
-            <li class="checkout-progress__item is-current" data-step-indicator="1"><span class="checkout-progress__dot" aria-hidden="true"></span>Данни</li>
-            <li class="checkout-progress__item" data-step-indicator="2"><span class="checkout-progress__dot" aria-hidden="true"></span>Доставка</li>
-            <li class="checkout-progress__item" data-step-indicator="3"><span class="checkout-progress__dot" aria-hidden="true"></span>Плащане</li>
-          </ol>
-
-          <!-- GATE: guest primary -->
-          <section class="checkout-gate checkout-block" id="checkout-gate" data-panel="gate">
-            <h2 class="checkout-block__title">Как искаш да поръчаш?</h2>
-            <p class="checkout-block__lead">Една ясна стъпка напред — без излишни опции в началото.</p>
-
-            <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl w-full" id="btn-guest-primary" data-start-guest>
-              Продължи като гост
+            <button type="button" class="checkout-btn checkout-btn--outline checkout-fast-trigger checkout-fast-trigger--mobile lg:hidden w-full mt-3" data-start-fast>
+              Бърза поръчка
             </button>
-
-            <button type="button" class="checkout-btn checkout-btn--text w-full mt-3" id="btn-account-secondary" data-open-account>
-              Регистрация
-            </button>
-
-            <div class="checkout-alt-links" id="checkout-alt-links">
-              <button type="button" class="checkout-text-link" data-start-fast>Бърза поръчка</button>
-              <span aria-hidden="true">·</span>
-              <button type="button" class="checkout-text-link" data-start-reserve>Резервирай в магазин</button>
-            </div>
-
-            <!-- Account path (secondary, progressive) -->
-            <div class="account-panel" id="account-panel" hidden>
-              <h3 class="checkout-subhead">Имам регистрация</h3>
-              <div class="field-stack mt-4">
-                <div class="field">
-                  <label for="login-email">Ел. поща</label>
-                  <input id="login-email" name="logged_email" type="email" class="checkout-input" autocomplete="username"/>
-                </div>
-                <div class="field">
-                  <label for="login-pass">Парола</label>
-                  <input id="login-pass" name="password" type="password" class="checkout-input" autocomplete="current-password"/>
-                </div>
-                <button type="button" class="checkout-btn checkout-btn--primary w-full">Вход</button>
-              </div>
-              <div class="oauth-stack mt-4">
-                <button type="button" class="oauth-btn">Продължи с Facebook</button>
-                <button type="button" class="oauth-btn">Продължи с Google</button>
-              </div>
-              <button type="button" class="checkout-text-link mt-4" data-close-account>← Назад</button>
-            </div>
-
-            <!-- Hidden radios for mode compatibility -->
-            <div class="sr-only" id="checkout-type" aria-hidden="true">
-              <input type="radio" name="type" value="1" checked/>
-              <input type="radio" name="type" value="2"/>
-              <input type="radio" name="type" value="3"/>
-              <input type="radio" name="type" value="4"/>
-            </div>
           </section>
 
-          <!-- STEP 1: ДАННИ -->
-          <section class="checkout-step checkout-block" id="step-data" data-step="1" hidden>
-            <button type="button" class="step-summary" data-edit-step="1" hidden>
-              <span class="step-summary__check material-symbols-outlined" aria-hidden="true">check_circle</span>
-              <span class="step-summary__copy">
-                <span class="step-summary__title">Данни</span>
-                <span class="step-summary__meta js-summary-data">—</span>
-              </span>
-              <span class="step-summary__edit">Редактирай</span>
-            </button>
+          <!-- Guest checkout type (default value=1) -->
+          <div class="sr-only" id="checkout-type" aria-hidden="true">
+            <input type="radio" name="type" value="1" checked/>
+            <input type="radio" name="type" value="2"/>
+            <input type="radio" name="type" value="3"/>
+            <input type="radio" name="type" value="4"/>
+          </div>
 
-            <div class="step-body" data-step-body="1">
-              <h2 class="checkout-block__title">1. Данни</h2>
-              <p class="checkout-block__lead">Само необходимото, за да продължим.</p>
-              <div class="field-stack">
+          <!-- Mobile upsells (desktop uses aside recommendations) -->
+          <section class="checkout-recs checkout-recs--mobile" id="checkout-recs-mobile" aria-labelledby="checkout-recs-mobile-title">
+            <h2 id="checkout-recs-mobile-title" class="checkout-recs__title">Препоръчани за вас</h2>
+            <ul class="checkout-recs__list" role="list">
+              <li>
+                <a class="checkout-rec" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">
+                  <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" alt="" width="56" height="56" loading="lazy"/>
+                  <span class="checkout-rec__body">
+                    <span class="checkout-rec__name">ASUS TUF Gaming A16 2024 FA607NUG-RL117</span>
+                    <span class="checkout-rec__price">949.99 €</span>
+                  </span>
+                  <span class="checkout-rec__add material-symbols-outlined" aria-hidden="true">add_circle</span>
+                </a>
+              </li>
+              <li>
+                <a class="checkout-rec" href="hot-summer-sale-2026.html#laptopi">
+                  <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp" alt="" width="56" height="56" loading="lazy"/>
+                  <span class="checkout-rec__body">
+                    <span class="checkout-rec__name">Още лаптопи от Hot Summer Sale</span>
+                    <span class="checkout-rec__price">от 460.98 €</span>
+                  </span>
+                  <span class="checkout-rec__add material-symbols-outlined" aria-hidden="true">add_circle</span>
+                </a>
+              </li>
+            </ul>
+          </section>
+
+          <div class="checkout-form-sections" id="checkout-form-sections">
+          <!-- SECTION 01: ДАННИ -->
+          <section class="checkout-block" id="step-data">
+              <div class="co-section-head">
+                <span class="co-section-num" aria-hidden="true">01</span>
+                <h2 class="checkout-block__title">Данни за клиента</h2>
+              </div>
+
+              <aside class="co-profile-cta" aria-label="Профил">
+                <p class="co-profile-cta__text">Направете си профил за да следите доставки, документи и др <span class="co-profile-cta__optional">(незадължително)</span></p>
+                <div class="co-profile-cta__actions">
+                  <a href="https://plasico.bg/account" class="checkout-btn checkout-btn--google" id="btn-account-register" data-open-account>
+                    <svg class="checkout-btn__google-icon" width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    Регистрация
+                  </a>
+                  <a href="https://plasico.bg/account" class="checkout-btn checkout-btn--google" id="btn-account-login" data-open-account>
+                    <svg class="checkout-btn__google-icon" width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    Вход
+                  </a>
+                </div>
+              </aside>
+
+              <div class="field-stack field-stack--2">
                 <div class="field">
                   <label for="field-name">Име *</label>
                   <input id="field-name" name="name" type="text" class="checkout-input" autocomplete="name" required placeholder="Иван Иванов"/>
@@ -2088,47 +2111,107 @@
                   <label for="field-phone">Телефон *</label>
                   <input id="field-phone" name="address_phone" type="tel" class="checkout-input telephone" autocomplete="tel" required placeholder="08xxxxxxxx"/>
                 </div>
-                <div class="field">
+                <div class="field" style="grid-column: 1 / -1;">
                   <label for="field-email">Email *</label>
                   <input id="field-email" name="email" type="email" class="checkout-input" autocomplete="email" required placeholder="name@email.com"/>
+                  <p class="field-hint">Ще използваме имейла за изпращане на потвърждение и проследяване.</p>
                 </div>
               </div>
               <p class="field-error" id="step1-error" hidden>Попълни име, телефон и email.</p>
-              <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl w-full mt-5 desktop-step-cta" data-goto-step="2">
-                Продължи към доставка →
-              </button>
-            </div>
           </section>
 
-          <!-- STEP 2: ДОСТАВКА -->
-          <section class="checkout-step checkout-block" id="step-delivery" data-step="2" hidden>
-            <button type="button" class="step-summary" data-edit-step="2" hidden>
-              <span class="step-summary__check material-symbols-outlined" aria-hidden="true">check_circle</span>
-              <span class="step-summary__copy">
-                <span class="step-summary__title">Доставка</span>
-                <span class="step-summary__meta js-summary-delivery">—</span>
-              </span>
-              <span class="step-summary__edit">Редактирай</span>
-            </button>
-
-            <div class="step-body" data-step-body="2" hidden>
-              <h2 class="checkout-block__title">2. Доставка</h2>
+          <!-- SECTION 02: МЕТОД НА ДОСТАВКА -->
+          <section class="checkout-block" id="step-ship-method">
+              <div class="co-section-head">
+                <span class="co-section-num" aria-hidden="true">02</span>
+                <h2 class="checkout-block__title">Метод на доставка</h2>
+              </div>
+              <p class="checkout-block__lead">Срокът за доставка се потвърждава след обработка на поръчката.</p>
 
               <fieldset class="ship-to-fieldset">
-                <legend class="checkout-subhead">Как да получиш поръчката?</legend>
-                <div class="segmented" role="radiogroup" aria-label="Начин на получаване">
-                  <label class="segmented__option">
-                    <input type="radio" name="ship_to_id[2]" value="1" checked/>
-                    <span>До адрес</span>
+                <legend class="sr-only">Как да получиш поръчката?</legend>
+                <div class="option-stack" role="radiogroup" aria-label="Начин на получаване">
+                  <label class="option-row">
+                    <input type="radio" name="ship_to_id[2]" value="boxnow" aria-label="Безплатна доставка до BOX NOW" checked/>
+                    <span class="option-row__body">
+                      <span class="option-row__copy">
+                        <span class="option-row__title">BOX NOW <em class="option-row__badge">Безплатно</em></span>
+                        <span class="option-row__hint">Доставка до автомат · достъп 24/7</span>
+                      </span>
+                      <span class="option-row__price">0 €</span>
+                    </span>
                   </label>
-                  <label class="segmented__option">
-                    <input type="radio" name="ship_to_id[2]" value="2"/>
-                    <span>До офис</span>
+                  <label class="option-row">
+                    <input type="radio" name="ship_to_id[2]" value="1"/>
+                    <span class="option-row__body">
+                      <span class="option-row__copy">
+                        <span class="option-row__title">До адрес</span>
+                        <span class="option-row__hint">Куриер до посочения от теб адрес</span>
+                      </span>
+                      <span class="option-row__price">от 3.57 €</span>
+                    </span>
+                  </label>
+                  <label class="option-row">
+                    <input type="radio" name="ship_to_id[2]" value="office" aria-label="До офис"/>
+                    <span class="option-row__body">
+                      <span class="option-row__copy">
+                        <span class="option-row__title">До офис</span>
+                        <span class="option-row__hint">Вземи пратката от офис на Speedy или Еконт</span>
+                      </span>
+                      <span class="option-row__price">от 3.57 €</span>
+                    </span>
+                  </label>
+                  <label class="option-row">
+                    <input type="radio" name="ship_to_id[2]" value="store" aria-label="До магазин"/>
+                    <span class="option-row__body">
+                      <span class="option-row__copy">
+                        <span class="option-row__title">До магазин <em class="option-row__badge">Безплатно</em></span>
+                        <span class="option-row__hint">Вземи от Plasico IT Superstore</span>
+                      </span>
+                      <span class="option-row__price">0 €</span>
+                    </span>
                   </label>
                 </div>
+                <p class="co-info-banner">Безплатна доставка с BOX NOW и при вземане от магазин.</p>
               </fieldset>
+          </section>
 
-              <div class="field-stack mt-5" data-ship-panel="address">
+          <!-- SECTION 03: ДАННИ ЗА ДОСТАВКА -->
+          <section class="checkout-block" id="step-ship-details">
+              <div class="co-section-head">
+                <span class="co-section-num" aria-hidden="true">03</span>
+                <h2 class="checkout-block__title">Данни за доставка</h2>
+              </div>
+              <p class="checkout-block__lead">Попълни данните според избрания метод на доставка.</p>
+
+              <div class="field-stack mt-1" data-ship-panel="address" hidden>
+                <div class="mb-6" data-ship-courier>
+                  <h3 class="checkout-subhead mb-3">Куриер</h3>
+                  <div class="option-stack" role="radiogroup" aria-label="Куриер">
+                    <label class="option-row">
+                      <input type="radio" name="courier_id" value="2" data-shipping="3.57" data-label="Спиди" checked/>
+                      <span class="option-row__body">
+                        <span class="option-row__badge-icon" aria-hidden="true">SP</span>
+                        <span class="option-row__copy">
+                          <span class="option-row__title">Спиди <em class="option-row__badge">Препоръчан</em></span>
+                          <span class="option-row__hint">Стандартна куриерска доставка</span>
+                        </span>
+                        <span class="option-row__price">3.57 €</span>
+                      </span>
+                    </label>
+                    <label class="option-row">
+                      <input type="radio" name="courier_id" value="4" data-shipping="3.57" data-label="Транспрес"/>
+                      <span class="option-row__body">
+                        <span class="option-row__badge-icon" aria-hidden="true">TP</span>
+                        <span class="option-row__copy">
+                          <span class="option-row__title">Транспрес</span>
+                          <span class="option-row__hint">Алтернативен куриер до адрес</span>
+                        </span>
+                        <span class="option-row__price">3.57 €</span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
                 <div class="field">
                   <label for="field-city">Град</label>
                   <div class="search-field" data-searchable="city">
@@ -2145,9 +2228,49 @@
                   <label for="field-address-person">Получател</label>
                   <input id="field-address-person" name="address_person" type="text" class="checkout-input" placeholder="Име на получателя"/>
                 </div>
+                <div class="mt-2">
+                  <label class="invoice-check" for="want-recipient-phone">
+                    <input type="checkbox" name="want_recipient_phone" id="want-recipient-phone" value="1" aria-controls="recipient-phone-field"/>
+                    <span class="invoice-check__copy">
+                      <strong class="invoice-check__title">Тел номер на получателя е различен</strong>
+                      <span class="invoice-check__hint">По подразбиране се използва телефонът от контактните данни.</span>
+                    </span>
+                  </label>
+                  <div class="field mt-3" id="recipient-phone-field" hidden>
+                    <label for="field-address-person-phone">Телефон на получателя</label>
+                    <input id="field-address-person-phone" name="address_person_phone" type="tel" class="checkout-input telephone" autocomplete="tel" placeholder="08xxxxxxxx"/>
+                  </div>
+                </div>
               </div>
 
-              <div class="field-stack mt-5" data-ship-panel="office" hidden>
+              <div class="field-stack mt-1" data-ship-panel="office" hidden>
+                <div class="office-courier-choice">
+                  <h3 class="checkout-subhead mb-3">Куриер</h3>
+                  <div class="option-stack" role="radiogroup" aria-label="Куриер за офис">
+                    <label class="option-row">
+                      <input type="radio" name="office_courier" value="speedy" data-shipping="3.57" aria-label="Спиди офис" checked/>
+                      <span class="option-row__body">
+                        <span class="option-row__badge-icon" aria-hidden="true">SP</span>
+                        <span class="option-row__copy">
+                          <span class="option-row__title">Спиди офис</span>
+                          <span class="option-row__hint">Вземи пратката от удобен офис на Speedy</span>
+                        </span>
+                        <span class="option-row__price">3.57 €</span>
+                      </span>
+                    </label>
+                    <label class="option-row">
+                      <input type="radio" name="office_courier" value="econt" data-shipping="4.60" aria-label="Еконт офис"/>
+                      <span class="option-row__body">
+                        <span class="option-row__badge-icon" aria-hidden="true">EK</span>
+                        <span class="option-row__copy">
+                          <span class="option-row__title">Еконт офис</span>
+                          <span class="option-row__hint">Доставка до офис на Еконт</span>
+                        </span>
+                        <span class="option-row__price">4.60 €</span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
                 <div class="field">
                   <label for="field-office-city">Град</label>
                   <div class="search-field" data-searchable="city">
@@ -2167,82 +2290,174 @@
                 </div>
               </div>
 
-              <div class="mt-6">
-                <h3 class="checkout-subhead mb-3">Куриер</h3>
-                <div class="option-stack" role="radiogroup" aria-label="Куриер">
-                  <label class="option-row">
-                    <input type="radio" name="courier_id" value="2" data-shipping="3.57" data-label="Спиди" checked/>
+              <div class="field-stack mt-1" data-ship-panel="store" hidden>
+                <div class="field">
+                  <label for="field-store">Магазин</label>
+                  <select id="field-store" name="store_pickup" class="checkout-input">
+                    <option value="">Изберете магазин</option>
+                    <option value="varna">Plasico IT Superstore Варна</option>
+                    <option value="sofia">Plasico IT Superstore София</option>
+                  </select>
+                </div>
+                <p class="checkout-note mt-2">Безплатно получаване в избрания магазин.</p>
+              </div>
+
+              <div class="field-stack mt-1" data-ship-panel="boxnow">
+                <div class="field">
+                  <label for="field-boxnow-city">Град</label>
+                  <select id="field-boxnow-city" name="boxnow_city" class="checkout-input">
+                    <option value="">Изберете град</option>
+                    <option value="sofia">София</option>
+                    <option value="varna">Варна</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="field-boxnow-search">Автомат BOX NOW</label>
+                  <div class="search-field search-field--with-locate" data-boxnow-search>
+                    <span class="material-symbols-outlined search-field__icon" aria-hidden="true">search</span>
+                    <input id="field-boxnow-search" type="text" class="checkout-input search-field__input" placeholder="Търси по име или адрес" autocomplete="off"/>
+                    <button type="button" class="search-field__locate" id="boxnow-locate-btn" aria-pressed="false" aria-label="Покажи автомати близо до теб" title="Близо до теб">
+                      <span class="material-symbols-outlined" aria-hidden="true">my_location</span>
+                    </button>
+                  </div>
+                  <p class="boxnow-locate-status checkout-note" id="boxnow-locate-status" hidden></p>
+                </div>
+                <div class="option-stack boxnow-locker-list" id="boxnow-locker-list" role="radiogroup" aria-label="Автомати BOX NOW">
+                  <label class="option-row boxnow-locker" data-city="sofia" data-lat="42.6990" data-lng="23.3100" data-label="Mall of Sofia · бул. Александър Стамболийски 101">
+                    <input type="radio" name="boxnow_locker" value="bn-sof-mos"/>
                     <span class="option-row__body">
-                      <span class="option-row__title">Спиди <em class="option-row__badge">Препоръчан</em></span>
-                      <span class="option-row__price">3.57 €</span>
+                      <span class="option-row__copy">
+                        <span class="option-row__title">Mall of Sofia</span>
+                        <span class="option-row__hint">бул. Александър Стамболийски 101, София</span>
+                        <span class="boxnow-locker__near" hidden>Близо до теб</span>
+                      </span>
+                      <span class="option-row__price">Безплатно</span>
                     </span>
                   </label>
-                  <label class="option-row">
-                    <input type="radio" name="courier_id" value="1" data-shipping="4.60" data-label="Еконт"/>
+                  <label class="option-row boxnow-locker" data-city="sofia" data-lat="42.6580" data-lng="23.3140" data-label="Paradise Center · бул. Черни връх 100">
+                    <input type="radio" name="boxnow_locker" value="bn-sof-par"/>
                     <span class="option-row__body">
-                      <span class="option-row__title">Еконт <span class="option-row__hint">до офис</span></span>
-                      <span class="option-row__price">4.60 €</span>
+                      <span class="option-row__copy">
+                        <span class="option-row__title">Paradise Center</span>
+                        <span class="option-row__hint">бул. Черни връх 100, София</span>
+                        <span class="boxnow-locker__near" hidden>Близо до теб</span>
+                      </span>
+                      <span class="option-row__price">Безплатно</span>
                     </span>
                   </label>
-                  <label class="option-row">
-                    <input type="radio" name="courier_id" value="4" data-shipping="3.57" data-label="Транспрес"/>
+                  <label class="option-row boxnow-locker" data-city="sofia" data-lat="42.6920" data-lng="23.3530" data-label="Serdika Center · бул. Ситняково 48">
+                    <input type="radio" name="boxnow_locker" value="bn-sof-ser"/>
                     <span class="option-row__body">
-                      <span class="option-row__title">Транспрес</span>
-                      <span class="option-row__price">3.57 €</span>
+                      <span class="option-row__copy">
+                        <span class="option-row__title">Serdika Center</span>
+                        <span class="option-row__hint">бул. Ситняково 48, София</span>
+                        <span class="boxnow-locker__near" hidden>Близо до теб</span>
+                      </span>
+                      <span class="option-row__price">Безплатно</span>
+                    </span>
+                  </label>
+                  <label class="option-row boxnow-locker" data-city="varna" data-lat="43.2220" data-lng="27.9100" data-label="Grand Mall Varna · бул. Андрей Сахаров 2">
+                    <input type="radio" name="boxnow_locker" value="bn-var-gmv"/>
+                    <span class="option-row__body">
+                      <span class="option-row__copy">
+                        <span class="option-row__title">Grand Mall Varna</span>
+                        <span class="option-row__hint">бул. Андрей Сахаров 2, Варна</span>
+                        <span class="boxnow-locker__near" hidden>Близо до теб</span>
+                      </span>
+                      <span class="option-row__price">Безплатно</span>
+                    </span>
+                  </label>
+                  <label class="option-row boxnow-locker" data-city="varna" data-lat="43.2140" data-lng="27.9120" data-label="Varna Towers · бул. Сливница 166А">
+                    <input type="radio" name="boxnow_locker" value="bn-var-tow"/>
+                    <span class="option-row__body">
+                      <span class="option-row__copy">
+                        <span class="option-row__title">Varna Towers</span>
+                        <span class="option-row__hint">бул. Сливница 166А, Варна</span>
+                        <span class="boxnow-locker__near" hidden>Близо до теб</span>
+                      </span>
+                      <span class="option-row__price">Безплатно</span>
                     </span>
                   </label>
                 </div>
+                <p class="boxnow-locker-empty checkout-note mt-2" id="boxnow-locker-empty" hidden>Няма автомати за избрания град или търсене.</p>
+                <p class="checkout-note mt-2">Безплатна доставка до BOX NOW автомат.</p>
               </div>
 
               <input type="hidden" name="country_id" value="33"/>
-              <p class="field-error" id="step2-error" hidden>Избери град и адрес или офис.</p>
-              <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl w-full mt-5 desktop-step-cta" data-goto-step="3">
-                Продължи към плащане →
-              </button>
-            </div>
+              <p class="field-error" id="step2-error" hidden>Избери град и адрес, офис, магазин или BOX NOW автомат.</p>
           </section>
 
-          <!-- STEP 3: ПЛАЩАНЕ -->
-          <section class="checkout-step checkout-block" id="step-payment" data-step="3" hidden>
-            <button type="button" class="step-summary" data-edit-step="3" hidden>
-              <span class="step-summary__check material-symbols-outlined" aria-hidden="true">check_circle</span>
-              <span class="step-summary__copy">
-                <span class="step-summary__title">Плащане</span>
-                <span class="step-summary__meta js-summary-payment">—</span>
-              </span>
-              <span class="step-summary__edit">Редактирай</span>
-            </button>
-
-            <div class="step-body" data-step-body="3" hidden>
-              <h2 class="checkout-block__title">3. Плащане</h2>
+          <!-- SECTION 04: ПЛАЩАНЕ -->
+          <section class="checkout-block" id="step-payment">
+              <div class="co-section-head">
+                <span class="co-section-num" aria-hidden="true">04</span>
+                <h2 class="checkout-block__title">Метод на плащане</h2>
+              </div>
+              <p class="checkout-block__lead">Всички плащания са защитени с 3D Secure.</p>
 
               <div class="option-stack" id="checkout-payments" role="radiogroup" aria-label="Метод на плащане">
                 <label class="option-row">
                   <input type="radio" name="payment_id" value="1" data-label="Наложен платеж" checked/>
-                  <span class="option-row__body"><span class="option-row__title">Наложен платеж</span></span>
+                  <span class="option-row__body">
+                    <span class="option-row__badge-icon" aria-hidden="true">COD</span>
+                    <span class="option-row__copy">
+                      <span class="option-row__title">Наложен платеж</span>
+                      <span class="option-row__hint">Плащаш при доставка, такса от 1&nbsp;€</span>
+                    </span>
+                  </span>
+                </label>
+                <label class="option-row">
+                  <input type="radio" name="payment_id" value="2" data-label="Плащане с карта"/>
+                  <span class="option-row__body">
+                    <span class="option-row__badge-icon" aria-hidden="true">CARD</span>
+                    <span class="option-row__copy">
+                      <span class="option-row__title">Плащане с карта</span>
+                      <span class="option-row__hint">Visa, Mastercard · 3D Secure</span>
+                    </span>
+                  </span>
                 </label>
                 <label class="option-row">
                   <input type="radio" name="payment_id" value="7" data-label="Банков превод"/>
-                  <span class="option-row__body"><span class="option-row__title">Банков превод</span></span>
+                  <span class="option-row__body">
+                    <span class="option-row__badge-icon" aria-hidden="true">€</span>
+                    <span class="option-row__copy">
+                      <span class="option-row__title">Банков превод</span>
+                      <span class="option-row__hint">SEPA · обработка 1–2 раб. дни</span>
+                    </span>
+                  </span>
                 </label>
                 <label class="option-row">
                   <input type="radio" name="payment_id" value="8" data-label="На изплащане"/>
-                  <span class="option-row__body"><span class="option-row__title">На изплащане</span></span>
+                  <span class="option-row__body">
+                    <span class="option-row__badge-icon" aria-hidden="true">€/м</span>
+                    <span class="option-row__copy">
+                      <span class="option-row__title">На изплащане</span>
+                      <span class="option-row__hint">Избери схема след избор на метода</span>
+                    </span>
+                  </span>
                 </label>
+                <div id="installment-options" class="installment-options" hidden>
+                  <p class="installment-options__label">Избери вариант</p>
+                  <div class="installment-options__grid" role="radiogroup" aria-label="Вариант на изплащане">
+                    <button type="button" class="installment-option" data-installment="bnp" aria-pressed="false">
+                      <img src="https://static.plasico.bg/images/bnp_button_new.webp" alt="BNP изплащане" width="240" height="80" loading="lazy"/>
+                    </button>
+                    <button type="button" class="installment-option" data-installment="bnp-card" aria-pressed="false">
+                      <img src="https://static.plasico.bg/images/bnp_button_card.webp" alt="BNP карта" width="240" height="80" loading="lazy"/>
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div class="mt-6">
-                <h3 class="checkout-subhead mb-3">Клиент</h3>
-                <div class="segmented" id="checkout-person" role="radiogroup" aria-label="Тип клиент">
-                  <label class="segmented__option">
-                    <input type="radio" name="person" value="1" checked/>
-                    <span>Физическо лице</span>
-                  </label>
-                  <label class="segmented__option">
-                    <input type="radio" name="person" value="2"/>
-                    <span>Фирма / фактура</span>
-                  </label>
-                </div>
+                <label class="invoice-check" for="want-invoice">
+                  <input type="checkbox" name="want_invoice" id="want-invoice" value="1" aria-controls="checkout-firms"/>
+                  <span class="invoice-check__copy">
+                    <strong class="invoice-check__title">Искам фактура</strong>
+                    <span class="invoice-check__hint">Попълни данните за фактура, ако поръчката е за фирма или ти е необходим счетоводен документ.</span>
+                  </span>
+                </label>
+                <input type="hidden" name="person" id="checkout-person-value" value="1"/>
                 <div id="checkout-firms" class="field-stack mt-4" hidden>
                   <div class="field"><label for="firm-name">Фирма</label><input id="firm-name" name="firm_name" class="checkout-input"/></div>
                   <div class="field"><label for="firm-mol">МОЛ</label><input id="firm-mol" name="firm_mol" class="checkout-input"/></div>
@@ -2253,24 +2468,26 @@
 
               <div class="consent-stack mt-6">
                 <label class="consent-hit">
-                  <input type="checkbox" name="approve_conditions" value="1" id="approve-conditions"/>
-                  <span>Имам навършени 18 години и съм съгласен с <a href="https://plasico.bg/help?info=52" target="_blank" rel="noopener" class="text-apricot">общите условия</a> и обработката на лични данни</span>
-                </label>
-                <label class="consent-hit">
                   <input type="checkbox" name="phonecall_confirm" value="1"/>
                   <span>Желая потвърждение по телефон</span>
                 </label>
-                <p class="field-error" id="consent-error" hidden>Моля, приеми общите условия.</p>
+                <p class="consent-legal">
+                  С натискане се съгласяваш с
+                  <a href="https://plasico.bg/help?info=52" target="_blank" rel="noopener">Общите условия</a>
+                  и
+                  <a href="https://static.plasico.bg/resources/191112164954personal_data_policy.pdf" target="_blank" rel="noopener">Политиката за поверителност</a>
+                  на Plasico.bg.
+                </p>
               </div>
 
-              <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl w-full mt-5 checkout-finish desktop-step-cta" id="checkout-finish">
+              <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl w-full mt-5 checkout-finish lg:hidden" id="checkout-finish">
                 Поръчай →
               </button>
               <p class="checkout-note" id="checkout-mock-note" hidden></p>
-            </div>
           </section>
+          </div>
 
-          <!-- FAST / RESERVE lightweight panes -->
+          <!-- Fast order (reachable from aside / mobile trigger) -->
           <section class="checkout-block" id="pane-fast" hidden>
             <h2 class="checkout-block__title">Бърза поръчка</h2>
             <div class="field-stack">
@@ -2280,34 +2497,47 @@
             <button type="button" class="checkout-btn checkout-btn--primary w-full mt-4 checkout-finish">Поръчай →</button>
             <button type="button" class="checkout-text-link mt-3" data-back-gate>← Назад</button>
           </section>
-
-          <section class="checkout-block" id="pane-reserve" hidden>
-            <h2 class="checkout-block__title">Резервирай в магазин</h2>
-            <div class="field-stack">
-              <div class="field"><label for="reserve-name">Име *</label><input id="reserve-name" class="checkout-input"/></div>
-              <div class="field"><label for="reserve-phone">Телефон *</label><input id="reserve-phone" name="phone" class="checkout-input"/></div>
-              <div class="field">
-                <label for="reserve-shop">Магазин</label>
-                <select id="reserve-shop" name="reserve" class="checkout-input">
-                  <option>Plasico IT Superstore Варна</option>
-                  <option>Plasico IT Superstore София</option>
-                </select>
-              </div>
-            </div>
-            <button type="button" class="checkout-btn checkout-btn--primary w-full mt-4 checkout-finish">Резервирай →</button>
-            <button type="button" class="checkout-text-link mt-3" data-back-gate>← Назад</button>
-          </section>
         </div>
 
         <!-- DESKTOP ASIDE SUMMARY -->
         <aside class="checkout-layout__aside" aria-label="Обобщение на поръчката">
-          <div class="checkout-aside sticky top-[calc(var(--site-header-offset)+1rem)]">
-            <h2 class="checkout-aside__title">Вашата поръчка</h2>
-            <div class="summary-row"><span>Продукти</span><span class="js-summary-products">1070.97 €</span></div>
-            <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping">3.57 €</span></div>
-            <div class="summary-row summary-row--total"><span>Общо с ДДС</span><strong class="text-secondary js-summary-total">1074.54 €</strong></div>
-            <p class="checkout-aside__hint js-aside-hint">Продължи като гост, за да завършиш поръчката.</p>
+          <div class="checkout-layout__aside-sticky">
+          <div class="checkout-aside">
+            <h2 class="checkout-aside__title">
+              <span class="material-symbols-outlined" aria-hidden="true">shopping_cart</span>
+              Поръчка
+            </h2>
+
+            <p class="checkout-aside__empty js-aside-empty" hidden>Количката е празна. Добави продукти, за да продължиш.</p>
+            <ul class="checkout-aside__items js-aside-items" role="list"></ul>
+
+            <div class="promo-disclosure promo-disclosure--aside">
+              <button type="button" class="promo-disclosure__toggle" id="aside-promo-toggle" aria-expanded="false" aria-controls="aside-promo-panel">
+                Имаш промо код?
+                <span class="promo-disclosure__plus" aria-hidden="true">+</span>
+              </button>
+              <form class="promo-disclosure__panel" id="aside-promo-panel" hidden action="#" method="post" onsubmit="return false;">
+                <label for="aside-promo-code" class="sr-only">Промо код</label>
+                <div class="promo-disclosure__fields">
+                  <input id="aside-promo-code" name="aside_code" type="text" class="checkout-input" placeholder="Въведи промо код" autocomplete="off"/>
+                  <button type="submit" class="checkout-btn checkout-btn--ghost" id="aside-promo-apply">Приложи</button>
+                </div>
+                <p class="promo-disclosure__msg" id="aside-promo-msg" hidden></p>
+              </form>
+            </div>
+
+            <div class="summary-row"><span>Междинна сума</span><span class="js-summary-products">1070.97&nbsp;€</span></div>
+            <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping is-pending">—</span></div>
+            <div class="summary-row summary-row--total"><span>Дължимо общо</span><strong class="js-summary-total">1070.97&nbsp;€</strong></div>
+            <p class="checkout-aside__hint js-aside-hint">Попълни данните и потвърди поръчката.</p>
+            <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl" id="aside-cta" data-sticky-cta>
+              Поръчай →
+            </button>
           </div>
+
+          <button type="button" class="checkout-btn checkout-btn--outline checkout-fast-trigger checkout-fast-trigger--aside w-full" data-start-fast>
+            Бърза поръчка
+          </button>
 
           <section class="checkout-recs" aria-labelledby="checkout-recs-title">
             <h2 id="checkout-recs-title" class="checkout-recs__title">Препоръчани за вас</h2>
@@ -2334,6 +2564,7 @@
               </li>
             </ul>
           </section>
+          </div>
         </aside>
       </div>
 
@@ -2341,56 +2572,44 @@
       <div class="checkout-sticky-bar" id="checkout-sticky-bar">
         <div class="checkout-sticky-bar__total">
           <span class="checkout-sticky-bar__label">Общо</span>
-          <strong class="js-summary-total">1074.54 €</strong>
+          <strong class="js-summary-total">1070.97&nbsp;€</strong>
         </div>
         <button type="button" class="checkout-btn checkout-btn--primary" id="sticky-cta" data-sticky-cta>
-          Продължи →
+          Поръчай →
         </button>
       </div>
     </div>
 
   </main>
 <footer class="w-full rounded-t-xl border-t border-edge-light bg-surface-container-lowest shadow-[0_-4px_24px_rgba(0,0,0,0.5)]">
-    <!-- Payment methods -->
-    <div class="border-b border-edge-light/60">
-      <div class="max-w-7xl mx-auto px-container-padding py-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
-        <h2 class="site-footer-heading shrink-0">Начини на плащане</h2>
-        <div class="flex flex-wrap items-center gap-4">
-          <img src="https://static.plasico.bg/resources/nalojen_platej.gif" width="40" height="35" alt="Наложен платеж" class="rounded-md border border-edge-light/40 bg-surface-container-high/50 p-1"/>
-          <img src="https://static.plasico.bg/resources/bankov_pyt.gif" width="40" height="35" alt="Банков превод" class="rounded-md border border-edge-light/40 bg-surface-container-high/50 p-1"/>
-          <img src="https://static.plasico.bg/resources/150218155611trusted-handshake-icon.png" width="40" height="35" alt="На изплащане" class="rounded-md border border-edge-light/40 bg-surface-container-high/50 p-1"/>
-        </div>
-      </div>
-    </div>
-
     <!-- Navigation columns -->
     <div class="max-w-7xl mx-auto px-container-padding py-10">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-stack-lg">
-        <!-- ПРОДУКТИ — 4 columns -->
-        <div class="lg:col-span-4">
+        <!-- ПРОДУКТИ — 2 cols until lg (when this block spans 4/6), then 4 -->
+        <div class="lg:col-span-4 min-w-0">
           <h3 class="site-footer-heading mb-5">Продукти</h3>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-3">
-            <ul class="space-y-3">
+          <div class="footer-products-grid grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-4 min-w-0">
+            <ul class="space-y-3 min-w-0">
               <li><a class="site-footer-link" href="laptopi-i-aksesoari.html" rel="nofollow" target="_blank">Лаптопи</a></li>
               <li><a class="site-footer-link" href="monitori-i-proektori.html">Монитори и ТV</a></li>
               <li><a class="site-footer-link" href="videonablyudenie.html">Видеонаблюдение</a></li>
               <li><a class="site-footer-link" href="https://plasico.bg/stolove/geymyrski-stolove">Геймърски столове</a></li>
               <li><a class="site-footer-link" href="https://plasico.bg/komponenti/video-karti" rel="nofollow" target="_blank">Видео Карти</a></li>
             </ul>
-            <ul class="space-y-3">
+            <ul class="space-y-3 min-w-0">
               <li><a class="site-footer-link" href="https://plasico.bg/smartfoni-i-tableti/tableti" rel="nofollow" target="_blank">Таблети</a></li>
               <li><a class="site-footer-link" href="https://plasico.bg/printeri">Принтери</a></li>
               <li><a class="site-footer-link" href="https://plasico.bg/upotrebyavana-tehnika/kompyutri" rel="nofollow" target="_blank">Компютри втора ръка</a></li>
               <li><a class="site-footer-link" href="https://plasico.bg/laptopi-i-aksesoari/aksesoari/zaryadni-za-laptop">Зарядни за лаптоп</a></li>
               <li><a class="site-footer-link" href="https://plasico.bg/laptopi-i-aksesoari/aksesoari/chanti-za-laptop" rel="nofollow" target="_blank">Чанти за лаптоп</a></li>
             </ul>
-            <ul class="space-y-3">
+            <ul class="space-y-3 min-w-0">
               <li><a class="site-footer-link" href="https://plasico.bg/smartfoni-i-tableti/smartfoni" rel="nofollow" target="_blank">Смартфони</a></li>
               <li><a class="site-footer-link" href="software.html">Софтуер</a></li>
               <li><a class="site-footer-link" href="https://plasico.bg/upotrebyavana-tehnika/laptopi" rel="nofollow" target="_blank">Лаптопи втора ръка</a></li>
               <li><a class="site-footer-link" href="https://plasico.bg/aksesoari/vynshni-diskove" rel="nofollow" target="_blank">Външни дискове</a></li>
             </ul>
-            <ul class="space-y-3">
+            <ul class="space-y-3 min-w-0">
               <li><a class="site-footer-link" href="kompyutri-i-syrvyri.html" rel="nofollow" target="_blank">Компютри</a></li>
               <li><a class="site-footer-link" href="aksesoari.html">Аксесоари</a></li>
               <li><a class="site-footer-link" href="https://plasico.bg/stolove/ofis-stolove" rel="nofollow" target="_blank">Офис столове</a></li>
@@ -2445,9 +2664,6 @@
             Сравнете цени и важни параметри на Pazaruvaj
           </a>
         </div>
-        <a href="https://www.pazaruvaj.com/" title="Pazaruvaj - Надежден помощник за покупки" target="_blank" rel="noopener noreferrer" class="shrink-0">
-          <img loading="lazy" width="150" height="74" src="redesign/pazaruvaj-trusted-badge-150x74.png" alt="Коректен магазин — Pazaruvaj" class="rounded-md h-[74px] w-auto"/>
-        </a>
       </div>
     </div>
 
@@ -2466,169 +2682,10 @@
   </button>
 <script src="theme-switch.js"></script>
 <script src="cart-drawer.js"></script>
+<script src="header-megamag.js"></script>
 <script src="checkout-mock.js"></script>
   <script>
 
-    (function initHeaderCategories() {
-      const toggle = document.getElementById('categories-toggle');
-      const panel = document.getElementById('categories-panel');
-      const backdrop = document.getElementById('categories-backdrop');
-      const mapUrl = document.body?.dataset.categoryMap || 'category-map.json';
-
-      function isOpen() { return panel?.classList.contains('is-open'); }
-      function closeHeaderCategories() {
-        panel?.classList.remove('is-open');
-        panel?.setAttribute('aria-hidden', 'true');
-        backdrop?.classList.remove('is-visible');
-        backdrop?.setAttribute('aria-hidden', 'true');
-        toggle?.setAttribute('aria-expanded', 'false');
-        toggle?.classList.remove('is-open');
-      }
-      function openHeaderCategories() {
-        panel?.classList.add('is-open');
-        panel?.setAttribute('aria-hidden', 'false');
-        backdrop?.classList.add('is-visible');
-        backdrop?.setAttribute('aria-hidden', 'false');
-        toggle?.setAttribute('aria-expanded', 'true');
-        toggle?.classList.add('is-open');
-      }
-
-      toggle?.addEventListener('click', () => {
-        if (isOpen()) closeHeaderCategories();
-        else openHeaderCategories();
-      });
-      backdrop?.addEventListener('click', closeHeaderCategories);
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && isOpen()) {
-          closeHeaderCategories();
-          toggle?.focus();
-        }
-      });
-      document.addEventListener('click', (e) => {
-        if (!isOpen()) return;
-        const t = e.target;
-        if (toggle?.contains(t) || panel?.contains(t)) return;
-        closeHeaderCategories();
-      });
-
-      window.__closeHeaderCategories = closeHeaderCategories;
-      window.__closeHeaderCategoriesPanel = closeHeaderCategories;
-
-      function pagePrefix() {
-        const idx = mapUrl.lastIndexOf('/');
-        return idx >= 0 ? mapUrl.slice(0, idx + 1) : '';
-      }
-      function resolveNavUrl(item) {
-        const prefix = pagePrefix();
-        if (item.localUrl) return prefix + item.localUrl;
-        if (item.url && !item.url.startsWith('https://plasico.bg') && !item.url.startsWith('http')) {
-          return prefix + item.url.replace(/^\//, '');
-        }
-        return item.url || '#';
-      }
-      function navigateHeaderUrl(url, external) {
-        if (!url || url === '#') return;
-        closeHeaderCategories();
-        if (external || url.startsWith('https://')) {
-          window.open(url, external ? '_blank' : '_self', external ? 'noopener' : undefined);
-          return;
-        }
-        if (url.startsWith('#')) {
-          const target = document.querySelector(url.split('?')[0]);
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          else window.location.href = url;
-          return;
-        }
-        window.location.href = url;
-      }
-
-      function buildMegaCell(category, options) {
-        const subs = category.subcategories || [];
-        const hasSubs = subs.length > 0;
-        const cell = document.createElement('div');
-        cell.className = 'header-cat-mega-cell';
-        const dest = resolveNavUrl(category);
-        const isExternal = category.external || (!category.localUrl && (dest.startsWith('https://')));
-        const parent = hasSubs ? document.createElement('button') : document.createElement('a');
-        parent.className = 'header-cat-mega-parent';
-        parent.innerHTML = `
-          <span class="header-cat-mega-parent__icon" aria-hidden="true">
-            <span class="material-symbols-outlined">${category.materialIcon || 'category'}</span>
-          </span>
-          <span class="header-cat-mega-parent__label">${category.name}</span>
-          ${hasSubs ? '<span class="material-symbols-outlined header-cat-mega-parent__chevron">expand_more</span>' : ''}
-        `;
-        if (!hasSubs) {
-          parent.href = dest;
-          if (isExternal) {
-            parent.target = '_blank';
-            parent.rel = 'noopener';
-          }
-          parent.addEventListener('click', (e) => {
-            if (!isExternal) {
-              e.preventDefault();
-              navigateHeaderUrl(dest, false);
-            } else {
-              closeHeaderCategories();
-            }
-          });
-        } else {
-          parent.type = 'button';
-          parent.addEventListener('click', () => {
-            const wasOpen = cell.classList.contains('is-open');
-            parent.closest('.header-cat-mega-grid, #site-categories-panel-mobile')
-              ?.querySelectorAll('.header-cat-mega-cell.is-open')
-              .forEach(node => { if (node !== cell) node.classList.remove('is-open'); });
-            cell.classList.toggle('is-open', !wasOpen);
-            const chevron = parent.querySelector('.header-cat-mega-parent__chevron');
-            if (chevron) chevron.textContent = cell.classList.contains('is-open') ? 'expand_less' : 'expand_more';
-            if (typeof options.onParentClick === 'function') options.onParentClick(category, cell);
-          });
-        }
-        cell.appendChild(parent);
-        if (hasSubs) {
-          const subsWrap = document.createElement('div');
-          subsWrap.className = 'header-cat-mega-subs';
-          subs.forEach(sub => {
-            const subLink = document.createElement('button');
-            subLink.type = 'button';
-            subLink.className = 'header-cat-mega-sub';
-            subLink.textContent = sub.name;
-            subLink.addEventListener('click', () => {
-              if (typeof options.onSubClick === 'function') {
-                options.onSubClick(sub, category);
-              } else {
-                const subDest = sub.url && !sub.url.startsWith('https://plasico.bg') ? sub.url : (sub.url || dest);
-                navigateHeaderUrl(subDest, sub.action === 'external' || subDest.startsWith('https://'));
-              }
-            });
-            subsWrap.appendChild(subLink);
-          });
-          cell.appendChild(subsWrap);
-        }
-        return cell;
-      }
-
-      function renderSiteCategories(siteCategories) {
-        const root = document.getElementById('site-categories-panel-mobile');
-        if (!root) return;
-        root.innerHTML = '<p class="header-cat-section-title">ПРОДУКТОВИ КАТЕГОРИИ</p>';
-        const grid = document.createElement('div');
-        grid.className = 'header-cat-mega-grid';
-        (siteCategories || []).forEach(cat => grid.appendChild(buildMegaCell(cat, {})));
-        root.appendChild(grid);
-      }
-
-      window.__renderHeaderSiteCategories = renderSiteCategories;
-      window.__buildHeaderMegaCell = buildMegaCell;
-
-      fetch(mapUrl)
-        .then(res => (res.ok ? res.json() : null))
-        .then(map => {
-          if (map?.siteCategories) renderSiteCategories(map.siteCategories);
-        })
-        .catch(() => {});
-    })();
 
     (function initBackToTop() {
       const btn = document.getElementById('back-to-top');

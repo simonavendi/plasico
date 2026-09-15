@@ -343,7 +343,7 @@ def make_discount_badge_html(pct: int, is_promocode: bool, href: str) -> str:
     cls = badge_classes(pct, is_promocode)
     label = "ПРОМО" if is_promocode else f"-{pct}%"
     return (
-        f'\n    <a href="{href}" class="discount-badge absolute top-4 right-4 px-3 py-1 {cls} '
+        f'\n    <a href="{href}" class="discount-badge absolute top-4 left-4 px-3 py-1 {cls} '
         f"border rounded-full text-technical-sm font-bold cursor-pointer transition-transform "
         f'duration-200 hover:scale-105 hover:brightness-110 z-10" '
         f'aria-label="Виж разпродажата">{label}</a>'

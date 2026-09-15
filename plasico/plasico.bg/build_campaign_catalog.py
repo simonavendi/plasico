@@ -360,6 +360,7 @@ def build_page(
   <script src="{PREFIX}catalog-filters.js"></script>
   <script src="{PREFIX}campaign-category-nav.js"></script>
   <script src="{PREFIX}cart-drawer.js"></script>
+  <script src="{PREFIX}product-card-actions.js"></script>
 """ + adapt_shell_part(CONTENT_PAGE_SCRIPTS.strip(), link_map, page_path)
 
     return "\n".join([
