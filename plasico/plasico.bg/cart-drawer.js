@@ -2,6 +2,23 @@
   const CART_STORAGE_KEY = 'plasico-hss2026-cart';
   const CHECKOUT_URL = 'poruchka.html';
   const MOBILE_CART_MQ = '(max-width: 768px)';
+  const UPSELL_ITEMS = [
+    {
+      id: '13088697',
+      title: 'ASUS TUF Gaming A16 2024 FA607NUG-RL117',
+      price: 949.99,
+      image: 'https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp',
+      href: 'https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html',
+      addable: true,
+    },
+    {
+      title: 'Още лаптопи от Hot Summer Sale',
+      priceLabel: 'от 460.98 €',
+      image: 'https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp',
+      href: 'hot-summer-sale-2026.html#laptopi',
+      addable: false,
+    },
+  ];
 
   const root = document.getElementById('cart-drawer-root');
   const backdrop = document.getElementById('cart-drawer-backdrop');
@@ -17,6 +34,7 @@
   const itemsEl = document.getElementById('cart-drawer-items');
   const subtotalEl = document.getElementById('cart-drawer-subtotal');
   const productGrid = document.getElementById('product-grid');
+  const bodyEl = drawer && drawer.querySelector('.cart-drawer-body');
 
   if (!root || !drawer || !toggleBtn) return;
 
@@ -111,25 +129,40 @@
     }
   }
 
+  function resolveProductHref(href) {
+    if (!href || href === '#') return '';
+    try {
+      return new URL(href, window.location.href).href;
+    } catch {
+      return href;
+    }
+  }
+
   function extractProductFromArticle(article) {
     if (!article) return null;
     const id = article.dataset.id;
     if (!id) return null;
     const titleLink = article.querySelector('h4 a');
+    const imageLink = article.querySelector('.aspect-square a[href]');
     const title = titleLink ? titleLink.textContent.trim() : 'Продукт';
     const price = parseFloat(article.dataset.price) || 0;
     const { src, alt } = getProductImage(article);
-    return { id: String(id), title, price, image: src, alt: alt || title, qty: 1 };
+    const href = resolveProductHref(
+      titleLink?.getAttribute('href') || imageLink?.getAttribute('href') || ''
+    );
+    return { id: String(id), title, price, image: src, alt: alt || title, href, qty: 1 };
   }
 
   function addToCart(product) {
     if (!product || !product.id) return;
     const items = readCart();
     const existing = items.find(item => item.id === product.id);
+    const href = resolveProductHref(product.href || product.url || '');
     if (existing) {
       existing.qty = (Number(existing.qty) || 0) + (Number(product.qty) || 1);
       if (product.image && !existing.image) existing.image = product.image;
       if (product.alt && !existing.alt) existing.alt = product.alt;
+      if (href && !existing.href) existing.href = href;
     } else {
       items.push({
         id: product.id,
@@ -137,6 +170,7 @@
         price: product.price,
         image: product.image,
         alt: product.alt || product.title,
+        href: href || undefined,
         qty: Number(product.qty) || 1,
       });
     }
@@ -163,17 +197,158 @@
     updateHeaderBadge(next);
   }
 
-  function backfillItemImage(item, items) {
-    if (item.image || !productGrid) return item.image || '';
+  function backfillItemMeta(item, items) {
+    if (!productGrid) return { image: item.image || '', href: resolveProductHref(item.href || item.url || '') };
     const article = productGrid.querySelector(`article[data-id="${item.id}"]`);
-    if (!article) return item.image || '';
-    const { src, alt } = getProductImage(article);
-    if (src) {
-      item.image = src;
-      if (alt) item.alt = alt;
-      writeCart(items);
+    if (!article) {
+      return { image: item.image || '', href: resolveProductHref(item.href || item.url || '') };
     }
-    return item.image || '';
+    let changed = false;
+    if (!item.image) {
+      const { src, alt } = getProductImage(article);
+      if (src) {
+        item.image = src;
+        if (alt) item.alt = alt;
+        changed = true;
+      }
+    }
+    if (!item.href && !item.url) {
+      const titleLink = article.querySelector('h4 a');
+      const imageLink = article.querySelector('.aspect-square a[href]');
+      const href = resolveProductHref(
+        titleLink?.getAttribute('href') || imageLink?.getAttribute('href') || ''
+      );
+      if (href) {
+        item.href = href;
+        changed = true;
+      }
+    }
+    if (changed) writeCart(items);
+    return {
+      image: item.image || '',
+      href: resolveProductHref(item.href || item.url || ''),
+    };
+  }
+
+  function ensureUpsellSection() {
+    let section = document.getElementById('cart-drawer-upsell');
+    if (section) return section;
+    if (!bodyEl) return null;
+
+    section = document.createElement('section');
+    section.id = 'cart-drawer-upsell';
+    section.className = 'cart-drawer-upsell';
+    section.setAttribute('aria-labelledby', 'cart-drawer-upsell-title');
+    section.hidden = true;
+    section.innerHTML =
+      '<h3 id="cart-drawer-upsell-title" class="cart-drawer-upsell__title">Препоръчани за вас</h3>' +
+      '<ul id="cart-drawer-upsell-list" class="cart-drawer-upsell__list" role="list"></ul>';
+
+    if (itemsEl && itemsEl.parentNode === bodyEl) {
+      itemsEl.insertAdjacentElement('afterend', section);
+    } else {
+      bodyEl.appendChild(section);
+    }
+    return section;
+  }
+
+  function getVisibleUpsellItems(cartItems) {
+    const inCart = new Set(cartItems.map(item => String(item.id)));
+    return UPSELL_ITEMS.filter(entry => {
+      if (!entry.addable || !entry.id) return true;
+      return !inCart.has(String(entry.id));
+    });
+  }
+
+  function renderUpsell(cartItems) {
+    const section = ensureUpsellSection();
+    if (!section) return;
+    const list = section.querySelector('#cart-drawer-upsell-list') || section.querySelector('.cart-drawer-upsell__list');
+    if (!list) return;
+
+    const count = getTotalQty(cartItems);
+    const visible = count > 0 ? getVisibleUpsellItems(cartItems) : [];
+    list.innerHTML = '';
+
+    if (!visible.length) {
+      section.hidden = true;
+      return;
+    }
+
+    visible.forEach(entry => {
+      const li = document.createElement('li');
+      const row = document.createElement(entry.addable ? 'div' : 'a');
+      row.className = 'cart-drawer-upsell__row';
+
+      if (!entry.addable) {
+        row.href = entry.href;
+        row.addEventListener('click', () => closeDrawer());
+      }
+
+      const img = document.createElement('img');
+      img.className = 'cart-drawer-upsell__img';
+      img.src = entry.image;
+      img.alt = '';
+      img.width = 48;
+      img.height = 48;
+      img.loading = 'lazy';
+
+      const body = document.createElement('div');
+      body.className = 'cart-drawer-upsell__body';
+
+      const name = document.createElement(entry.addable ? 'a' : 'span');
+      name.className = 'cart-drawer-upsell__name';
+      name.textContent = entry.title;
+      if (entry.addable && entry.href) {
+        name.href = entry.href;
+        name.target = '_blank';
+        name.rel = 'noopener noreferrer';
+      }
+
+      const price = document.createElement('span');
+      price.className = 'cart-drawer-upsell__price';
+      price.textContent = entry.priceLabel || formatPrice(entry.price);
+
+      body.append(name, price);
+
+      const addBtn = document.createElement('button');
+      addBtn.type = 'button';
+      addBtn.className = 'cart-drawer-upsell__add';
+      addBtn.setAttribute(
+        'aria-label',
+        entry.addable ? `Добави ${entry.title} в количката` : `Разгледай ${entry.title}`
+      );
+      addBtn.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">add_circle</span>';
+
+      if (entry.addable) {
+        addBtn.addEventListener('click', e => {
+          e.preventDefault();
+          e.stopPropagation();
+          addToCart({
+            id: entry.id,
+            title: entry.title,
+            price: entry.price,
+            image: entry.image,
+            alt: entry.title,
+            href: entry.href,
+            qty: 1,
+          });
+        });
+      } else {
+        addBtn.addEventListener('click', e => {
+          e.preventDefault();
+          e.stopPropagation();
+          closeDrawer();
+          window.location.href = entry.href;
+        });
+      }
+
+      row.append(img, body, addBtn);
+      li.appendChild(row);
+      list.appendChild(li);
+    });
+
+    section.hidden = false;
   }
 
   function renderCart(items) {
@@ -192,13 +367,19 @@
         li.className = 'cart-drawer-item';
         li.dataset.id = item.id;
 
-        const thumb = document.createElement('div');
+        const meta = backfillItemMeta(item, items);
+        const productHref = meta.href;
+
+        const thumb = document.createElement(productHref ? 'a' : 'div');
         thumb.className = 'cart-drawer-item__thumb';
+        if (productHref) {
+          thumb.href = productHref;
+          thumb.setAttribute('aria-label', item.title || 'Продукт');
+        }
 
         const img = document.createElement('img');
         img.className = 'cart-drawer-item__image';
-        const imageSrc = backfillItemImage(item, items) || resolveImageUrl(item.image);
-        img.src = imageSrc;
+        img.src = resolveImageUrl(meta.image || item.image);
         img.alt = item.alt || item.title || '';
         img.loading = 'lazy';
 
@@ -207,9 +388,10 @@
         const info = document.createElement('div');
         info.className = 'cart-drawer-item__info';
 
-        const title = document.createElement('span');
+        const title = document.createElement(productHref ? 'a' : 'span');
         title.className = 'cart-drawer-item__title';
         title.textContent = item.title;
+        if (productHref) title.href = productHref;
 
         const price = document.createElement('span');
         price.className = 'cart-drawer-item__price';
@@ -249,6 +431,7 @@
       });
     }
     if (subtotalEl) subtotalEl.textContent = formatPrice(getSubtotal(items));
+    renderUpsell(items);
   }
 
   function getFocusableElements() {

@@ -1949,7 +1949,7 @@
               <h2 id="cart-heading" class="checkout-block__title">Количка</h2>
             </div>
             <ul class="cart-cards" role="list">
-              <li class="cart-card" data-cart-id="13138817" data-unit="460.98" data-name="UPGRADED HP 250R G10">
+              <li class="cart-card" data-cart-id="13138817" data-unit="460.98" data-name="UPGRADED HP 250R G10" data-href="https://plasico.bg/hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html">
                 <a href="https://plasico.bg/hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
                   <img src="https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp" alt="UPGRADED HP 250R G10" width="84" height="84" loading="lazy" class="cart-card__image"/>
                 </a>
@@ -1968,14 +1968,14 @@
                         <span class="material-symbols-outlined" aria-hidden="true">add</span>
                       </button>
                     </div>
-                    <button type="button" class="cart-card__remove" data-remove aria-label="Премахни продукта">
+                    <button type="button" class="cart-card__remove" data-remove aria-label="Премахни" title="Премахни">
                       <span class="material-symbols-outlined" aria-hidden="true">delete</span>
-                      <span>Премахни</span>
+                      <span class="cart-card__remove-text">Премахни</span>
                     </button>
                   </div>
                 </div>
               </li>
-              <li class="cart-card" data-cart-id="13128355" data-unit="609.99" data-name="UPGRADED HP 15-fc0014nu">
+              <li class="cart-card" data-cart-id="13128355" data-unit="609.99" data-name="UPGRADED HP 15-fc0014nu" data-href="https://plasico.bg/hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html">
                 <a href="https://plasico.bg/hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
                   <img src="https://static.plasico.bg/thumbs/10/251124151840hp-15-fc0013nu-1.webp" alt="UPGRADED HP 15-fc0014nu" width="84" height="84" loading="lazy" class="cart-card__image"/>
                 </a>
@@ -1994,9 +1994,9 @@
                         <span class="material-symbols-outlined" aria-hidden="true">add</span>
                       </button>
                     </div>
-                    <button type="button" class="cart-card__remove" data-remove aria-label="Премахни продукта">
+                    <button type="button" class="cart-card__remove" data-remove aria-label="Премахни" title="Премахни">
                       <span class="material-symbols-outlined" aria-hidden="true">delete</span>
-                      <span>Премахни</span>
+                      <span class="cart-card__remove-text">Премахни</span>
                     </button>
                   </div>
                 </div>
@@ -2384,7 +2384,6 @@
                 <label class="option-row">
                   <input type="radio" name="payment_id" value="1" data-label="Наложен платеж"/>
                   <span class="option-row__body">
-                    <span class="option-row__badge-icon" aria-hidden="true">COD</span>
                     <span class="option-row__copy">
                       <span class="option-row__title">Наложен платеж</span>
                       <span class="option-row__hint">Плащаш при доставка</span>
@@ -2394,7 +2393,6 @@
                 <label class="option-row">
                   <input type="radio" name="payment_id" value="2" data-label="Плащане с карта"/>
                   <span class="option-row__body">
-                    <span class="option-row__badge-icon" aria-hidden="true">CARD</span>
                     <span class="option-row__copy">
                       <span class="option-row__title">Плащане с карта</span>
                       <span class="option-row__hint">Visa, Mastercard · 3D Secure</span>
@@ -2404,7 +2402,6 @@
                 <label class="option-row">
                   <input type="radio" name="payment_id" value="7" data-label="Банков превод" checked/>
                   <span class="option-row__body">
-                    <span class="option-row__badge-icon" aria-hidden="true">€</span>
                     <span class="option-row__copy">
                       <span class="option-row__title">Банков превод</span>
                       <span class="option-row__hint">SEPA · обработка 1–2 раб. дни</span>
@@ -2414,7 +2411,6 @@
                 <label class="option-row">
                   <input type="radio" name="payment_id" value="8" data-label="На изплащане с PostBank"/>
                   <span class="option-row__body">
-                    <span class="option-row__badge-icon" aria-hidden="true">€/м</span>
                     <span class="option-row__copy">
                       <span class="option-row__title">На изплащане с PostBank</span>
                       <span class="option-row__hint">Избери схема след избор на метода</span>
@@ -2452,10 +2448,22 @@
               </div>
 
               <div class="consent-stack mt-6">
-                <label class="consent-hit">
-                  <input type="checkbox" name="phonecall_confirm" value="1"/>
-                  <span>Желая потвърждение по телефон</span>
-                </label>
+                <div class="consent-choice">
+                  <p class="consent-choice__label" id="phonecall-confirm-label">
+                    Желая потвърждение по телефон
+                    <span class="consent-choice__optional">(незадължително)</span>
+                  </p>
+                  <div class="segmented segmented--compact" role="radiogroup" aria-labelledby="phonecall-confirm-label">
+                    <label class="segmented__option">
+                      <input type="radio" name="phonecall_confirm" value="1"/>
+                      <span>Да</span>
+                    </label>
+                    <label class="segmented__option">
+                      <input type="radio" name="phonecall_confirm" value="0"/>
+                      <span>Не</span>
+                    </label>
+                  </div>
+                </div>
                 <p class="consent-legal">
                   С натискане се съгласяваш с
                   <a href="https://plasico.bg/help?info=52" target="_blank" rel="noopener">Общите условия</a>

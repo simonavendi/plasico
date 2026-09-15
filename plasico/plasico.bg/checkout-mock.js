@@ -61,6 +61,13 @@
       const qty = parseInt(card.querySelector('.qty-control__value')?.textContent || '0', 10) || 0;
       if (qty <= 0) return;
       const img = card.querySelector('.cart-card__image');
+      const titleLink = card.querySelector('a.cart-card__title');
+      const thumbLink = card.querySelector('a.cart-card__thumb');
+      const href =
+        card.dataset.href ||
+        titleLink?.getAttribute('href') ||
+        thumbLink?.getAttribute('href') ||
+        '';
       items.push({
         id: String(id),
         title: card.dataset.name || card.querySelector('.cart-card__title')?.textContent?.trim() || 'Продукт',
@@ -68,6 +75,7 @@
         qty,
         image: img?.getAttribute('src') || '',
         alt: img?.getAttribute('alt') || card.dataset.name || '',
+        href: href && href !== '#' ? href : undefined,
       });
     });
     writeStoredCart(items);
@@ -108,13 +116,23 @@
         const qty = Math.max(1, Number(item.qty) || 1);
         const image = escapeHtml(item.image || '');
         const alt = escapeHtml(item.alt || item.title || '');
+        const hrefRaw = item.href || item.url || '';
+        const href = hrefRaw && hrefRaw !== '#' ? escapeHtml(hrefRaw) : '';
         const lineTotal = money(price * qty);
-        return `<li class="cart-card" data-cart-id="${id}" data-unit="${price}" data-name="${title}">
-          <span class="cart-card__thumb" aria-hidden="true">
+        const thumb = href
+          ? `<a href="${href}" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
             <img src="${image}" alt="${alt}" width="84" height="84" loading="lazy" class="cart-card__image"/>
-          </span>
+          </a>`
+          : `<span class="cart-card__thumb" aria-hidden="true">
+            <img src="${image}" alt="${alt}" width="84" height="84" loading="lazy" class="cart-card__image"/>
+          </span>`;
+        const titleEl = href
+          ? `<a href="${href}" class="cart-card__title">${title}</a>`
+          : `<span class="cart-card__title">${title}</span>`;
+        return `<li class="cart-card" data-cart-id="${id}" data-unit="${price}" data-name="${title}"${href ? ` data-href="${href}"` : ''}>
+          ${thumb}
           <div class="cart-card__content">
-            <span class="cart-card__title">${title}</span>
+            ${titleEl}
             <p class="cart-card__price"><strong class="js-line-total">${lineTotal}</strong></p>
             <div class="cart-card__row">
               <div class="qty-control" role="group" aria-label="Количество">
@@ -126,9 +144,9 @@
                   <span class="material-symbols-outlined" aria-hidden="true">add</span>
                 </button>
               </div>
-              <button type="button" class="cart-card__remove" data-remove aria-label="Премахни продукта">
+              <button type="button" class="cart-card__remove" data-remove aria-label="Премахни" title="Премахни">
                 <span class="material-symbols-outlined" aria-hidden="true">delete</span>
-                <span>Премахни</span>
+                <span class="cart-card__remove-text">Премахни</span>
               </button>
             </div>
           </div>
@@ -207,10 +225,22 @@
         const unit = parseFloat(card.dataset.unit || '0') || 0;
         const title = escapeHtml(card.dataset.name || card.querySelector('.cart-card__title')?.textContent?.trim() || 'Продукт');
         const img = escapeHtml(card.querySelector('.cart-card__image')?.getAttribute('src') || '');
+        const hrefRaw =
+          card.dataset.href ||
+          card.querySelector('a.cart-card__title')?.getAttribute('href') ||
+          card.querySelector('a.cart-card__thumb')?.getAttribute('href') ||
+          '';
+        const href = hrefRaw && hrefRaw !== '#' ? escapeHtml(hrefRaw) : '';
+        const nameEl = href
+          ? `<a href="${href}" class="checkout-aside__item-name">${title}</a>`
+          : `<span class="checkout-aside__item-name">${title}</span>`;
+        const imgEl = href
+          ? `<a href="${href}" class="checkout-aside__item-thumb" tabindex="-1" aria-hidden="true"><img class="checkout-aside__item-img" src="${img}" alt="" width="48" height="48" loading="lazy"/></a>`
+          : `<img class="checkout-aside__item-img" src="${img}" alt="" width="48" height="48" loading="lazy"/>`;
         return `<li class="checkout-aside__item">
-          <img class="checkout-aside__item-img" src="${img}" alt="" width="48" height="48" loading="lazy"/>
+          ${imgEl}
           <span>
-            <span class="checkout-aside__item-name">${title}</span>
+            ${nameEl}
             <span class="checkout-aside__item-meta">× ${qty}</span>
           </span>
           <span class="checkout-aside__item-price">${money(unit * qty)}</span>
