@@ -116,10 +116,9 @@
   function setFavButtonState(btn, favorited) {
     btn.classList.toggle('is-favorited', favorited);
     btn.setAttribute('aria-pressed', favorited ? 'true' : 'false');
-    btn.setAttribute(
-      'aria-label',
-      favorited ? 'Премахни от любими' : 'Добави в любими'
-    );
+    const label = favorited ? 'Премахни от любими' : 'Добави в любими';
+    btn.setAttribute('aria-label', label);
+    btn.title = label;
   }
 
   function setCompareButtonState(btn, selected) {
@@ -347,7 +346,8 @@
       const addBtn = document.createElement('button');
       addBtn.type = 'button';
       addBtn.className = 'product-add-btn';
-      addBtn.setAttribute('aria-label', 'Добави в количката');
+      addBtn.setAttribute('aria-label', 'Добави в количка');
+      addBtn.title = 'Добави в количка';
       addBtn.innerHTML =
         '<span class="material-symbols-outlined" aria-hidden="true">add</span>';
 
@@ -361,7 +361,7 @@
       compareBtn.type = 'button';
       compareBtn.className = 'product-compare-btn';
       compareBtn.innerHTML =
-        '<span class="material-symbols-outlined" aria-hidden="true">check</span>';
+        '<span class="material-symbols-outlined" aria-hidden="true">swap_vert</span>';
       actions.appendChild(compareBtn);
     }
     setCompareButtonState(compareBtn, compareIds.has(id));
