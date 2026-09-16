@@ -308,6 +308,7 @@
       compactMeta.textContent = countLabel;
     }
     updateAsideItems();
+    document.dispatchEvent(new CustomEvent('plasico:cart-updated'));
   }
 
   function updateLine(card) {

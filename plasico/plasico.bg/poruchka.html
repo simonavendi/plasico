@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html data-theme="light" lang="bg" data-redesign="spatial-minimalism">
 <head>
     <script>
@@ -1764,6 +1764,7 @@
 
   </style>
   <link rel="stylesheet" href="checkout-mock.css"/>
+  <link rel="stylesheet" href="local-leasing-modal.css"/>
   <link rel="stylesheet" href="theme-overrides.css"/>
   <link rel="stylesheet" href="megamag-header.css"/>
 </head>
@@ -1949,12 +1950,12 @@
               <h2 id="cart-heading" class="checkout-block__title">Количка</h2>
             </div>
             <ul class="cart-cards" role="list">
-              <li class="cart-card" data-cart-id="13138817" data-unit="460.98" data-name="UPGRADED HP 250R G10" data-href="https://plasico.bg/hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html">
-                <a href="https://plasico.bg/hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
+              <li class="cart-card" data-cart-id="13138817" data-unit="460.98" data-name="UPGRADED HP 250R G10" data-href="hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html">
+                <a href="hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
                   <img src="https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp" alt="UPGRADED HP 250R G10" width="84" height="84" loading="lazy" class="cart-card__image"/>
                 </a>
                 <div class="cart-card__content">
-                  <a href="https://plasico.bg/hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html" class="cart-card__title">
+                  <a href="hp-250r-g10-156-fhd-ips-intel-core-3-100u-8gb-512gb-ssd-turbo-silver-b9yn1et-13138817.html" class="cart-card__title">
                     UPGRADED HP 250R G10, 15.6&quot; FHD IPS, Intel Core 3 100U, 16 GB, 512GB SSD, Turbo silver | B9YN1ET
                   </a>
                   <p class="cart-card__price"><strong class="js-line-total">460.98&nbsp;€</strong></p>
@@ -1975,12 +1976,12 @@
                   </div>
                 </div>
               </li>
-              <li class="cart-card" data-cart-id="13128355" data-unit="609.99" data-name="UPGRADED HP 15-fc0014nu" data-href="https://plasico.bg/hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html">
-                <a href="https://plasico.bg/hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
+              <li class="cart-card" data-cart-id="13128355" data-unit="609.99" data-name="UPGRADED HP 15-fc0014nu" data-href="hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html">
+                <a href="hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html" class="cart-card__thumb" tabindex="-1" aria-hidden="true">
                   <img src="https://static.plasico.bg/thumbs/10/251124151840hp-15-fc0013nu-1.webp" alt="UPGRADED HP 15-fc0014nu" width="84" height="84" loading="lazy" class="cart-card__image"/>
                 </a>
                 <div class="cart-card__content">
-                  <a href="https://plasico.bg/hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html" class="cart-card__title">
+                  <a href="hp-15-fc0014nu-156-fhd-amd-ryzen-5-5625u-16gb-512gb-ssd-chalkboard-gray-bm0s9ea-13128355.html" class="cart-card__title">
                     UPGRADED HP 15-fc0014nu, 15.6&quot; FHD, AMD Ryzen 5 5625U, 32 GB, 512GB SSD, Chalkboard Gray | BM0S9EA
                   </a>
                   <p class="cart-card__price"><strong class="js-line-total">609.99&nbsp;€</strong></p>
@@ -2027,8 +2028,11 @@
               <div class="order-summary-compact__body">
                 <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping is-pending">—</span></div>
                 <div class="summary-row summary-row--total"><span>Общо с ДДС</span><strong class="js-summary-total">1070.97&nbsp;€</strong></div>
+                <div class="load-leasing"></div>
               </div>
             </div>
+
+            <button type="button" class="js-open-leasing checkout-btn checkout-btn--outline w-full mt-3 lg:hidden" hidden>Купи на изплащане</button>
 
             <button type="button" class="checkout-btn checkout-btn--outline checkout-fast-trigger checkout-fast-trigger--mobile lg:hidden w-full mt-3" data-start-fast>
               Бърза поръчка
@@ -2049,14 +2053,14 @@
             <ul class="checkout-recs__list" role="list">
               <li>
                 <div class="checkout-rec">
-                  <a class="checkout-rec__media" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">
+                  <a class="checkout-rec__media" href="asus-tuf-gaming-a16-2024-fa607nug-rl117-16quot-fhd-ips-13088697.html">
                     <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" alt="ASUS TUF Gaming A16 2024 FA607NUG-RL117" width="56" height="56" loading="lazy"/>
                   </a>
                   <div class="checkout-rec__body">
-                    <a class="checkout-rec__name" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">ASUS TUF Gaming A16 2024 FA607NUG-RL117</a>
+                    <a class="checkout-rec__name" href="asus-tuf-gaming-a16-2024-fa607nug-rl117-16quot-fhd-ips-13088697.html">ASUS TUF Gaming A16 2024 FA607NUG-RL117</a>
                     <span class="checkout-rec__price">949.99 €</span>
                   </div>
-                  <button type="button" class="checkout-rec__add" data-rec-add data-rec-id="13088697" data-rec-title="ASUS TUF Gaming A16 2024 FA607NUG-RL117" data-rec-price="949.99" data-rec-image="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" data-rec-href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html" aria-label="Добави ASUS TUF Gaming A16 2024 FA607NUG-RL117 в количката" title="Добави в количка">
+                  <button type="button" class="checkout-rec__add" data-rec-add data-rec-id="13088697" data-rec-title="ASUS TUF Gaming A16 2024 FA607NUG-RL117" data-rec-price="949.99" data-rec-image="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" data-rec-href="asus-tuf-gaming-a16-2024-fa607nug-rl117-16quot-fhd-ips-13088697.html" aria-label="Добави ASUS TUF Gaming A16 2024 FA607NUG-RL117 в количката" title="Добави в количка">
                     <span class="material-symbols-outlined" aria-hidden="true">add_circle</span>
                   </button>
                 </div>
@@ -2428,12 +2432,18 @@
                 <div id="installment-options" class="installment-options" hidden>
                   <p class="installment-options__label">Избери метод</p>
                   <div class="installment-options__grid" role="radiogroup" aria-label="Схема на изплащане с PostBank">
-                    <button type="button" class="installment-option" data-installment="bnp" aria-pressed="false">
-                      <img src="https://static.plasico.bg/images/bnp_button_new.webp" alt="PostBank изплащане" width="240" height="80" loading="lazy"/>
-                    </button>
-                    <button type="button" class="installment-option" data-installment="bnp-card" aria-pressed="false">
-                      <img src="https://static.plasico.bg/images/bnp_button_card.webp" alt="PostBank карта" width="240" height="80" loading="lazy"/>
-                    </button>
+                    <div class="installment-option-wrap">
+                      <button type="button" class="installment-option" data-installment="bnp" aria-pressed="false">
+                        <img src="assets/postbank/pb-izplashtane-154x69.png" alt="PostBank изплащане" width="154" height="69" loading="lazy"/>
+                      </button>
+                      <span class="installment-option__caption">Изплащане на вноски</span>
+                    </div>
+                    <div class="installment-option-wrap">
+                      <button type="button" class="installment-option" data-installment="bnp-card" aria-pressed="false">
+                        <img src="assets/postbank/pb-card-154x69.png" alt="PostBank кредитна карта" width="154" height="69" loading="lazy"/>
+                      </button>
+                      <span class="installment-option__caption">Изплащане на вноски с кредитна карта на PostBank</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -2560,6 +2570,8 @@
             <div class="summary-row"><span>Междинна сума</span><span class="js-summary-products">1070.97&nbsp;€</span></div>
             <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping is-pending">—</span></div>
             <div class="summary-row summary-row--total"><span>Дължимо общо</span><strong class="js-summary-total">1070.97&nbsp;€</strong></div>
+            <div class="load-leasing"></div>
+            <button type="button" class="js-open-leasing checkout-btn checkout-btn--outline w-full mt-3" hidden>Купи на изплащане</button>
             <p class="checkout-aside__hint js-aside-hint">Попълни данните и потвърди поръчката.</p>
             <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl" id="aside-cta" data-sticky-cta>
               Поръчай →
@@ -2575,14 +2587,14 @@
             <ul class="checkout-recs__list" role="list">
               <li>
                 <div class="checkout-rec">
-                  <a class="checkout-rec__media" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">
+                  <a class="checkout-rec__media" href="asus-tuf-gaming-a16-2024-fa607nug-rl117-16quot-fhd-ips-13088697.html">
                     <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" alt="ASUS TUF Gaming A16 2024 FA607NUG-RL117" width="56" height="56" loading="lazy"/>
                   </a>
                   <div class="checkout-rec__body">
-                    <a class="checkout-rec__name" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">ASUS TUF Gaming A16 2024 FA607NUG-RL117</a>
+                    <a class="checkout-rec__name" href="asus-tuf-gaming-a16-2024-fa607nug-rl117-16quot-fhd-ips-13088697.html">ASUS TUF Gaming A16 2024 FA607NUG-RL117</a>
                     <span class="checkout-rec__price">949.99 €</span>
                   </div>
-                  <button type="button" class="checkout-rec__add" data-rec-add data-rec-id="13088697" data-rec-title="ASUS TUF Gaming A16 2024 FA607NUG-RL117" data-rec-price="949.99" data-rec-image="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" data-rec-href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html" aria-label="Добави ASUS TUF Gaming A16 2024 FA607NUG-RL117 в количката" title="Добави в количка">
+                  <button type="button" class="checkout-rec__add" data-rec-add data-rec-id="13088697" data-rec-title="ASUS TUF Gaming A16 2024 FA607NUG-RL117" data-rec-price="949.99" data-rec-image="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" data-rec-href="asus-tuf-gaming-a16-2024-fa607nug-rl117-16quot-fhd-ips-13088697.html" aria-label="Добави ASUS TUF Gaming A16 2024 FA607NUG-RL117 в количката" title="Добави в количка">
                     <span class="material-symbols-outlined" aria-hidden="true">add_circle</span>
                   </button>
                 </div>
@@ -2765,6 +2777,7 @@
   </button>
 <script src="theme-switch.js"></script>
 <script src="cart-drawer.js"></script>
+<script src="local-leasing-modal.js"></script>
 <script src="header-megamag.js"></script>
 <script src="auth-modal.js"></script>
 <script src="checkout-mock.js"></script>

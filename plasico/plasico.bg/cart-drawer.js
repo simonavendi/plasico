@@ -432,6 +432,7 @@
     }
     if (subtotalEl) subtotalEl.textContent = formatPrice(getSubtotal(items));
     renderUpsell(items);
+    document.dispatchEvent(new CustomEvent('plasico:cart-updated'));
   }
 
   function getFocusableElements() {
