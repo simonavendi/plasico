@@ -44,6 +44,32 @@
     }
   }
 
+  function addRecToCart(product) {
+    if (!product?.id) return;
+    const items = readStoredCart();
+    const existing = items.find((item) => item.id === product.id);
+    if (existing) {
+      existing.qty = (Number(existing.qty) || 0) + 1;
+      if (product.image && !existing.image) existing.image = product.image;
+      if (product.title && !existing.title) existing.title = product.title;
+      if (product.href && !existing.href) existing.href = product.href;
+    } else {
+      items.push({
+        id: String(product.id),
+        title: product.title || 'Продукт',
+        price: Number(product.price) || 0,
+        image: product.image || '',
+        alt: product.title || 'Продукт',
+        href: product.href || undefined,
+        qty: 1,
+      });
+    }
+    writeStoredCart(items);
+    renderStoredCart();
+    updateTotals();
+    syncMobileRecsVisibility();
+  }
+
   function escapeHtml(value) {
     return String(value ?? '')
       .replace(/&/g, '&amp;')
@@ -311,6 +337,7 @@
     if (shipTo === 'office') syncOfficePicker();
     if (shipTo === 'boxnow') filterBoxNowLockers();
     updateTotals();
+    syncPersonCopyIfChecked();
   }
 
   let boxnowLocateActive = false;
@@ -469,12 +496,77 @@
     );
   }
 
+  function joinAddressParts(parts) {
+    return parts
+      .map((part) => String(part || '').trim())
+      .filter(Boolean)
+      .join(', ');
+  }
+
+  function getSelectedOptionLabel(selectEl) {
+    if (!selectEl || selectEl.selectedIndex < 0) return '';
+    const option = selectEl.options[selectEl.selectedIndex];
+    if (!option || !option.value) return '';
+    return (option.textContent || '').trim();
+  }
+
+  /** Best-effort shipping address for invoice individual fields. */
+  function getShippingAddressForInvoice() {
+    const shipTo = getShipTo();
+
+    if (shipTo === 'office') {
+      const city = document.getElementById('field-office-city')?.value || '';
+      const office = document.getElementById('field-office-search')?.value || '';
+      return joinAddressParts([city, office]);
+    }
+
+    if (shipTo === 'store') {
+      return getSelectedOptionLabel(document.getElementById('field-store'));
+    }
+
+    if (shipTo === 'boxnow') {
+      const checked = root.querySelector('input[name="boxnow_locker"]:checked');
+      const locker = checked?.closest('.boxnow-locker');
+      if (locker) {
+        const fromData = (locker.getAttribute('data-label') || '').trim();
+        if (fromData) return fromData.replace(/\s*·\s*/g, ', ');
+        const title = locker.querySelector('.option-row__title')?.textContent || '';
+        const hint = locker.querySelector('.option-row__hint')?.textContent || '';
+        return joinAddressParts([title, hint]);
+      }
+      return '';
+    }
+
+    // Courier-to-address (and any other ship_to that uses the address panel)
+    const city = document.getElementById('field-city')?.value || '';
+    const street = document.getElementById('field-address')?.value || '';
+    return joinAddressParts([city, street]);
+  }
+
+  function copyPersonFromAbove() {
+    const namesInput = document.getElementById('person-names');
+    const addressInput = document.getElementById('person-address');
+    const customerName = document.getElementById('field-name')?.value.trim() || '';
+    if (namesInput && customerName) namesInput.value = customerName;
+    if (addressInput) {
+      const shippingAddress = getShippingAddressForInvoice();
+      if (shippingAddress) addressInput.value = shippingAddress;
+    }
+    // ЕГН is not available above — leave blank / unchanged
+  }
+
+  function syncPersonCopyIfChecked() {
+    const copyToggle = document.getElementById('copy-person-from-above');
+    if (copyToggle?.checked) copyPersonFromAbove();
+  }
+
   function syncPerson() {
     const invoiceFields = document.getElementById('checkout-invoice-fields');
     const individual = document.getElementById('checkout-person-individual');
     const firms = document.getElementById('checkout-firms');
     const invoice = document.getElementById('want-invoice');
     const personHidden = document.getElementById('checkout-person-value');
+    const copyToggle = document.getElementById('copy-person-from-above');
     const wantsInvoice = !!invoice?.checked;
     const typeRadio = root.querySelector('input[name="invoice_person_type"]:checked');
     const personType = typeRadio?.value === '1' ? '1' : '2';
@@ -486,10 +578,13 @@
       if (individual) individual.hidden = !isIndividual;
       if (firms) firms.hidden = isIndividual;
       if (personHidden) personHidden.value = personType;
+      if (!isIndividual && copyToggle) copyToggle.checked = false;
+      else if (isIndividual && copyToggle?.checked) copyPersonFromAbove();
     } else {
       if (individual) individual.hidden = true;
       if (firms) firms.hidden = true;
       if (personHidden) personHidden.value = '1';
+      if (copyToggle) copyToggle.checked = false;
     }
   }
 
@@ -660,6 +755,25 @@
 
   // Events
   root.addEventListener('click', (e) => {
+    const recAddBtn = e.target.closest('[data-rec-add]');
+    if (recAddBtn) {
+      e.preventDefault();
+      const id = recAddBtn.dataset.recId;
+      if (!id) {
+        const href = recAddBtn.dataset.recHref;
+        if (href) window.location.href = href;
+        return;
+      }
+      addRecToCart({
+        id,
+        title: recAddBtn.dataset.recTitle || '',
+        price: parseFloat(recAddBtn.dataset.recPrice || '0') || 0,
+        image: recAddBtn.dataset.recImage || '',
+        href: recAddBtn.dataset.recHref || '',
+      });
+      return;
+    }
+
     const qtyBtn = e.target.closest('[data-qty-delta]');
     if (qtyBtn) {
       const card = qtyBtn.closest('.cart-card');
@@ -747,6 +861,16 @@
   root.querySelectorAll('input[name="invoice_person_type"]').forEach((el) => {
     el.addEventListener('change', syncPerson);
   });
+  const copyPersonToggle = document.getElementById('copy-person-from-above');
+  if (copyPersonToggle) {
+    copyPersonToggle.addEventListener('change', () => {
+      if (copyPersonToggle.checked) copyPersonFromAbove();
+      // Uncheck: keep filled fields as-is
+    });
+  }
+  root.querySelector('#field-name')?.addEventListener('input', syncPersonCopyIfChecked);
+  root.querySelector('#field-city')?.addEventListener('input', syncPersonCopyIfChecked);
+  root.querySelector('#field-address')?.addEventListener('input', syncPersonCopyIfChecked);
 
   const wantRecipientPhone = document.getElementById('want-recipient-phone');
   if (wantRecipientPhone) wantRecipientPhone.addEventListener('change', syncRecipientPhone);

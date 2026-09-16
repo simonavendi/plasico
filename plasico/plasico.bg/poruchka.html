@@ -2048,24 +2048,32 @@
             <h2 id="checkout-recs-mobile-title" class="checkout-recs__title">Препоръчани за вас</h2>
             <ul class="checkout-recs__list" role="list">
               <li>
-                <a class="checkout-rec" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">
-                  <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" alt="" width="56" height="56" loading="lazy"/>
-                  <span class="checkout-rec__body">
-                    <span class="checkout-rec__name">ASUS TUF Gaming A16 2024 FA607NUG-RL117</span>
+                <div class="checkout-rec">
+                  <a class="checkout-rec__media" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">
+                    <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" alt="ASUS TUF Gaming A16 2024 FA607NUG-RL117" width="56" height="56" loading="lazy"/>
+                  </a>
+                  <div class="checkout-rec__body">
+                    <a class="checkout-rec__name" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">ASUS TUF Gaming A16 2024 FA607NUG-RL117</a>
                     <span class="checkout-rec__price">949.99 €</span>
-                  </span>
-                  <span class="checkout-rec__add material-symbols-outlined" aria-hidden="true">add_circle</span>
-                </a>
+                  </div>
+                  <button type="button" class="checkout-rec__add" data-rec-add data-rec-id="13088697" data-rec-title="ASUS TUF Gaming A16 2024 FA607NUG-RL117" data-rec-price="949.99" data-rec-image="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" data-rec-href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html" aria-label="Добави ASUS TUF Gaming A16 2024 FA607NUG-RL117 в количката" title="Добави в количка">
+                    <span class="material-symbols-outlined" aria-hidden="true">add_circle</span>
+                  </button>
+                </div>
               </li>
               <li>
-                <a class="checkout-rec" href="hot-summer-sale-2026.html#laptopi">
-                  <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp" alt="" width="56" height="56" loading="lazy"/>
-                  <span class="checkout-rec__body">
-                    <span class="checkout-rec__name">Още лаптопи от Hot Summer Sale</span>
+                <div class="checkout-rec">
+                  <a class="checkout-rec__media" href="hot-summer-sale-2026.html#laptopi">
+                    <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp" alt="Още лаптопи от Hot Summer Sale" width="56" height="56" loading="lazy"/>
+                  </a>
+                  <div class="checkout-rec__body">
+                    <a class="checkout-rec__name" href="hot-summer-sale-2026.html#laptopi">Още лаптопи от Hot Summer Sale</a>
                     <span class="checkout-rec__price">от 460.98 €</span>
-                  </span>
-                  <span class="checkout-rec__add material-symbols-outlined" aria-hidden="true">add_circle</span>
-                </a>
+                  </div>
+                  <button type="button" class="checkout-rec__add" data-rec-add data-rec-href="hot-summer-sale-2026.html#laptopi" aria-label="Разгледай още лаптопи от Hot Summer Sale" title="Разгледай">
+                    <span class="material-symbols-outlined" aria-hidden="true">add_circle</span>
+                  </button>
+                </div>
               </li>
             </ul>
           </section>
@@ -2418,7 +2426,7 @@
                   </span>
                 </label>
                 <div id="installment-options" class="installment-options" hidden>
-                  <p class="installment-options__label">Избери схема с PostBank</p>
+                  <p class="installment-options__label">Избери метод</p>
                   <div class="installment-options__grid" role="radiogroup" aria-label="Схема на изплащане с PostBank">
                     <button type="button" class="installment-option" data-installment="bnp" aria-pressed="false">
                       <img src="https://static.plasico.bg/images/bnp_button_new.webp" alt="PostBank изплащане" width="240" height="80" loading="lazy"/>
@@ -2438,25 +2446,33 @@
                     <span class="invoice-check__hint">Попълни данните за фактура, ако поръчката е за фирма или ти е необходим счетоводен документ.</span>
                   </span>
                 </label>
-                <input type="hidden" name="person" id="checkout-person-value" value="1"/>
+                <input type="hidden" name="person" id="checkout-person-value" value="2"/>
                 <div id="checkout-invoice-fields" hidden>
                   <p class="invoice-person-type__label" id="invoice-person-type-label">Тип лице</p>
                   <div class="segmented" role="radiogroup" aria-labelledby="invoice-person-type-label">
                     <label class="segmented__option">
-                      <input type="radio" name="invoice_person_type" id="invoice-person-1" value="1"/>
-                      <span>Физическо лице</span>
-                    </label>
-                    <label class="segmented__option">
                       <input type="radio" name="invoice_person_type" id="invoice-person-2" value="2" checked/>
                       <span>Юридическо лице (фирма)</span>
                     </label>
+                    <label class="segmented__option">
+                      <input type="radio" name="invoice_person_type" id="invoice-person-1" value="1"/>
+                      <span>Физическо лице</span>
+                    </label>
                   </div>
                   <div id="checkout-person-individual" class="field-stack mt-4" hidden>
+                    <label class="invoice-check invoice-check--compact" for="copy-person-from-above">
+                      <input type="checkbox" name="copy_person_from_above" id="copy-person-from-above" value="1"/>
+                      <span class="invoice-check__copy">
+                        <strong class="invoice-check__title">Копирай от горните данни</strong>
+                        <span class="invoice-check__hint">Попълва имената и адреса от данните по-горе.</span>
+                      </span>
+                    </label>
+                    <div class="field"><label for="person-names">Три имена</label><input id="person-names" name="person_names" type="text" class="checkout-input" autocomplete="name" placeholder="Име, презиме, фамилия"/></div>
                     <div class="field"><label for="person-address">Адрес</label><input id="person-address" name="person_address" class="checkout-input"/></div>
                     <div class="field"><label for="person-egn">ЕГН</label><input id="person-egn" name="egn" class="checkout-input" inputmode="numeric" autocomplete="off"/></div>
                   </div>
                   <div id="checkout-firms" class="field-stack mt-4">
-                    <div class="field"><label for="firm-name">Фирма</label><input id="firm-name" name="firm_name" class="checkout-input"/></div>
+                    <div class="field"><label for="firm-name">Наименование</label><input id="firm-name" name="firm_name" class="checkout-input"/></div>
                     <div class="field"><label for="firm-mol">МОЛ</label><input id="firm-mol" name="firm_mol" class="checkout-input"/></div>
                     <div class="field"><label for="firm-idn">ЕИК / Булстат</label><input id="firm-idn" name="firm_idn" class="checkout-input"/></div>
                     <div class="field"><label for="firm-address">Адрес</label><input id="firm-address" name="firm_address" class="checkout-input"/></div>
@@ -2558,24 +2574,32 @@
             <h2 id="checkout-recs-title" class="checkout-recs__title">Препоръчани за вас</h2>
             <ul class="checkout-recs__list" role="list">
               <li>
-                <a class="checkout-rec" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">
-                  <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" alt="" width="56" height="56" loading="lazy"/>
-                  <span class="checkout-rec__body">
-                    <span class="checkout-rec__name">ASUS TUF Gaming A16 2024 FA607NUG-RL117</span>
+                <div class="checkout-rec">
+                  <a class="checkout-rec__media" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">
+                    <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" alt="ASUS TUF Gaming A16 2024 FA607NUG-RL117" width="56" height="56" loading="lazy"/>
+                  </a>
+                  <div class="checkout-rec__body">
+                    <a class="checkout-rec__name" href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html">ASUS TUF Gaming A16 2024 FA607NUG-RL117</a>
                     <span class="checkout-rec__price">949.99 €</span>
-                  </span>
-                  <span class="checkout-rec__add material-symbols-outlined" aria-hidden="true">add_circle</span>
-                </a>
+                  </div>
+                  <button type="button" class="checkout-rec__add" data-rec-add data-rec-id="13088697" data-rec-title="ASUS TUF Gaming A16 2024 FA607NUG-RL117" data-rec-price="949.99" data-rec-image="https://static.plasico.bg/thumbs/10/250924102012250408153346asus-tuf-a16-fa607nu-1.webp" data-rec-href="https://plasico.bg/asus-tuf-gaming-a16-2024-fa607nug-rl117-16-fhd-ips-144hz-ryzen-7-7445hs-16gb-512gb-ssd-rtx-4050-6gb-mecha-gray-90nr0mu3-m00a10-13088697.html" aria-label="Добави ASUS TUF Gaming A16 2024 FA607NUG-RL117 в количката" title="Добави в количка">
+                    <span class="material-symbols-outlined" aria-hidden="true">add_circle</span>
+                  </button>
+                </div>
               </li>
               <li>
-                <a class="checkout-rec" href="hot-summer-sale-2026.html#laptopi">
-                  <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp" alt="" width="56" height="56" loading="lazy"/>
-                  <span class="checkout-rec__body">
-                    <span class="checkout-rec__name">Още лаптопи от Hot Summer Sale</span>
+                <div class="checkout-rec">
+                  <a class="checkout-rec__media" href="hot-summer-sale-2026.html#laptopi">
+                    <img class="checkout-rec__img" src="https://static.plasico.bg/thumbs/10/260115123449250909094011hp-250-g10-111.webp" alt="Още лаптопи от Hot Summer Sale" width="56" height="56" loading="lazy"/>
+                  </a>
+                  <div class="checkout-rec__body">
+                    <a class="checkout-rec__name" href="hot-summer-sale-2026.html#laptopi">Още лаптопи от Hot Summer Sale</a>
                     <span class="checkout-rec__price">от 460.98 €</span>
-                  </span>
-                  <span class="checkout-rec__add material-symbols-outlined" aria-hidden="true">add_circle</span>
-                </a>
+                  </div>
+                  <button type="button" class="checkout-rec__add" data-rec-add data-rec-href="hot-summer-sale-2026.html#laptopi" aria-label="Разгледай още лаптопи от Hot Summer Sale" title="Разгледай">
+                    <span class="material-symbols-outlined" aria-hidden="true">add_circle</span>
+                  </button>
+                </div>
               </li>
             </ul>
           </section>
