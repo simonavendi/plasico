@@ -594,25 +594,16 @@
 	}
 
 	function renderTeaser() {
-		var holders = document.querySelectorAll('#load-leasing, .load-leasing');
-		if (!holders.length) return;
+		var buttons = document.querySelectorAll('.js-open-leasing');
+		if (!buttons.length) return;
 
-		if (!state.price) {
-			holders.forEach(function (holder) {
-				holder.innerHTML = '';
-			});
-			syncLeasingControls();
-			return;
-		}
+		var text = state.price ? teaserText(getTeaserTerm()) : '';
 
-		var term = getTeaserTerm();
-		var html =
-			'<a href="#" class="pl-leasing-teaser js-open-leasing" data-leasing-column="personal">' +
-			teaserText(term) +
-			'</a>';
-
-		holders.forEach(function (holder) {
-			holder.innerHTML = html;
+		buttons.forEach(function (btn) {
+			var teaser = btn.querySelector('.pl-leasing-teaser-text');
+			if (teaser) {
+				teaser.textContent = text;
+			}
 		});
 		syncLeasingControls();
 	}
@@ -676,8 +667,6 @@
 	function shouldHandleLocally() {
 		return (
 			document.body.id === 'product_preview' ||
-			document.getElementById('load-leasing') ||
-			document.querySelector('.load-leasing') ||
 			document.querySelector('.js-open-leasing') ||
 			document.querySelector('[data-url^="leasing"]') ||
 			document.getElementById('cart-drawer-subtotal') ||
@@ -691,13 +680,15 @@
 			'click',
 			function (e) {
 				var trigger = e.target.closest(
-					'[data-url^="leasing"], .js-open-leasing, #load-leasing a, .load-leasing a'
+					'[data-url^="leasing"], .js-open-leasing'
 				);
 				if (!trigger) return;
 
 				e.preventDefault();
 				e.stopPropagation();
-				openModal({ column: 'personal' });
+				openModal({
+					column: trigger.getAttribute('data-leasing-column') || 'personal',
+				});
 				return false;
 			},
 			true

@@ -2028,11 +2028,13 @@
               <div class="order-summary-compact__body">
                 <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping is-pending">—</span></div>
                 <div class="summary-row summary-row--total"><span>Общо с ДДС</span><strong class="js-summary-total">1070.97&nbsp;€</strong></div>
-                <div class="load-leasing"></div>
               </div>
             </div>
 
-            <button type="button" class="js-open-leasing checkout-btn checkout-btn--outline w-full mt-3 lg:hidden" hidden>Купи на изплащане</button>
+            <button type="button" class="js-open-leasing checkout-btn checkout-btn--outline w-full mt-3 lg:hidden" data-leasing-column="personal" hidden>
+              <span class="pl-leasing-btn-label">Купи на изплащане</span>
+              <span class="pl-leasing-teaser-text"></span>
+            </button>
 
             <button type="button" class="checkout-btn checkout-btn--outline checkout-fast-trigger checkout-fast-trigger--mobile lg:hidden w-full mt-3" data-start-fast>
               Бърза поръчка
@@ -2570,8 +2572,10 @@
             <div class="summary-row"><span>Междинна сума</span><span class="js-summary-products">1070.97&nbsp;€</span></div>
             <div class="summary-row"><span>Доставка</span><span class="js-summary-shipping is-pending">—</span></div>
             <div class="summary-row summary-row--total"><span>Дължимо общо</span><strong class="js-summary-total">1070.97&nbsp;€</strong></div>
-            <div class="load-leasing"></div>
-            <button type="button" class="js-open-leasing checkout-btn checkout-btn--outline w-full mt-3" hidden>Купи на изплащане</button>
+            <button type="button" class="js-open-leasing checkout-btn checkout-btn--outline w-full mt-3" data-leasing-column="personal" hidden>
+              <span class="pl-leasing-btn-label">Купи на изплащане</span>
+              <span class="pl-leasing-teaser-text"></span>
+            </button>
             <p class="checkout-aside__hint js-aside-hint">Попълни данните и потвърди поръчката.</p>
             <button type="button" class="checkout-btn checkout-btn--primary checkout-btn--xl" id="aside-cta" data-sticky-cta>
               Поръчай →
