@@ -8,6 +8,8 @@
     { "source": "/hot-summer-sale-2026", "destination": "/hot-summer-sale-2026.html" },
     { "source": "/poruchka", "destination": "/poruchka.html" },
     { "source": "/поръчка", "destination": "/poruchka.html" },
+    { "source": "/progress", "destination": "/progress.html" },
+    { "source": "/progress/", "destination": "/progress.html" },
     { "source": "/magazini", "destination": "/magazini.html" },
     { "source": "/serviz", "destination": "/serviz.html" },
     { "source": "/za-nas", "destination": "/za-nas.html" },

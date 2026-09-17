@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-slate-50" lang="bg"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Статус на доставка | Plasico.bg</title>
+<meta name="description" content="Проследяване на поръчка Plasico — реалният Stitch екран за статус на доставка."/>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#07a857',
+              dark: '#058745',
+              light: '#e8f8ef',
+              soft: '#f0fdf4',
+              accent: '#06934c'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          borderRadius: {
+            'curved-bottom': '0 0 50% 50% / 0 0 60px 60px',
+            'curved-lg': '0 0 50% 50% / 0 0 90px 90px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-layout">
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .hero-arc {
+      border-bottom-left-radius: 50% 12%;
+      border-bottom-right-radius: 50% 12%;
+    }
+    @media (min-width: 1024px) {
+      .hero-arc {
+        border-bottom-left-radius: 50% 18%;
+        border-bottom-right-radius: 50% 18%;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-800 antialiased selection:bg-brand selection:text-white bg-[#f8faf9]">
+<!-- Stitch hero + tracker; no site header / nav / app bar -->
+<header class="bg-[#07a857] text-white pt-10 pb-24 px-4 sm:px-6 lg:px-8 hero-arc shadow-xl relative overflow-hidden" data-purpose="status-hero-banner">
+<div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+<div class="max-w-4xl mx-auto relative z-10 flex flex-col items-center">
+<div class="flex items-center justify-center mb-10" data-purpose="brand-logo">
+<img alt="Plasico" class="h-10 sm:h-12 w-auto" src="logo-plasico-white.svg"/>
+</div>
+<nav aria-label="Прогрес на доставка" class="w-full max-w-2xl mb-12 px-2">
+<ol class="grid grid-cols-4 relative items-start text-center" data-purpose="progress-tracker">
+<div aria-hidden="true" class="absolute top-7 left-[12%] right-[12%] h-[2px] border-t-2 border-dashed border-white/50 -z-0"></div>
+<li class="flex flex-col items-center group relative z-10">
+<div class="w-14 h-14 rounded-full bg-white text-[#07a857] shadow-lg flex items-center justify-center transition transform group-hover:scale-105 ring-4 ring-white/30">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+<path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v2"></path>
+<path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+<path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+</svg>
+</div>
+<span class="mt-3 text-xs sm:text-sm font-semibold text-white tracking-wide leading-tight">Приета<br/>поръчка</span>
+<span class="text-[10px] text-emerald-100 font-normal mt-0.5">14 Окт, 10:25</span>
+</li>
+<li class="flex flex-col items-center group relative z-10">
+<div class="w-14 h-14 rounded-full bg-white text-[#07a857] shadow-lg flex items-center justify-center transition transform group-hover:scale-105 ring-4 ring-white/30">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" aria-hidden="true">
+<path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path>
+<path d="M15 18H9"></path>
+<path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path>
+<circle cx="17" cy="18" r="2"></circle>
+<circle cx="7" cy="18" r="2"></circle>
+</svg>
+</div>
+<span class="mt-3 text-xs sm:text-sm font-semibold text-white tracking-wide leading-tight">Изпратена<br/>поръчка</span>
+<span class="text-[10px] text-emerald-100 font-normal mt-0.5">15 Окт, 14:10</span>
+</li>
+<li class="flex flex-col items-center group relative z-10">
+<div class="w-14 h-14 rounded-full border-2 border-white bg-[#07a857] shadow-sm flex items-center justify-center transition transform group-hover:scale-105">
+<span class="w-3.5 h-3.5 rounded-full bg-white animate-ping opacity-75"></span>
+</div>
+<span class="mt-3 text-xs sm:text-sm font-medium text-emerald-100 tracking-wide leading-tight">В процес на<br/>доставка</span>
+<span class="text-[10px] text-emerald-200 mt-0.5">Очаква се днес</span>
+</li>
+<li class="flex flex-col items-center group relative z-10 opacity-75">
+<div class="w-14 h-14 rounded-full border-2 border-white/60 bg-transparent flex items-center justify-center">
+<span class="w-2.5 h-2.5 rounded-full bg-white/40"></span>
+</div>
+<span class="mt-3 text-xs sm:text-sm font-normal text-emerald-100 tracking-wide leading-tight">Доставена</span>
+<span class="text-[10px] text-emerald-200 mt-0.5">Предстои</span>
+</li>
+</ol>
+</nav>
+<h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-center text-white tracking-tight mb-7 max-w-2xl leading-tight">
+        Вашата поръчка пътува към вас!
+      </h1>
+<a class="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-white text-slate-900 hover:bg-emerald-50 hover:text-[#07a857] text-sm sm:text-base font-bold uppercase tracking-wider shadow-xl hover:shadow-2xl transition duration-200 transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-white/40" href="#order-details">
+        Проследи напредъка
+        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+</div>
+</header>
+<main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20 pb-16 w-full">
+<section class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl shadow-slate-200/70 border border-slate-100 text-center mb-8" data-purpose="tracking-summary-card">
+<p class="text-lg sm:text-xl font-medium text-slate-700 max-w-2xl mx-auto leading-relaxed mb-6">
+        Страхотни новини – вашата поръчка напусна нашия склад и вече пътува към вашия адрес!
+      </p>
+<div class="inline-flex flex-col items-center bg-slate-50 border border-slate-200/80 rounded-2xl p-5 mb-8 w-full max-w-md shadow-inner">
+<span class="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-2">
+          Номер за проследяване:
+        </span>
+<div class="flex items-center justify-center gap-3">
+<span class="font-mono text-xl sm:text-2xl font-bold tracking-widest text-slate-900 select-all" id="trackingNumber">
+            BG849204812
+          </span>
+<button class="p-2 text-slate-400 hover:text-[#07a857] hover:bg-emerald-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#07a857]/40" id="copyBtn" onclick="copyTrackingCode()" title="Копирай номера" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<span class="text-[11px] text-[#07a857] font-semibold opacity-0 transition-opacity mt-1" id="copyFeedback">Копирано в клипборда!</span>
+</div>
+<div>
+<a class="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-[#07a857] hover:bg-[#058745] text-white font-bold text-sm sm:text-base uppercase tracking-wider shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/40 transition-all duration-150 transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-[#07a857]/30" href="#order-details">
+<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+          Проследете доставката си
+        </a>
+</div>
+<div class="mt-6 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-[#07a857] text-xs font-semibold">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+<span>Очаквана дата на доставка: 2-3 работни дни (17 Октомври)</span>
+</div>
+</section>
+<section class="bg-white rounded-3xl p-6 sm:p-10 shadow-lg shadow-slate-200/50 border border-slate-100 mb-8" data-purpose="order-details-card" id="order-details">
+<div class="flex items-center justify-between pb-6 border-b border-slate-100">
+<h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+          Ето какво съдържа вашата доставка:
+        </h2>
+<span class="text-xs font-semibold px-3 py-1 bg-slate-100 rounded-full text-slate-600">
+          Поръчка #PL-12923249
+        </span>
+</div>
+<div class="divide-y divide-slate-100">
+<article class="py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6" data-purpose="order-item">
+<div class="flex items-center gap-5">
+<div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-50 border border-slate-200 p-2 flex items-center justify-center shrink-0 shadow-sm relative overflow-hidden">
+<img alt="Apple MacBook Air 15.3 M3 Midnight" class="w-full h-full object-contain" src="progress-macbook-air-m3.png"/>
+</div>
+<div>
+<span class="text-xs font-semibold uppercase tracking-wider text-[#07a857]">Лаптоп</span>
+<h3 class="text-base sm:text-lg font-bold text-slate-900 hover:text-[#07a857] transition-colors mt-0.5">
+                Apple MacBook Air 15.3" M3 Midnight
+              </h3>
+<p class="text-xs text-slate-500 mt-1">16 GB · 512 GB SSD · арт. 12923249</p>
+<div class="flex items-center gap-4 mt-2">
+<span class="inline-flex items-center text-xs font-medium text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-md">
+                  Количество: 1
+                </span>
+<span class="text-xs text-emerald-600 font-medium">✓ В наличност</span>
+</div>
+</div>
+</div>
+<div class="text-right self-end sm:self-center">
+<span class="block text-lg sm:text-xl font-extrabold text-slate-900">1348,99 €</span>
+<span class="text-xs text-slate-400">с включен ДДС</span>
+</div>
+</article>
+</div>
+<div class="mt-6 pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/80 rounded-2xl p-5">
+<div data-purpose="shipping-address-info">
+<div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+<svg class="w-4 h-4 text-[#07a857]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            Адрес за доставка
+          </div>
+<p class="text-sm font-semibold text-slate-800">Мария Иванова</p>
+<p class="text-sm text-slate-600">бул. „Витоша“ № 88, ет. 3, ап. 12</p>
+<p class="text-sm text-slate-600">София, 1000</p>
+<p class="text-xs text-slate-500 mt-1">+359 88 123 4567</p>
+</div>
+<div class="md:border-l md:border-slate-200 md:pl-6" data-purpose="carrier-payment-info">
+<div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
+<svg class="w-4 h-4 text-[#07a857]" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            Куриер и метод на плащане
+          </div>
+<p class="text-sm font-semibold text-slate-800">Експресен куриер (Спиди / Еконт)</p>
+<p class="text-sm text-slate-600">Начин на плащане: Платено с карта онлайн</p>
+<div class="mt-2 flex items-center gap-1.5 text-xs text-[#07a857] font-medium">
+<span class="w-2 h-2 rounded-full bg-[#07a857]"></span>
+            Плащането е верифицирано
+          </div>
+</div>
+</div>
+</section>
+<section class="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4" data-purpose="support-card">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-white text-[#07a857] shadow-sm flex items-center justify-center shrink-0">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<h4 class="text-sm sm:text-base font-bold text-slate-800">Имате въпроси относно доставката?</h4>
+<p class="text-xs sm:text-sm text-slate-600">Нашият екип е на линия на 0700 20 810 от 09:00 до 18:00 ч.</p>
+</div>
+</div>
+<a class="whitespace-nowrap px-5 py-2.5 rounded-xl bg-white text-slate-800 border border-slate-200 hover:border-[#07a857] hover:text-[#07a857] text-xs sm:text-sm font-semibold shadow-sm transition-all" href="mailto:sales@plasico.com">
+        Свържете се с нас
+      </a>
+</section>
+</main>
+<footer class="border-t border-slate-200 bg-white py-8 text-slate-500 text-xs text-center mt-auto" data-purpose="site-footer">
+<div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<img alt="Plasico" class="h-5 w-auto" src="logo-plasico.svg"/>
+<span>© 2026 Всички права запазени.</span>
+</div>
+<div class="flex gap-6 text-slate-500">
+<a class="hover:text-[#07a857] transition-colors" href="kontakti.html">Контакти</a>
+<a class="hover:text-[#07a857] transition-colors" href="za-nas.html">За нас</a>
+<a class="hover:text-[#07a857] transition-colors" href="index.html">Начало</a>
+</div>
+</div>
+</footer>
+<script data-purpose="clipboard-interaction">
+    function copyTrackingCode() {
+      const trackingNumber = document.getElementById('trackingNumber').innerText;
+      navigator.clipboard.writeText(trackingNumber).then(() => {
+        const feedback = document.getElementById('copyFeedback');
+        feedback.classList.remove('opacity-0');
+        setTimeout(() => {
+          feedback.classList.add('opacity-0');
+        }, 2500);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+  </script>
+</body></html>
