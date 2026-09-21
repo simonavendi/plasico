@@ -23,25 +23,30 @@
   }
 
   /**
-   * RETIRED MOCK CART.
-   *
-   * This used to treat localStorage as the authoritative cart. The backend is
-   * now the source of truth, so the cart is read from the adapter's
-   * backend-derived model. localStorage is never read as a cart here.
+   * Cart UI on this page is driven by PlasicoCartAdapter (localStorage on the
+   * static mirror, live PHP on plasico.bg). Never read localStorage here —
+   * the adapter owns the cache key and shape (__source: local-cart).
    */
+  function getAdapter() {
+    return window.PlasicoCartAdapter || null;
+  }
+
   function readStoredCart() {
-    const adapter = window.PlasicoCartAdapter;
+    const adapter = getAdapter();
     if (!adapter) return [];
     const cart = adapter.getCart();
-    return cart.items
+    return (cart.items || [])
       .filter((item) => !item.isGift)
       .map((item) => {
-        const qty = Number(item.quantity) || 1;
+        const qty = Math.max(1, Number(item.quantity) || 1);
+        const unit =
+          Number(item.unitPrice) ||
+          (qty ? (Number(item.lineTotal) || 0) / qty : Number(item.lineTotal) || 0);
         return {
           id: item.productId || item.lineId,
           lineId: item.lineId,
           title: item.title,
-          price: qty ? (Number(item.lineTotal) || 0) / qty : Number(item.lineTotal) || 0,
+          price: unit,
           image: item.image,
           alt: item.alt || item.title,
           href: item.href || undefined,
@@ -50,39 +55,19 @@
       });
   }
 
-  /**
-   * RETIRED MOCK WRITE. The cart may only be mutated through the adapter, which
-   * talks to the real backend. Header badge upkeep now belongs to the adapter
-   * subscription in cart-drawer.js, so this is intentionally inert.
-   */
-  function writeStoredCart() {
-    /* no-op: the backend is authoritative */
-  }
-
   function addRecToCart(product) {
     if (!product?.id) return;
-    const items = readStoredCart();
-    const existing = items.find((item) => item.id === product.id);
-    if (existing) {
-      existing.qty = (Number(existing.qty) || 0) + 1;
-      if (product.image && !existing.image) existing.image = product.image;
-      if (product.title && !existing.title) existing.title = product.title;
-      if (product.href && !existing.href) existing.href = product.href;
-    } else {
-      items.push({
-        id: String(product.id),
+    const adapter = getAdapter();
+    if (!adapter || typeof adapter.add !== 'function') return;
+    Promise.resolve(
+      adapter.add(String(product.id), 1, {
         title: product.title || 'Продукт',
         price: Number(product.price) || 0,
         image: product.image || '',
+        href: product.href || '',
         alt: product.title || 'Продукт',
-        href: product.href || undefined,
-        qty: 1,
-      });
-    }
-    writeStoredCart(items);
-    renderStoredCart();
-    updateTotals();
-    syncMobileRecsVisibility();
+      })
+    ).catch(() => {});
   }
 
   function escapeHtml(value) {
@@ -94,33 +79,15 @@
       .replace(/'/g, '&#39;');
   }
 
-  function syncCartFromDom() {
-    const items = [];
-    root.querySelectorAll('.cart-card').forEach((card) => {
-      const id = card.dataset.cartId;
-      if (!id) return;
-      const qty = parseInt(card.querySelector('.qty-control__value')?.textContent || '0', 10) || 0;
-      if (qty <= 0) return;
-      const img = card.querySelector('.cart-card__image');
-      const titleLink = card.querySelector('a.cart-card__title');
-      const thumbLink = card.querySelector('a.cart-card__thumb');
-      const href =
-        card.dataset.href ||
-        titleLink?.getAttribute('href') ||
-        thumbLink?.getAttribute('href') ||
-        '';
-      items.push({
-        id: String(id),
-        title: card.dataset.name || card.querySelector('.cart-card__title')?.textContent?.trim() || 'Продукт',
-        price: parseFloat(card.dataset.unit || '0') || 0,
-        qty,
-        image: img?.getAttribute('src') || '',
-        alt: img?.getAttribute('alt') || card.dataset.name || '',
-        href: href && href !== '#' ? href : undefined,
-      });
-    });
-    writeStoredCart(items);
-    return items;
+  function applyCheckoutFromAdapter() {
+    renderStoredCart();
+    updateTotals();
+    syncMobileRecsVisibility();
+    if (root.querySelector('.cart-card')) {
+      if (checkoutPhase === 'empty') showActiveCheckout();
+    } else {
+      setEmptyCheckoutUi(true);
+    }
   }
 
   function setEmptyCheckoutUi(isEmpty) {
@@ -170,7 +137,8 @@
         const titleEl = href
           ? `<a href="${href}" class="cart-card__title">${title}</a>`
           : `<span class="cart-card__title">${title}</span>`;
-        return `<li class="cart-card" data-cart-id="${id}" data-unit="${price}" data-name="${title}"${href ? ` data-href="${href}"` : ''}>
+        const lineId = escapeHtml(item.lineId || '');
+        return `<li class="cart-card" data-cart-id="${id}" data-line-id="${lineId}" data-unit="${price}" data-name="${title}"${href ? ` data-href="${href}"` : ''}>
           ${thumb}
           <div class="cart-card__content">
             ${titleEl}
@@ -326,12 +294,32 @@
     document.dispatchEvent(new CustomEvent('plasico:cart-updated'));
   }
 
-  function updateLine(card) {
+  function resolveLineId(card) {
+    if (!card) return '';
+    if (card.dataset.lineId) return String(card.dataset.lineId);
+    const productId = card.dataset.cartId;
+    if (!productId) return '';
+    const adapter = getAdapter();
+    if (!adapter) return '';
+    const match = (adapter.getCart().items || []).find(
+      (item) => String(item.productId) === String(productId)
+    );
+    return match ? String(match.lineId) : '';
+  }
+
+  function updateLine(card, nextQty) {
+    const adapter = getAdapter();
+    const lineId = resolveLineId(card);
+    const qty = Math.max(1, parseInt(String(nextQty), 10) || 1);
+    if (adapter && lineId && typeof adapter.updateItem === 'function') {
+      Promise.resolve(adapter.updateItem(lineId, qty)).catch(() => {});
+      return;
+    }
     const unit = parseFloat(card.dataset.unit || '0') || 0;
-    const qty = parseInt(card.querySelector('.qty-control__value')?.textContent || '0', 10) || 0;
+    const valueEl = card.querySelector('.qty-control__value');
+    if (valueEl) valueEl.textContent = String(qty);
     const totalEl = card.querySelector('.js-line-total');
     if (totalEl) totalEl.textContent = money(unit * qty);
-    syncCartFromDom();
     updateTotals();
   }
 
@@ -801,15 +789,21 @@
       const valueEl = card?.querySelector('.qty-control__value');
       if (!card || !valueEl) return;
       const delta = parseInt(qtyBtn.getAttribute('data-qty-delta') || '0', 10) || 0;
-      valueEl.textContent = String(Math.max(1, (parseInt(valueEl.textContent || '1', 10) || 1) + delta));
-      updateLine(card);
+      const nextQty = Math.max(1, (parseInt(valueEl.textContent || '1', 10) || 1) + delta);
+      updateLine(card, nextQty);
       return;
     }
 
     if (e.target.closest('[data-remove]')) {
       const card = e.target.closest('.cart-card');
-      card?.remove();
-      syncCartFromDom();
+      if (!card) return;
+      const adapter = getAdapter();
+      const lineId = resolveLineId(card);
+      if (adapter && lineId && typeof adapter.removeItem === 'function') {
+        Promise.resolve(adapter.removeItem(lineId)).catch(() => {});
+        return;
+      }
+      card.remove();
       if (!root.querySelector('.cart-card')) {
         const list = root.querySelector('.cart-cards');
         if (list) {
@@ -1047,14 +1041,21 @@
 
   /* Auth modal: handled by auth-modal.js ([data-open-auth-modal]) */
 
-  renderStoredCart();
   syncShipPanels();
   syncPerson();
   syncInstallmentOptions();
-  updateTotals();
-  if (root.querySelector('.cart-card')) {
-    showActiveCheckout();
-  } else {
-    setEmptyCheckoutUi(true);
+
+  // cart-drawer.js also calls adapter.init(); subscribe so we re-paint after
+  // the async local/remote load — a sync first paint was always empty.
+  const adapter = getAdapter();
+  if (adapter && typeof adapter.subscribe === 'function') {
+    adapter.subscribe(() => {
+      applyCheckoutFromAdapter();
+    });
   }
+  Promise.resolve(adapter && typeof adapter.init === 'function' ? adapter.init() : null)
+    .catch(() => null)
+    .then(() => {
+      applyCheckoutFromAdapter();
+    });
 })();

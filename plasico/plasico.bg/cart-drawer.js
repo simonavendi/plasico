@@ -494,8 +494,11 @@
       href: (article.dataset?.href || (titleLink && titleLink.getAttribute('href')) || ''),
       alt: (img && img.getAttribute('alt')) || '',
     };
-    openCart();
-    run(adapter.add(id, qty, meta), 'Продуктът не беше добавен в количката.').catch(() => {});
+    // Persist first, then open. On mobile openCart() navigates to poruchka.html;
+    // opening before add would lose the write on unload.
+    run(adapter.add(id, qty, meta), 'Продуктът не беше добавен в количката.')
+      .then(() => { openCart(); })
+      .catch(() => { openCart(); });
     return true;
   }
 

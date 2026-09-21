@@ -121,4 +121,73 @@ await runCase('live host stays remote-capable', 'plasico.bg', async (adapter) =>
   if (adapter.isLocal) throw new Error('plasico.bg should not force local up front');
 });
 
+await runCase('persist + reload paints items', 'localhost', async (adapter, win) => {
+  await adapter.init();
+  await adapter.add('6479', 1, {
+    title: 'Logitech M185',
+    price: 14.99,
+    image: 'https://example.com/m.png',
+    href: 'logitech-wireless-mouse-m185-blue-6479.html',
+  });
+  const raw = win.localStorage.getItem('plasico-hss2026-cart');
+  const parsed = JSON.parse(raw);
+  if (parsed.__source !== 'local-cart') throw new Error('expected local-cart source, got ' + parsed.__source);
+  if (!Array.isArray(parsed.items) || parsed.items.length !== 1) throw new Error('cache items');
+
+  // Simulate a fresh page (checkout/drawer boot): new adapter, same storage.
+  const { window: win2 } = makeWindow('localhost');
+  win2.localStorage.setItem('plasico-hss2026-cart', raw);
+  const context2 = vm.createContext({
+    window: win2,
+    document: win2.document,
+    localStorage: win2.localStorage,
+    console,
+    URL,
+    DOMParser: class {
+      parseFromString() {
+        return { getElementById() { return null; }, querySelector() { return null; }, body: {} };
+      }
+    },
+    Object,
+    Array,
+    String,
+    Number,
+    Math,
+    JSON,
+    Promise,
+    Error,
+    encodeURIComponent,
+    decodeURIComponent,
+    isFinite,
+    parseInt,
+    parseFloat,
+    setTimeout,
+  });
+  vm.runInContext(source, context2);
+  const adapter2 = context2.window.PlasicoCartAdapter;
+
+  // Sync getCart before init must not be trusted — checkout used to paint this.
+  if (!adapter2.getCart().isEmpty) throw new Error('pre-init should still be empty model');
+
+  let sawItems = false;
+  adapter2.subscribe((cart) => {
+    if (cart.items.length === 1 && cart.items[0].title === 'Logitech M185') sawItems = true;
+  });
+  await adapter2.init();
+  const cart = adapter2.getCart();
+  if (cart.isEmpty) throw new Error('post-init cart empty');
+  if (cart.items[0].productId !== '6479') throw new Error('productId');
+  if (Math.abs(cart.items[0].lineTotal - 14.99) > 0.001) throw new Error('lineTotal');
+  if (!sawItems) throw new Error('subscribe never saw items');
+});
+
+await runCase('refresh after add keeps lines', 'plasico.vercel.app', async (adapter) => {
+  await adapter.init();
+  await adapter.add('111', 2, { title: 'Item', price: 5 });
+  const afterRefresh = await adapter.refresh();
+  if (afterRefresh.isEmpty || afterRefresh.quantity !== 2) {
+    throw new Error('refresh wiped local cart');
+  }
+});
+
 console.log('All cart local-mode smoke tests passed.');
