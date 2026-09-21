@@ -667,6 +667,17 @@ a.cart-drawer-upsell__name:hover {
   transform: scale(1);
 }
 
+/* Mobile / touch: sticky :hover must not show the "Виж продукта" image overlay. */
+@media (hover: none), (pointer: coarse), (max-width: 991px) {
+  .group .absolute.inset-0.flex.items-center.justify-center.opacity-0,
+  .group:hover .absolute.inset-0.flex.items-center.justify-center.opacity-0,
+  .group:hover .bg-black\/40.group-hover\:opacity-100 {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
 /* Floating compare bar (lightweight Plasico compare-box stand-in) */
 .plasico-compare-bar {
   position: fixed;

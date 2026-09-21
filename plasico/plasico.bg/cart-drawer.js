@@ -1,5 +1,13 @@
+/**
+ * cart-drawer.js — UI only.
+ *
+ * All backend communication goes through window.PlasicoCartAdapter
+ * (plasico-cart-adapter.js). This file must not fetch anything itself.
+ *
+ * The cart is server-authoritative. localStorage is not consulted here at all;
+ * the adapter owns an optional render cache under the legacy key.
+ */
 (function initCartDrawer() {
-  const CART_STORAGE_KEY = 'plasico-hss2026-cart';
   const CHECKOUT_URL = 'poruchka.html';
   const MOBILE_CART_MQ = '(max-width: 768px)';
   const UPSELL_ITEMS = [
@@ -38,8 +46,15 @@
 
   if (!root || !drawer || !toggleBtn) return;
 
+  const adapter = window.PlasicoCartAdapter;
+  if (!adapter) {
+    console.error('[cart-drawer] plasico-cart-adapter.js must load before cart-drawer.js');
+    return;
+  }
+
   let isOpen = false;
   let lastFocused = null;
+  let pending = 0;
 
   function isMobileCartViewport() {
     return window.matchMedia(MOBILE_CART_MQ).matches;
@@ -54,40 +69,24 @@
     );
   }
 
+  /** Prefer the checkout URL the backend itself authored, when we have one. */
+  function resolveCheckoutUrl() {
+    const cart = adapter.getCart();
+    return cart.checkoutUrl || CHECKOUT_URL;
+  }
+
   function goToCartPage() {
     if (isOnCartPage()) {
       document.getElementById('checkout-cart')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
-    window.location.href = CHECKOUT_URL;
-  }
-
-  function readCart() {
-    try {
-      const raw = localStorage.getItem(CART_STORAGE_KEY);
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  }
-
-  function writeCart(items) {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+    window.location.href = resolveCheckoutUrl();
   }
 
   function formatPrice(value) {
     const num = Number(value);
     if (!Number.isFinite(num)) return '0.00 €';
     return num.toFixed(2) + ' €';
-  }
-
-  function getTotalQty(items) {
-    return items.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
-  }
-
-  function getSubtotal(items) {
-    return items.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.qty) || 0), 0);
   }
 
   function resolveImageUrl(src) {
@@ -99,136 +98,177 @@
     }
   }
 
-  function getProductImage(article) {
-    const img = article.querySelector('.aspect-square img');
-    if (!img) return { src: '', alt: '' };
-    const raw =
-      img.currentSrc ||
-      img.getAttribute('src') ||
-      img.getAttribute('data-src') ||
-      '';
-    return {
-      src: resolveImageUrl(raw),
-      alt: img.getAttribute('alt') || '',
-    };
+  /* ------------------------------------------------------------ busy + errors */
+
+  function setBusy(on) {
+    pending += on ? 1 : -1;
+    if (pending < 0) pending = 0;
+    const busy = pending > 0;
+    root.classList.toggle('is-busy', busy);
+    drawer.setAttribute('aria-busy', busy ? 'true' : 'false');
+    drawer.querySelectorAll('.cart-drawer-qty-btn, .cart-drawer-item__remove')
+      .forEach(btn => { btn.disabled = busy; });
   }
 
-  function updateHeaderBadge(items) {
-    const count = getTotalQty(items);
+  function ensureErrorEl() {
+    let el = document.getElementById('cart-drawer-error');
+    if (el || !bodyEl) return el;
+    el = document.createElement('div');
+    el.id = 'cart-drawer-error';
+    el.className = 'cart-drawer-error';
+    el.setAttribute('role', 'alert');
+    el.hidden = true;
+    bodyEl.insertBefore(el, bodyEl.firstChild);
+    return el;
+  }
+
+  function showError(message) {
+    const el = ensureErrorEl();
+    if (!el) return;
+    el.textContent = message;
+    el.hidden = false;
+  }
+
+  function clearError() {
+    const el = document.getElementById('cart-drawer-error');
+    if (el) el.hidden = true;
+  }
+
+  /**
+   * Wrap an adapter promise so the UI never reports success early. The drawer
+   * only re-renders from the adapter's subscription, which fires after the
+   * backend has actually confirmed the change.
+   */
+  function run(promise, failMessage) {
+    setBusy(true);
+    clearError();
+    return promise
+      .then(result => { clearError(); return result; })
+      .catch(err => {
+        showError(failMessage + (err && err.detail ? ' (' + err.detail + ')' : ''));
+        throw err;
+      })
+      .finally(() => setBusy(false));
+  }
+
+  /* ---------------------------------------------------------------- rendering */
+
+  function updateHeaderBadge(cart) {
+    const count = cart.quantity;
     if (headerBadge) {
       headerBadge.textContent = String(count);
       headerBadge.classList.toggle('is-empty', count === 0);
       headerBadge.setAttribute('aria-hidden', count === 0 ? 'true' : 'false');
     }
     if (headerCartTotal) {
-      const total = getSubtotal(items);
-      headerCartTotal.textContent = total.toLocaleString('bg-BG', {
+      headerCartTotal.textContent = Number(cart.subtotal || 0).toLocaleString('bg-BG', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       }) + ' €';
     }
   }
 
-  function resolveProductHref(href) {
-    if (!href || href === '#') return '';
-    try {
-      return new URL(href, window.location.href).href;
-    } catch {
-      return href;
+  function buildItemRow(item) {
+    const li = document.createElement('li');
+    li.className = 'cart-drawer-item';
+    if (item.lineId) li.dataset.lineId = item.lineId;
+    if (item.productId) li.dataset.id = item.productId;
+    if (item.isGift) li.classList.add('cart-drawer-item--gift');
+
+    const thumb = document.createElement(item.href ? 'a' : 'div');
+    thumb.className = 'cart-drawer-item__thumb';
+    if (item.href) {
+      thumb.href = item.href;
+      thumb.setAttribute('aria-label', item.title || 'Продукт');
     }
-  }
 
-  function extractProductFromArticle(article) {
-    if (!article) return null;
-    const id = article.dataset.id;
-    if (!id) return null;
-    const titleLink = article.querySelector('h4 a');
-    const imageLink = article.querySelector('.aspect-square a[href]');
-    const title = titleLink ? titleLink.textContent.trim() : 'Продукт';
-    const price = parseFloat(article.dataset.price) || 0;
-    const { src, alt } = getProductImage(article);
-    const href = resolveProductHref(
-      titleLink?.getAttribute('href') || imageLink?.getAttribute('href') || ''
-    );
-    return { id: String(id), title, price, image: src, alt: alt || title, href, qty: 1 };
-  }
+    const img = document.createElement('img');
+    img.className = 'cart-drawer-item__image';
+    img.src = resolveImageUrl(item.image);
+    img.alt = item.alt || item.title || '';
+    img.loading = 'lazy';
+    thumb.appendChild(img);
 
-  function addToCart(product) {
-    if (!product || !product.id) return;
-    const items = readCart();
-    const existing = items.find(item => item.id === product.id);
-    const href = resolveProductHref(product.href || product.url || '');
-    if (existing) {
-      existing.qty = (Number(existing.qty) || 0) + (Number(product.qty) || 1);
-      if (product.image && !existing.image) existing.image = product.image;
-      if (product.alt && !existing.alt) existing.alt = product.alt;
-      if (href && !existing.href) existing.href = href;
-    } else {
-      items.push({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.image,
-        alt: product.alt || product.title,
-        href: href || undefined,
-        qty: Number(product.qty) || 1,
+    const info = document.createElement('div');
+    info.className = 'cart-drawer-item__info';
+
+    const title = document.createElement(item.href ? 'a' : 'span');
+    title.className = 'cart-drawer-item__title';
+    title.textContent = item.title;
+    if (item.href) title.href = item.href;
+
+    const price = document.createElement('span');
+    price.className = 'cart-drawer-item__price';
+    price.textContent = item.isGift ? 'Подарък!' : formatPrice(item.lineTotal);
+
+    const controls = document.createElement('div');
+    controls.className = 'cart-drawer-item__controls';
+
+    // Per-line quantity controls are only offered when the backend actually
+    // reported a quantity for the line. The live mini-cart fragment omits it
+    // (remove-only); the checkout table renders .quan/.inc/.dec.
+    if (!item.isGift && item.mutable && item.quantity != null) {
+      const minusBtn = document.createElement('button');
+      minusBtn.type = 'button';
+      minusBtn.className = 'cart-drawer-qty-btn';
+      minusBtn.setAttribute('aria-label', 'Намали количество');
+      minusBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]" aria-hidden="true">remove</span>';
+      minusBtn.addEventListener('click', () => {
+        run(adapter.updateItem(item.lineId, item.quantity - 1), 'Количеството не беше променено.');
       });
+
+      const qty = document.createElement('span');
+      qty.className = 'cart-drawer-qty-value';
+      qty.textContent = String(item.quantity);
+
+      const plusBtn = document.createElement('button');
+      plusBtn.type = 'button';
+      plusBtn.className = 'cart-drawer-qty-btn';
+      plusBtn.setAttribute('aria-label', 'Увеличи количество');
+      plusBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]" aria-hidden="true">add</span>';
+      plusBtn.addEventListener('click', () => {
+        run(adapter.updateItem(item.lineId, item.quantity + 1), 'Количеството не беше променено.');
+      });
+
+      controls.append(minusBtn, qty, plusBtn);
     }
-    writeCart(items);
-    renderCart(items);
-    updateHeaderBadge(items);
+
+    if (!item.isGift && item.mutable) {
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'cart-drawer-item__remove';
+      removeBtn.textContent = 'Премахни';
+      removeBtn.addEventListener('click', () => {
+        run(adapter.removeItem(item.lineId), 'Продуктът не беше премахнат.');
+      });
+      controls.appendChild(removeBtn);
+    }
+
+    info.append(title, price, controls);
+    li.append(thumb, info);
+    return li;
   }
 
-  function updateItemQty(id, delta) {
-    const items = readCart();
-    const item = items.find(entry => entry.id === id);
-    if (!item) return;
-    item.qty = (Number(item.qty) || 0) + delta;
-    const next = item.qty > 0 ? items : items.filter(entry => entry.id !== id);
-    writeCart(next);
-    renderCart(next);
-    updateHeaderBadge(next);
+  function renderCart(cart) {
+    const count = cart.quantity;
+    const isEmpty = cart.isEmpty;
+
+    if (countLabel) countLabel.textContent = isEmpty ? '' : ` (${count})`;
+    if (emptyEl) emptyEl.hidden = !isEmpty;
+    if (itemsEl) {
+      itemsEl.hidden = isEmpty;
+      itemsEl.innerHTML = '';
+      cart.items.forEach(item => itemsEl.appendChild(buildItemRow(item)));
+    }
+    if (subtotalEl) subtotalEl.textContent = formatPrice(cart.subtotal);
+
+    const checkoutLink = document.getElementById('cart-drawer-checkout');
+    if (checkoutLink) checkoutLink.href = resolveCheckoutUrl();
+
+    renderUpsell(cart);
   }
 
-  function removeItem(id) {
-    const next = readCart().filter(entry => entry.id !== id);
-    writeCart(next);
-    renderCart(next);
-    updateHeaderBadge(next);
-  }
-
-  function backfillItemMeta(item, items) {
-    if (!productGrid) return { image: item.image || '', href: resolveProductHref(item.href || item.url || '') };
-    const article = productGrid.querySelector(`article[data-id="${item.id}"]`);
-    if (!article) {
-      return { image: item.image || '', href: resolveProductHref(item.href || item.url || '') };
-    }
-    let changed = false;
-    if (!item.image) {
-      const { src, alt } = getProductImage(article);
-      if (src) {
-        item.image = src;
-        if (alt) item.alt = alt;
-        changed = true;
-      }
-    }
-    if (!item.href && !item.url) {
-      const titleLink = article.querySelector('h4 a');
-      const imageLink = article.querySelector('.aspect-square a[href]');
-      const href = resolveProductHref(
-        titleLink?.getAttribute('href') || imageLink?.getAttribute('href') || ''
-      );
-      if (href) {
-        item.href = href;
-        changed = true;
-      }
-    }
-    if (changed) writeCart(items);
-    return {
-      image: item.image || '',
-      href: resolveProductHref(item.href || item.url || ''),
-    };
-  }
+  /* ------------------------------------------------------------------ upsell */
 
   function ensureUpsellSection() {
     let section = document.getElementById('cart-drawer-upsell');
@@ -252,22 +292,21 @@
     return section;
   }
 
-  function getVisibleUpsellItems(cartItems) {
-    const inCart = new Set(cartItems.map(item => String(item.id)));
+  function getVisibleUpsellItems(cart) {
+    const inCart = new Set(cart.items.map(item => String(item.productId)));
     return UPSELL_ITEMS.filter(entry => {
       if (!entry.addable || !entry.id) return true;
       return !inCart.has(String(entry.id));
     });
   }
 
-  function renderUpsell(cartItems) {
+  function renderUpsell(cart) {
     const section = ensureUpsellSection();
     if (!section) return;
-    const list = section.querySelector('#cart-drawer-upsell-list') || section.querySelector('.cart-drawer-upsell__list');
+    const list = section.querySelector('#cart-drawer-upsell-list');
     if (!list) return;
 
-    const count = getTotalQty(cartItems);
-    const visible = count > 0 ? getVisibleUpsellItems(cartItems) : [];
+    const visible = cart.quantity > 0 ? getVisibleUpsellItems(cart) : [];
     list.innerHTML = '';
 
     if (!visible.length) {
@@ -324,15 +363,7 @@
         addBtn.addEventListener('click', e => {
           e.preventDefault();
           e.stopPropagation();
-          addToCart({
-            id: entry.id,
-            title: entry.title,
-            price: entry.price,
-            image: entry.image,
-            alt: entry.title,
-            href: entry.href,
-            qty: 1,
-          });
+          run(adapter.add(entry.id, 1), 'Продуктът не беше добавен в количката.');
         });
       } else {
         addBtn.addEventListener('click', e => {
@@ -351,89 +382,7 @@
     section.hidden = false;
   }
 
-  function renderCart(items) {
-    const count = getTotalQty(items);
-    const isEmpty = count === 0;
-
-    if (countLabel) {
-      countLabel.textContent = isEmpty ? '' : ` (${count})`;
-    }
-    if (emptyEl) emptyEl.hidden = !isEmpty;
-    if (itemsEl) {
-      itemsEl.hidden = isEmpty;
-      itemsEl.innerHTML = '';
-      items.forEach(item => {
-        const li = document.createElement('li');
-        li.className = 'cart-drawer-item';
-        li.dataset.id = item.id;
-
-        const meta = backfillItemMeta(item, items);
-        const productHref = meta.href;
-
-        const thumb = document.createElement(productHref ? 'a' : 'div');
-        thumb.className = 'cart-drawer-item__thumb';
-        if (productHref) {
-          thumb.href = productHref;
-          thumb.setAttribute('aria-label', item.title || 'Продукт');
-        }
-
-        const img = document.createElement('img');
-        img.className = 'cart-drawer-item__image';
-        img.src = resolveImageUrl(meta.image || item.image);
-        img.alt = item.alt || item.title || '';
-        img.loading = 'lazy';
-
-        thumb.appendChild(img);
-
-        const info = document.createElement('div');
-        info.className = 'cart-drawer-item__info';
-
-        const title = document.createElement(productHref ? 'a' : 'span');
-        title.className = 'cart-drawer-item__title';
-        title.textContent = item.title;
-        if (productHref) title.href = productHref;
-
-        const price = document.createElement('span');
-        price.className = 'cart-drawer-item__price';
-        price.textContent = formatPrice(item.price);
-
-        const controls = document.createElement('div');
-        controls.className = 'cart-drawer-item__controls';
-
-        const minusBtn = document.createElement('button');
-        minusBtn.type = 'button';
-        minusBtn.className = 'cart-drawer-qty-btn';
-        minusBtn.setAttribute('aria-label', 'Намали количество');
-        minusBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]" aria-hidden="true">remove</span>';
-        minusBtn.addEventListener('click', () => updateItemQty(item.id, -1));
-
-        const qty = document.createElement('span');
-        qty.className = 'cart-drawer-qty-value';
-        qty.textContent = String(item.qty);
-
-        const plusBtn = document.createElement('button');
-        plusBtn.type = 'button';
-        plusBtn.className = 'cart-drawer-qty-btn';
-        plusBtn.setAttribute('aria-label', 'Увеличи количество');
-        plusBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]" aria-hidden="true">add</span>';
-        plusBtn.addEventListener('click', () => updateItemQty(item.id, 1));
-
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.className = 'cart-drawer-item__remove';
-        removeBtn.textContent = 'Премахни';
-        removeBtn.addEventListener('click', () => removeItem(item.id));
-
-        controls.append(minusBtn, qty, plusBtn, removeBtn);
-        info.append(title, price, controls);
-        li.append(thumb, info);
-        itemsEl.appendChild(li);
-      });
-    }
-    if (subtotalEl) subtotalEl.textContent = formatPrice(getSubtotal(items));
-    renderUpsell(items);
-    document.dispatchEvent(new CustomEvent('plasico:cart-updated'));
-  }
+  /* ------------------------------------------------------------ open / close */
 
   function getFocusableElements() {
     return drawer.querySelectorAll(
@@ -458,7 +407,6 @@
 
   function openDrawer() {
     if (isOpen) return;
-    renderCart(readCart());
     window.__closeHeaderAuth?.();
     isOpen = true;
     lastFocused = document.activeElement;
@@ -473,9 +421,10 @@
     });
     document.addEventListener('keydown', onKeydown);
     document.addEventListener('keydown', trapFocus);
+    // The drawer must always be able to re-read the real cart.
+    run(adapter.refresh(), 'Количката не можа да бъде заредена.').catch(() => {});
   }
 
-  /** Mobile: full cart page. Desktop: slide-over drawer. */
   function openCart() {
     if (isMobileCartViewport()) {
       goToCartPage();
@@ -507,6 +456,26 @@
     if (e.key === 'Escape') closeDrawer();
   }
 
+  /* -------------------------------------------------------------- add-to-cart */
+
+  /**
+   * Resolve a product id from either the redesign's article[data-id] or the
+   * mirror's .product-box[data-id]. Requirement: reuse the existing data-id.
+   */
+  function productIdFrom(el) {
+    if (!el) return '';
+    const host = el.matches?.('[data-id]') ? el : el.closest?.('[data-id]');
+    return host ? String(host.dataset.id || '') : '';
+  }
+
+  function addFromArticle(article, quantity) {
+    const id = productIdFrom(article);
+    if (!id) return false;
+    openCart();
+    run(adapter.add(id, quantity || 1), 'Продуктът не беше добавен в количката.').catch(() => {});
+    return true;
+  }
+
   if (browseBtn) {
     if (document.getElementById('catalog') && !document.getElementById('laptopi')) {
       browseBtn.href = '#catalog';
@@ -516,42 +485,55 @@
   toggleBtn.addEventListener('click', openCart);
   closeBtn.addEventListener('click', closeDrawer);
   backdrop.addEventListener('click', closeDrawer);
-  continueBtn.addEventListener('click', closeDrawer);
-  if (browseBtn) {
-    browseBtn.addEventListener('click', () => closeDrawer());
-  }
-
-  function addFromArticle(article) {
-    const product = extractProductFromArticle(article);
-    if (!product) return false;
-    addToCart(product);
-    openCart();
-    return true;
-  }
+  if (continueBtn) continueBtn.addEventListener('click', closeDrawer);
+  if (browseBtn) browseBtn.addEventListener('click', () => closeDrawer());
 
   if (productGrid) {
     productGrid.addEventListener('submit', e => {
       const form = e.target.closest('form');
       if (!form || form.method?.toLowerCase() !== 'post') return;
-      const article = form.closest('article[data-id]');
+      const article = form.closest('[data-id]');
       if (!article) return;
       e.preventDefault();
-      addFromArticle(article);
+      const qtyInput = form.querySelector('[name="quantity"]');
+      addFromArticle(article, qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1);
     });
   }
 
-  const checkoutLink = document.getElementById('cart-drawer-checkout');
-  if (checkoutLink) checkoutLink.href = CHECKOUT_URL;
+  /* ------------------------------------------------------------------- wiring */
 
-  const initial = readCart();
-  renderCart(initial);
-  updateHeaderBadge(initial);
+  adapter.subscribe(cart => {
+    renderCart(cart);
+    updateHeaderBadge(cart);
+  });
+
+  document.addEventListener('plasico:cart-error', e => {
+    const err = e.detail;
+    if (err && err.operation === 'refresh') {
+      showError('Количката не можа да бъде заредена от сървъра.');
+    }
+  });
+
+  // Requirement: on page load, retrieve the real cart and update the header
+  // quantity, drawer contents and empty state.
+  adapter.init();
+
   window.__closeCartDrawer = closeDrawer;
-  window.__plasicoCart = {
+  window.__plasicoCart = Object.assign(window.__plasicoCart || {}, {
+    // Backend interface (delegated to the adapter)
+    getCart: adapter.getCart,
+    refresh: adapter.refresh,
+    add: adapter.add,
+    updateItem: adapter.updateItem,
+    setQuantity: adapter.setQuantity,
+    removeItem: adapter.removeItem,
+    clear: adapter.clear,
+    subscribe: adapter.subscribe,
+    // Preserved legacy UI surface
     addFromArticle,
     open: openCart,
     openDrawer,
     close: closeDrawer,
     isMobile: isMobileCartViewport,
-  };
+  });
 })();

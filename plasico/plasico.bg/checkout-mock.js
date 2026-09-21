@@ -2,7 +2,6 @@
   const root = document.getElementById('checkout') || document.querySelector('.checkout-mock');
   if (!root) return;
 
-  const CART_STORAGE_KEY = 'plasico-hss2026-cart';
   const money = (n) => `${Number(n).toFixed(2)}\u00a0€`;
   /** @type {'empty' | 'form' | 'fast' | 'done'} */
   let checkoutPhase = 'form';
@@ -23,25 +22,41 @@
     setMobileRecsVisible(show);
   }
 
+  /**
+   * RETIRED MOCK CART.
+   *
+   * This used to treat localStorage as the authoritative cart. The backend is
+   * now the source of truth, so the cart is read from the adapter's
+   * backend-derived model. localStorage is never read as a cart here.
+   */
   function readStoredCart() {
-    try {
-      const raw = localStorage.getItem(CART_STORAGE_KEY);
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
+    const adapter = window.PlasicoCartAdapter;
+    if (!adapter) return [];
+    const cart = adapter.getCart();
+    return cart.items
+      .filter((item) => !item.isGift)
+      .map((item) => {
+        const qty = Number(item.quantity) || 1;
+        return {
+          id: item.productId || item.lineId,
+          lineId: item.lineId,
+          title: item.title,
+          price: qty ? (Number(item.lineTotal) || 0) / qty : Number(item.lineTotal) || 0,
+          image: item.image,
+          alt: item.alt || item.title,
+          href: item.href || undefined,
+          qty,
+        };
+      });
   }
 
-  function writeStoredCart(items) {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
-    const count = items.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
-    const badge = document.getElementById('header-cart-badge');
-    if (badge) {
-      badge.textContent = String(count);
-      badge.classList.toggle('is-empty', count === 0);
-      badge.setAttribute('aria-hidden', count === 0 ? 'true' : 'false');
-    }
+  /**
+   * RETIRED MOCK WRITE. The cart may only be mutated through the adapter, which
+   * talks to the real backend. Header badge upkeep now belongs to the adapter
+   * subscription in cart-drawer.js, so this is intentionally inert.
+   */
+  function writeStoredCart() {
+    /* no-op: the backend is authoritative */
   }
 
   function addRecToCart(product) {
@@ -706,19 +721,24 @@
       btn.dataset.prev = btn.textContent;
       btn.textContent = 'Обработка...';
     });
-    window.setTimeout(() => {
-      btns.forEach((btn) => {
-        btn.classList.remove('is-loading');
-        if (btn.dataset.prev) btn.textContent = btn.dataset.prev;
-      });
-      checkoutPhase = 'done';
-      root.dataset.orderPlaced = '1';
-      if (note) {
-        note.hidden = false;
-        note.textContent = 'Поръчката е готова за преглед в този UI mockup (без сървърно изпращане).';
-      }
-      updateAsideHint();
-    }, 650);
+    // RETIRED FAKE ORDER. The old implementation waited 650ms and then declared
+    // success without contacting any server. Order placement belongs to the
+    // real, server-rendered checkout, so hand off there instead of pretending.
+    const adapter = window.PlasicoCartAdapter;
+    const target = (adapter && adapter.getCart().checkoutUrl) || '';
+    btns.forEach((btn) => {
+      btn.classList.remove('is-loading');
+      if (btn.dataset.prev) btn.textContent = btn.dataset.prev;
+    });
+    if (target) {
+      window.location.href = target;
+      return;
+    }
+    if (note) {
+      note.hidden = false;
+      note.textContent = 'Поръчката се завършва в официалната количка на Plasico.';
+    }
+    updateAsideHint();
   }
 
   function handleSticky() {

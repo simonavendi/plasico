@@ -8,6 +8,9 @@ from pathlib import Path
 NEW_HEADER = '''  <header id="site-header" class="mm-header font-sans">
     <div class="mm-header-shell">
       <div class="mm-header-main mm-wrap">
+        <button type="button" class="mm-mobile-menu-btn" data-mobile-menu-toggle aria-label="Отвори меню" aria-expanded="false" aria-controls="mm-mobile-menu">
+          <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+        </button>
         <a href="https://plasico.bg/" class="mm-logo" title="Начало" aria-label="Начало">
           <img src="logo-plasico.svg" alt="Plasico.bg — магазин за компютърна техника" class="site-header-logo"/>
         </a>
@@ -69,10 +72,6 @@ NEW_HEADER = '''  <header id="site-header" class="mm-header font-sans">
           <button type="button" id="categories-toggle" class="mm-cat-btn" aria-expanded="false" aria-controls="categories-panel" title="Категории">
             <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
             Категории
-          </button>
-          <button type="button" class="mm-mobile-menu-btn" data-mobile-menu-toggle aria-label="Отвори меню" aria-expanded="false">
-            <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
-            Меню
           </button>
           <nav class="mm-subnav-nav" aria-label="Бързи връзки">
             <a href="promotsii.html" class="hot">% Промоции</a>
@@ -138,8 +137,12 @@ NEW_HEADER = '''  <header id="site-header" class="mm-header font-sans">
           <div id="site-categories-panel-mobile" class="mb-4"></div>
         </div>
       </div>
-      <div class="mm-mobile-nav-panel" data-mobile-menu hidden>
+      <div id="mm-mobile-menu" class="mm-mobile-nav-panel" data-mobile-menu hidden>
         <div class="mm-wrap">
+          <button type="button" class="mm-cat-btn mm-mobile-cat-btn" data-open-categories aria-controls="categories-panel">
+            <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+            Категории
+          </button>
           <div class="mm-mobile-nav-section">
             <span class="mm-mobile-nav-title">Меню</span>
             <a href="promotsii.html" class="hot">% Промоции</a>

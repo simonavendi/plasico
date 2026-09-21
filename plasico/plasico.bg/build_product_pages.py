@@ -260,6 +260,19 @@ def render_gallery(prod: dict) -> str:
 </div>"""
 
 
+def render_energy_badge(cls: str) -> str:
+    letter = (cls or "").strip().upper()[:1]
+    if letter not in "ABCDEFG":
+        return ""
+    return (
+        f'<span class="product-energy" title="Енергиен клас {letter}" '
+        f'aria-label="Енергиен клас {letter}">'
+        f'<span class="product-energy__label">Енергиен клас</span>'
+        f'<span class="product-energy__class product-energy__class--{letter.lower()}">{letter}</span>'
+        f"</span>"
+    )
+
+
 def render_badges(prod: dict) -> str:
     parts = []
     discount = int(prod.get("discount") or 0)
@@ -267,6 +280,11 @@ def render_badges(prod: dict) -> str:
         parts.append(f'<span class="product-badge product-badge--promo">-{discount}%</span>')
     if prod.get("upgraded"):
         parts.append('<span class="product-badge product-badge--upgraded">Upgraded</span>')
+    energy = prod.get("energyClass")
+    if energy:
+        badge = render_energy_badge(str(energy))
+        if badge:
+            parts.append(badge)
     if not parts:
         return ""
     return f'<div class="product-badge-row">{"".join(parts)}</div>'
@@ -414,12 +432,9 @@ def render_main(prod: dict, products: list[dict], url_map: dict[str, str]) -> st
           <img src="https://static.plasico.bg/images/bnp_button_card.webp" alt="PostBank карта" loading="lazy" width="154" height="52"/>
         </div>
         <div class="product-side-panels">
-          <form class="product-mini-form" data-fast-order>
-            <p class="product-mini-form__title">Бърза поръчка</p>
-            <p class="product-mini-form__hint">без регистрация — въведи телефон и ще се обадим</p>
-            <input type="tel" name="phone" placeholder="08xxxxxxxx" required autocomplete="tel"/>
-            <button type="submit">Поръчай</button>
-          </form>
+          <button type="button" class="product-fast-trigger" data-open-fast-order>
+            Бърза поръчка
+          </button>
         </div>
       </aside>
     </div>
