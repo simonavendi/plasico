@@ -35,9 +35,14 @@
     cartPath: '/%D0%BF%D0%BE%D1%80%D1%8A%D1%87%D0%BA%D0%B0',
     ajaxPath: '/ajax.php',
     getCartParam: 'get_cart=1',
-    // Render cache only. NEVER authoritative.
+    // Render cache only. NEVER authoritative — except in local mode (below).
     cacheKey: 'plasico-hss2026-cart',
     useCache: true,
+    // 'auto' | 'remote' | 'local'
+    // auto: use the live PHP backend only on plasico.bg; everywhere else
+    // (Vercel preview, localhost, file://) keep a localStorage cart because
+    // /ajax.php is blocked on Vercel and the mirror has no PHP backend.
+    mode: 'auto',
     // Test seam: (url, init) => Promise<{ok, status, text}>. Null = real fetch.
     transport: null,
     debug: false
@@ -67,6 +72,25 @@
     return config.origin + config.cartPath;
   }
 
+  function isLiveShopHost() {
+    try {
+      var h = String(window.location.hostname || '').toLowerCase();
+      return h === 'plasico.bg' || h === 'www.plasico.bg';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function preferLocalMode() {
+    if (config.mode === 'local') return true;
+    if (config.mode === 'remote') return false;
+    // mode === 'auto'
+    try {
+      if (window.location.protocol === 'file:') return true;
+    } catch (e) {}
+    return !isLiveShopHost();
+  }
+
   /* ------------------------------------------------------------------- state */
 
   // Normalized, in-memory, backend-derived model. The single source of truth
@@ -75,6 +99,9 @@
   var lastError = null;
   var listeners = [];
   var initialised = false;
+  // Once we know the PHP backend is unreachable, stay on local cart for the
+  // rest of the page lifetime (avoids repeated 403/404 noise on Vercel).
+  var forceLocal = preferLocalMode();
 
   function emptyModel() {
     return {
@@ -121,13 +148,59 @@
     if (!config.useCache) return;
     try {
       localStorage.setItem(config.cacheKey, JSON.stringify({
-        // Marked so nothing mistakes this for an authoritative cart.
-        __source: 'render-cache',
+        // local-cart is authoritative on the mirror; render-cache is paint-only
+        // when talking to the live PHP backend.
+        __source: forceLocal ? 'local-cart' : 'render-cache',
         quantity: m.quantity,
         subtotal: m.subtotal,
         items: m.items
       }));
     } catch (e) {}
+  }
+
+  function legacyItemsToModel(arr) {
+    var m = emptyModel();
+    m.loaded = true;
+    (arr || []).forEach(function (entry) {
+      if (!entry) return;
+      var id = String(entry.id || entry.productId || '').trim();
+      if (!id) return;
+      var qty = Math.max(1, parseInt(entry.qty != null ? entry.qty : entry.quantity, 10) || 1);
+      var unit = Number(entry.price);
+      if (!isFinite(unit)) unit = 0;
+      m.items.push({
+        lineId: 'local-' + id,
+        productId: id,
+        title: entry.title || entry.name || 'Продукт',
+        href: entry.href || '',
+        image: entry.image || '',
+        alt: entry.alt || entry.title || '',
+        category: entry.category || '',
+        lineTotal: unit * qty,
+        unitPrice: unit,
+        quantity: qty,
+        isGift: false,
+        serverQuery: '',
+        removeQuery: '',
+        incQuery: '',
+        decQuery: '',
+        mutable: true
+      });
+    });
+    recomputeLocalTotals(m);
+    return m;
+  }
+
+  function recomputeLocalTotals(m) {
+    m.lineCount = m.items.length;
+    m.quantity = m.items.reduce(function (s, it) {
+      return s + (Number(it.quantity) || 0);
+    }, 0);
+    m.subtotal = m.items.reduce(function (s, it) {
+      return s + (Number(it.lineTotal) || 0);
+    }, 0);
+    m.checkoutUrl = m.checkoutUrl || 'poruchka.html';
+    m.loaded = true;
   }
 
   function readCache() {
@@ -136,14 +209,183 @@
       var raw = localStorage.getItem(config.cacheKey);
       if (!raw) return null;
       var parsed = JSON.parse(raw);
-      // Legacy shape was a bare array written by the old localStorage cart.
-      // Ignore it: it is not backend-derived and must never seed the model.
-      if (Array.isArray(parsed)) return null;
-      if (!parsed || parsed.__source !== 'render-cache') return null;
+      // Legacy shape was a bare array written by the old localStorage cart /
+      // product-page.js fallback. Promote it when we are in local mode.
+      if (Array.isArray(parsed)) {
+        return forceLocal ? legacyItemsToModel(parsed) : null;
+      }
+      if (!parsed || typeof parsed !== 'object') return null;
+      if (parsed.__source === 'local-cart') {
+        var local = emptyModel();
+        local.loaded = true;
+        local.items = Array.isArray(parsed.items) ? parsed.items.slice() : [];
+        local.quantity = parsed.quantity || 0;
+        local.subtotal = parsed.subtotal || 0;
+        recomputeLocalTotals(local);
+        return local;
+      }
+      if (parsed.__source !== 'render-cache') return null;
       return parsed;
     } catch (e) {
       return null;
     }
+  }
+
+  function lookupDomMeta(productId) {
+    var id = String(productId || '');
+    if (!id || !document || !document.querySelector) return null;
+    var host =
+      document.querySelector('[data-product-page][data-product-id="' + id + '"]') ||
+      document.querySelector('[data-id="' + id + '"]');
+    if (!host) return null;
+
+    if (host.hasAttribute && host.hasAttribute('data-product-page')) {
+      return {
+        title: host.getAttribute('data-product-title') || '',
+        price: parseFloat(host.getAttribute('data-product-price') || '0') || 0,
+        image: host.getAttribute('data-product-image') || '',
+        href: (window.location.pathname.split('/').pop()) || '',
+        alt: host.getAttribute('data-product-title') || ''
+      };
+    }
+
+    var titleLink = host.querySelector('h4 a') || host.querySelector('a[href*=".html"]');
+    var img = host.querySelector('.aspect-square img') || host.querySelector('img');
+    var price = parseFloat(host.getAttribute('data-price') || host.dataset && host.dataset.price || '0');
+    return {
+      title: titleLink ? titleLink.textContent.trim() : (host.getAttribute('data-name') || 'Продукт'),
+      price: isFinite(price) ? price : 0,
+      image: img ? (img.getAttribute('src') || img.getAttribute('data-src') || '') : '',
+      href: titleLink ? (titleLink.getAttribute('href') || '') : (host.getAttribute('data-href') || ''),
+      alt: img ? (img.getAttribute('alt') || '') : ''
+    };
+  }
+
+  function commitLocal(next) {
+    model = next;
+    lastError = null;
+    writeCache(model);
+    emit();
+    return getCart();
+  }
+
+  function localAdd(productId, quantity, meta) {
+    var id = String(productId || '').trim();
+    if (!id) return Promise.reject(fail('add', 'missing product id'));
+    var qty = Math.max(1, parseInt(quantity, 10) || 1);
+    meta = meta || lookupDomMeta(id) || {};
+
+    var next = emptyModel();
+    next.items = model.items.map(function (it) {
+      var copy = {};
+      for (var p in it) if (Object.prototype.hasOwnProperty.call(it, p)) copy[p] = it[p];
+      return copy;
+    });
+
+    var existing = null;
+    for (var i = 0; i < next.items.length; i++) {
+      if (String(next.items[i].productId) === id) {
+        existing = next.items[i];
+        break;
+      }
+    }
+
+    if (existing) {
+      existing.quantity = (Number(existing.quantity) || 0) + qty;
+      var unit = Number(existing.unitPrice);
+      if (!isFinite(unit) || unit <= 0) {
+        unit = Number(meta.price);
+        if (!isFinite(unit)) unit = 0;
+        existing.unitPrice = unit;
+      }
+      existing.lineTotal = unit * existing.quantity;
+      if (meta.title) existing.title = meta.title;
+      if (meta.image) existing.image = meta.image;
+      if (meta.href) existing.href = meta.href;
+    } else {
+      var unitPrice = Number(meta.price);
+      if (!isFinite(unitPrice)) unitPrice = 0;
+      next.items.push({
+        lineId: 'local-' + id,
+        productId: id,
+        title: meta.title || ('Продукт #' + id),
+        href: meta.href || '',
+        image: meta.image || '',
+        alt: meta.alt || meta.title || '',
+        category: meta.category || '',
+        lineTotal: unitPrice * qty,
+        unitPrice: unitPrice,
+        quantity: qty,
+        isGift: false,
+        serverQuery: '',
+        removeQuery: '',
+        incQuery: '',
+        decQuery: '',
+        mutable: true
+      });
+    }
+
+    recomputeLocalTotals(next);
+    return Promise.resolve(commitLocal(next));
+  }
+
+  function localUpdateItem(lineId, quantity) {
+    var id = String(lineId);
+    var next = emptyModel();
+    next.items = [];
+    model.items.forEach(function (it) {
+      if (String(it.lineId) !== id) {
+        var copy = {};
+        for (var p in it) if (Object.prototype.hasOwnProperty.call(it, p)) copy[p] = it[p];
+        next.items.push(copy);
+        return;
+      }
+      var qty = Math.max(0, parseInt(quantity, 10) || 0);
+      if (qty <= 0) return;
+      var row = {};
+      for (var q in it) if (Object.prototype.hasOwnProperty.call(it, q)) row[q] = it[q];
+      row.quantity = qty;
+      var unit = Number(row.unitPrice);
+      if (!isFinite(unit) || unit < 0) {
+        unit = qty ? (Number(row.lineTotal) || 0) / (Number(it.quantity) || qty) : 0;
+        row.unitPrice = unit;
+      }
+      row.lineTotal = unit * qty;
+      next.items.push(row);
+    });
+    recomputeLocalTotals(next);
+    return Promise.resolve(commitLocal(next));
+  }
+
+  function localRemoveItem(lineId) {
+    return localUpdateItem(lineId, 0);
+  }
+
+  function localRefresh() {
+    var cached = readCache();
+    if (cached && Array.isArray(cached.items)) {
+      var m = emptyModel();
+      m.items = cached.items.slice();
+      m.quantity = cached.quantity || 0;
+      m.subtotal = cached.subtotal || 0;
+      recomputeLocalTotals(m);
+      return Promise.resolve(commitLocal(m));
+    }
+    return Promise.resolve(commitLocal(emptyModel()));
+  }
+
+  function isHardBackendFailure(err) {
+    if (!err) return false;
+    var detail = String(err.detail || err.message || err);
+    if (/HTTP 404|HTTP 403|HTTP 502|HTTP 503/i.test(detail)) return true;
+    if (/Failed to fetch|NetworkError|Load failed/i.test(detail)) return true;
+    return false;
+  }
+
+  function enableLocalFallback(reason) {
+    if (forceLocal) return;
+    forceLocal = true;
+    log('switching to local cart', reason);
   }
 
   /* ----------------------------------------------------------------- parsing */
@@ -403,13 +645,27 @@
   }
 
   function refresh() {
-    return enqueue(function () { return commit('refresh', ajaxUrl()); });
+    if (forceLocal) return enqueue(function () { return localRefresh(); });
+    return enqueue(function () {
+      return commit('refresh', ajaxUrl()).catch(function (err) {
+        if (isHardBackendFailure(err)) {
+          enableLocalFallback(err);
+          return localRefresh();
+        }
+        throw err;
+      });
+    });
   }
 
-  function add(productId, quantity) {
+  function add(productId, quantity, meta) {
     var id = String(productId || '').trim();
     if (!id) return Promise.reject(fail('add', 'missing product id'));
     var qty = Math.max(1, parseInt(quantity, 10) || 1);
+
+    if (forceLocal) {
+      return enqueue(function () { return localAdd(id, qty, meta); });
+    }
+
     var body = 'action=buy&prod_id=' + encodeURIComponent(id) +
                '&quantity=' + encodeURIComponent(String(qty));
 
@@ -429,6 +685,10 @@
       }).catch(function (err) {
         var wrapped = err instanceof Error ? err : fail('add', String(err));
         wrapped.operation = wrapped.operation || 'add';
+        if (isHardBackendFailure(wrapped)) {
+          enableLocalFallback(wrapped);
+          return localAdd(id, qty, meta);
+        }
         emitError(wrapped);
         throw wrapped;
       });
@@ -448,6 +708,9 @@
    * query string with only the quantity value substituted.
    */
   function updateItem(lineId, quantity) {
+    if (forceLocal || (String(lineId || '').indexOf('local-') === 0)) {
+      return enqueue(function () { return localUpdateItem(lineId, quantity); });
+    }
     var line = findLine(lineId);
     if (!line) return Promise.reject(fail('updateItem', 'unknown line ' + lineId));
     if (!line.serverQuery) {
@@ -459,6 +722,9 @@
   }
 
   function removeItem(lineId) {
+    if (forceLocal || (String(lineId || '').indexOf('local-') === 0)) {
+      return enqueue(function () { return localRemoveItem(lineId); });
+    }
     var line = findLine(lineId);
     if (!line) return Promise.reject(fail('removeItem', 'unknown line ' + lineId));
     // Prefer the server's own remove URL verbatim; it already carries quantity=0.
@@ -495,6 +761,14 @@
   function init() {
     if (initialised) return refresh();
     initialised = true;
+
+    if (forceLocal) {
+      return localRefresh().catch(function (err) {
+        log('local init failed', err);
+        return getCart();
+      });
+    }
+
     var cached = readCache();
     if (cached) {
       // Paint from cache for perceived speed, explicitly marked not-loaded so
@@ -528,10 +802,12 @@
     subscribe: subscribe,
     // Introspection
     get lastError() { return lastError; },
+    get isLocal() { return forceLocal; },
     config: config,
     // Exposed for tests
     _parseCartHtml: parseCartHtml,
-    _withQuantity: withQuantity
+    _withQuantity: withQuantity,
+    _preferLocalMode: preferLocalMode
   };
 
   window.PlasicoCartAdapter = api;

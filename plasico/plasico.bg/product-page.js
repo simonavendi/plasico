@@ -57,17 +57,31 @@
   });
 
   function addCurrentToCart() {
-    const item = {
+    const qty = getQty();
+    const meta = {
       id: productId,
       title: productTitle,
       price: productPrice,
       image: productImage,
       alt: productTitle,
       href: productHref,
-      qty: getQty(),
     };
 
-    if (window.__plasicoCart && typeof window.__plasicoCart.addFromArticle === 'function') {
+    const cart = window.__plasicoCart || window.PlasicoCartAdapter;
+    if (cart && typeof cart.add === 'function') {
+      Promise.resolve(cart.add(productId, qty, meta))
+        .then(() => {
+          if (typeof cart.open === 'function') cart.open();
+          else if (typeof cart.openDrawer === 'function') cart.openDrawer();
+        })
+        .catch(() => {
+          // Adapter surfaces errors via the drawer; still try to open it.
+          if (typeof cart.open === 'function') cart.open();
+        });
+      return;
+    }
+
+    if (cart && typeof cart.addFromArticle === 'function') {
       const article = document.createElement('article');
       article.dataset.id = productId;
       article.dataset.price = String(productPrice);
@@ -77,19 +91,20 @@
         <img class="cart-card__image" src="${productImage}" alt=""/>
         <a class="cart-card__title" href="${productHref}">${productTitle}</a>
       `;
-      if (window.__plasicoCart.addFromArticle(article)) return;
+      if (cart.addFromArticle(article, qty)) return;
     }
 
+    // Last-resort local write (adapter will migrate this shape in local mode).
     const key = 'plasico-hss2026-cart';
     const items = readJson(key, []);
     const existing = items.find((entry) => String(entry.id) === String(productId));
     if (existing) {
-      existing.qty = (Number(existing.qty) || 0) + getQty();
+      existing.qty = (Number(existing.qty) || 0) + qty;
     } else {
-      items.push(item);
+      items.push({ ...meta, qty });
     }
     writeJson(key, items);
-    if (window.__plasicoCart?.open) window.__plasicoCart.open();
+    if (cart?.open) cart.open();
   }
 
   if (buyBtn) {
@@ -140,22 +155,27 @@
       e.stopPropagation();
       const id = btn.dataset.similarId;
       if (!id) return;
-      const item = {
-        id,
+      const meta = {
         title: btn.dataset.similarTitle || 'Продукт',
         price: parseFloat(btn.dataset.similarPrice || '0') || 0,
         image: btn.dataset.similarImage || '',
         alt: btn.dataset.similarTitle || 'Продукт',
         href: btn.dataset.similarHref || '',
-        qty: 1,
       };
+      const cart = window.__plasicoCart || window.PlasicoCartAdapter;
+      if (cart && typeof cart.add === 'function') {
+        Promise.resolve(cart.add(id, 1, meta))
+          .then(() => { if (typeof cart.open === 'function') cart.open(); })
+          .catch(() => { if (typeof cart.open === 'function') cart.open(); });
+        return;
+      }
       const key = 'plasico-hss2026-cart';
       const items = readJson(key, []);
       const existing = items.find((entry) => String(entry.id) === String(id));
       if (existing) existing.qty = (Number(existing.qty) || 0) + 1;
-      else items.push(item);
+      else items.push({ id, ...meta, qty: 1 });
       writeJson(key, items);
-      if (window.__plasicoCart?.open) window.__plasicoCart.open();
+      if (cart?.open) cart.open();
     });
   });
 

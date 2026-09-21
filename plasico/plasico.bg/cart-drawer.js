@@ -367,7 +367,15 @@
         addBtn.addEventListener('click', e => {
           e.preventDefault();
           e.stopPropagation();
-          run(adapter.add(entry.id, 1), 'Продуктът не беше добавен в количката.');
+          run(
+            adapter.add(entry.id, 1, {
+              title: entry.title,
+              price: entry.price,
+              image: entry.image,
+              href: entry.href,
+            }),
+            'Продуктът не беше добавен в количката.'
+          );
         });
       } else {
         addBtn.addEventListener('click', e => {
@@ -416,12 +424,12 @@
     lastFocused = document.activeElement;
     root.hidden = false;
     root.setAttribute('aria-hidden', 'false');
-    backdrop.setAttribute('aria-hidden', 'false');
+    if (backdrop) backdrop.setAttribute('aria-hidden', 'false');
     toggleBtn.setAttribute('aria-expanded', 'true');
     document.body.classList.add('cart-drawer-open');
     requestAnimationFrame(() => {
       root.classList.add('is-open');
-      closeBtn.focus();
+      if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus();
     });
     document.addEventListener('keydown', onKeydown);
     document.addEventListener('keydown', trapFocus);
@@ -441,7 +449,7 @@
     if (!isOpen) return;
     isOpen = false;
     root.classList.remove('is-open');
-    backdrop.setAttribute('aria-hidden', 'true');
+    if (backdrop) backdrop.setAttribute('aria-hidden', 'true');
     toggleBtn.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('cart-drawer-open');
     document.removeEventListener('keydown', onKeydown);
@@ -475,8 +483,19 @@
   function addFromArticle(article, quantity) {
     const id = productIdFrom(article);
     if (!id) return false;
+    const qty = quantity || 1;
+    const titleLink = article.querySelector?.('h4 a') || article.querySelector?.('a[href*=".html"]') || article.querySelector?.('a.cart-card__title');
+    const img = article.querySelector?.('.cart-card__image') || article.querySelector?.('.aspect-square img') || article.querySelector?.('img');
+    const price = parseFloat(article.dataset?.price || '');
+    const meta = {
+      title: (article.dataset?.name || (titleLink && titleLink.textContent.trim()) || '').trim() || ('Продукт #' + id),
+      price: Number.isFinite(price) ? price : 0,
+      image: img ? (img.getAttribute('src') || img.getAttribute('data-src') || '') : '',
+      href: (article.dataset?.href || (titleLink && titleLink.getAttribute('href')) || ''),
+      alt: (img && img.getAttribute('alt')) || '',
+    };
     openCart();
-    run(adapter.add(id, quantity || 1), 'Продуктът не беше добавен в количката.').catch(() => {});
+    run(adapter.add(id, qty, meta), 'Продуктът не беше добавен в количката.').catch(() => {});
     return true;
   }
 
@@ -487,8 +506,8 @@
   }
 
   toggleBtn.addEventListener('click', openCart);
-  closeBtn.addEventListener('click', closeDrawer);
-  backdrop.addEventListener('click', closeDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (backdrop) backdrop.addEventListener('click', closeDrawer);
   if (continueBtn) continueBtn.addEventListener('click', closeDrawer);
   if (browseBtn) browseBtn.addEventListener('click', () => closeDrawer());
 
