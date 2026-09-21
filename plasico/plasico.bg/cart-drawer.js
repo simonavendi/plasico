@@ -6,8 +6,12 @@
  *
  * The cart is server-authoritative. localStorage is not consulted here at all;
  * the adapter owns an optional render cache under the legacy key.
+ *
+ * If the adapter script tag was omitted from the page, we load it from the same
+ * directory as this file so add-to-cart still works.
  */
-(function initCartDrawer() {
+(function bootstrapCartDrawer() {
+  function startCartDrawer() {
   const CHECKOUT_URL = 'poruchka.html';
   const MOBILE_CART_MQ = '(max-width: 768px)';
   const UPSELL_ITEMS = [
@@ -48,7 +52,7 @@
 
   const adapter = window.PlasicoCartAdapter;
   if (!adapter) {
-    console.error('[cart-drawer] plasico-cart-adapter.js must load before cart-drawer.js');
+    console.error('[cart-drawer] PlasicoCartAdapter is unavailable after load');
     return;
   }
 
@@ -536,4 +540,38 @@
     close: closeDrawer,
     isMobile: isMobileCartViewport,
   });
+  }
+
+  if (window.PlasicoCartAdapter) {
+    startCartDrawer();
+    return;
+  }
+
+  let started = false;
+  function startOnce() {
+    if (started) return;
+    started = true;
+    startCartDrawer();
+  }
+
+  const current = document.currentScript;
+  const adapterSrc = current && current.src
+    ? current.src.replace(/cart-drawer\.js(\?.*)?$/i, 'plasico-cart-adapter.js$1')
+    : 'plasico-cart-adapter.js';
+
+  const existing = document.querySelector('script[src*="plasico-cart-adapter.js"]');
+  if (existing) {
+    existing.addEventListener('load', startOnce);
+    if (window.PlasicoCartAdapter) startOnce();
+    return;
+  }
+
+  const loader = document.createElement('script');
+  loader.src = adapterSrc;
+  loader.onload = startOnce;
+  loader.onerror = function () {
+    console.error('[cart-drawer] failed to load', adapterSrc);
+  };
+  if (current && current.parentNode) current.parentNode.insertBefore(loader, current);
+  else document.head.appendChild(loader);
 })();
