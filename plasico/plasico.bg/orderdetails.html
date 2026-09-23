@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="description" content="Проследяване на поръчка Plasico — статус, товарителница и документи."/>
+<title>Проследяване на поръчка Plasico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+  :root{
+    --brand:#07A857;
+    --brand-deep:#059B4F;
+    --brand-ink:#047A44;
+    --brand-tint:#ECFDF5;
+    --brand-tint-line:#C7F0DC;
+    --ground:#F8FAF9;
+    --surface:#FFFFFF;
+    --surface-2:#F5F8F7;
+    --ink:#0F172A;
+    --ink-2:#334155;
+    --muted:#64748B;
+    --faint:#94A3B8;
+    --line:#E4EAE8;
+    --line-strong:#CBD5E1;
+    --shadow:0 12px 34px rgba(15,23,42,.07);
+    --shadow-sm:0 2px 8px rgba(15,23,42,.05);
+    --radius:22px;
+    --demo-bg:#111C2E;
+    --demo-ink:#E2E8F0;
+    --demo-chip:#1E2C44;
+    --hero-text:#FFFFFF;
+    --hero-dim:rgba(255,255,255,.72);
+    --hero-faint:rgba(255,255,255,.45);
+    --warn-bg:#FFF7ED;
+    --warn-line:#FED7AA;
+    --warn-ink:#B45309;
+    --bad-bg:#FEF2F2;
+    --bad-line:#FECACA;
+    --bad-ink:#B42323;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --brand:#07A857;
+      --brand-deep:#0A8F4C;
+      --brand-ink:#3DD68C;
+      --brand-tint:#0F2A1E;
+      --brand-tint-line:#1D4535;
+      --ground:#0B1220;
+      --surface:#131C2B;
+      --surface-2:#0F1826;
+      --ink:#E9EFF6;
+      --ink-2:#C6D2E0;
+      --muted:#94A3B8;
+      --faint:#7A8AA0;
+      --line:#233149;
+      --line-strong:#33445F;
+      --shadow:0 12px 34px rgba(0,0,0,.42);
+      --shadow-sm:0 2px 8px rgba(0,0,0,.3);
+      --demo-bg:#060C16;
+      --demo-chip:#18253A;
+      --warn-bg:#2A1C0B;
+      --warn-line:#4A3211;
+      --warn-ink:#F0B056;
+      --bad-bg:#2A1214;
+      --bad-line:#4C1F22;
+      --bad-ink:#F08A8A;
+    }
+  }
+  :root[data-theme="dark"]{
+    --brand:#07A857;
+    --brand-deep:#0A8F4C;
+    --brand-ink:#3DD68C;
+    --brand-tint:#0F2A1E;
+    --brand-tint-line:#1D4535;
+    --ground:#0B1220;
+    --surface:#131C2B;
+    --surface-2:#0F1826;
+    --ink:#E9EFF6;
+    --ink-2:#C6D2E0;
+    --muted:#94A3B8;
+    --faint:#7A8AA0;
+    --line:#233149;
+    --line-strong:#33445F;
+    --shadow:0 12px 34px rgba(0,0,0,.42);
+    --shadow-sm:0 2px 8px rgba(0,0,0,.3);
+    --demo-bg:#060C16;
+    --demo-chip:#18253A;
+    --warn-bg:#2A1C0B;
+    --warn-line:#4A3211;
+    --warn-ink:#F0B056;
+    --bad-bg:#2A1214;
+    --bad-line:#4C1F22;
+    --bad-ink:#F08A8A;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--ground);
+    color:var(--ink);
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{margin:0;text-wrap:balance}
+  p{margin:0}
+  button{font:inherit;color:inherit}
+
+  /* ---------- demo bar (не е част от дизайна на страницата) ---------- */
+  .demo{
+    position:sticky;
+    top:env(safe-area-inset-top, 0px);
+    z-index:60;
+    background:var(--demo-bg);
+    color:var(--demo-ink);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .demo-in{
+    max-width:1060px;margin:0 auto;
+    padding:10px 16px;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  }
+  .demo-tag{
+    font-size:10px;font-weight:800;letter-spacing:.14em;
+    padding:4px 8px;border-radius:6px;
+    background:rgba(255,255,255,.1);color:#fff;white-space:nowrap;
+  }
+  .demo-hint{font-size:12.5px;color:#94A3B8;margin-right:auto}
+  .demo-btns{display:flex;gap:6px;flex-wrap:wrap}
+  .demo-btn{
+    background:var(--demo-chip);border:1px solid transparent;
+    color:#C7D2E0;border-radius:999px;
+    padding:6px 13px;font-size:12.5px;font-weight:600;
+    cursor:pointer;transition:background .15s,color .15s,border-color .15s;
+  }
+  .demo-btn:hover{background:#27364F;color:#fff}
+  .demo-btn[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .demo-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  .demo-div{width:1px;height:20px;background:rgba(255,255,255,.16);flex:none}
+  .demo-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#64748B;flex:none}
+
+  .demo-side{background:var(--demo-bg);border-bottom:1px solid rgba(255,255,255,.08)}
+  .demo-side-in{
+    max-width:1060px;margin:0 auto;padding:10px 16px;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  }
+  .demo-side-title{
+    margin:0;flex:none;max-width:210px;
+    font-size:11px;line-height:1.35;color:#8592A8;
+  }
+  @media (min-width:1220px){
+    .demo-side{
+      position:fixed;left:12px;top:50%;transform:translateY(-50%);
+      z-index:70;width:138px;border:1px solid rgba(255,255,255,.12);
+      border-radius:13px;box-shadow:0 12px 32px rgba(0,0,0,.38);
+    }
+    .demo-side-in{flex-direction:column;align-items:stretch;gap:3px;padding:10px;max-width:none}
+    .demo-side-title{
+      max-width:none;font-size:9.5px;line-height:1.35;color:#76839A;
+      padding-bottom:8px;margin-bottom:3px;border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .demo-side .demo-btns{flex-direction:column;gap:4px}
+    .demo-side .demo-btn{
+      width:100%;text-align:left;
+      font-size:10.5px;padding:5px 9px;border-radius:7px;
+    }
+    .demo-side .demo-tag{align-self:flex-start;margin-bottom:7px}
+    .demo-side .demo-lbl{font-size:9px;margin:7px 0 1px}
+    .demo-side .demo-div{display:none}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    background:linear-gradient(180deg,var(--brand) 0%,var(--brand-deep) 100%);
+    color:var(--hero-text);
+    border-bottom-left-radius:50% 12%;
+    border-bottom-right-radius:50% 12%;
+    padding:34px 16px 64px;
+    overflow:hidden;
+  }
+  .hero-in{max-width:860px;margin:0 auto;text-align:center}
+  .logo{
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 16px;
+  }
+  .logo img{height:44px;width:auto;display:block}
+
+  .who{
+    display:block;width:fit-content;max-width:100%;
+    margin:0 auto 22px;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);
+    border-radius:999px;padding:5px 14px;
+    font-size:11.5px;font-weight:600;color:rgba(255,255,255,.85);
+    overflow-wrap:anywhere;text-align:center;
+  }
+  .who b{font-weight:800;color:#fff}
+
+  /* stepper */
+  .steps{
+    list-style:none;margin:0 auto 26px;padding:0;
+    display:grid;grid-template-columns:repeat(var(--step-count, 4),minmax(0,1fr));
+    max-width:660px;position:relative;width:100%;
+  }
+  .step{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 2px}
+  .step::before{
+    content:"";position:absolute;top:22px;left:calc(-50% + 26px);right:calc(50% + 26px);
+    border-top:2px dotted rgba(255,255,255,.5);
+  }
+  .step:first-child::before{display:none}
+  .step.is-upcoming::before{border-top-color:rgba(255,255,255,.28);border-left-color:rgba(255,255,255,.28)}
+  .step-body{display:flex;flex-direction:column;align-items:center;gap:2px}
+  .dot{
+    width:44px;height:44px;border-radius:50%;
+    display:grid;place-items:center;
+    border:2px solid rgba(255,255,255,.55);
+    background:transparent;color:#fff;flex:none;
+    transition:background .25s,border-color .25s,transform .25s;
+  }
+  .dot svg{width:20px;height:20px;display:block}
+  .step.is-done .dot{background:#fff;border-color:#fff;color:var(--brand-ink)}
+  .step.is-current .dot{
+    background:#fff;border-color:#fff;color:var(--brand-ink);
+    transform:scale(1.07);
+    box-shadow:0 0 0 6px rgba(255,255,255,.22);
+  }
+  .step.is-upcoming .dot{border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.65)}
+  .step-label{
+    font-size:11.5px;font-weight:700;line-height:1.25;color:#fff;
+    max-width:118px;
+  }
+  .step.is-upcoming .step-label{color:var(--hero-faint);font-weight:600}
+  .step-note{
+    font-size:10px;font-weight:600;line-height:1.3;
+    color:rgba(255,255,255,.62);letter-spacing:.005em;
+    background:rgba(255,255,255,.12);
+    border-radius:5px;padding:2px 7px;margin-top:1px;
+  }
+  .step.is-upcoming .step-note{color:rgba(255,255,255,.45);background:rgba(255,255,255,.07)}
+  .step-time{font-size:10px;color:var(--hero-dim);letter-spacing:.01em;min-height:14px}
+  .step.is-upcoming .step-time{color:var(--hero-faint)}
+
+  .hero h1{
+    font-size:clamp(28px,6vw,44px);
+    font-weight:800;letter-spacing:-.025em;line-height:1.12;
+    margin:0 auto 22px;max-width:14ch;
+  }
+  .hero-chip{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
+    color:#fff;border-radius:999px;padding:9px 20px;
+    font-size:13px;font-weight:700;letter-spacing:.01em;
+  }
+  .hero-chip::before{
+    content:"";width:7px;height:7px;border-radius:50%;background:#fff;flex:none;
+  }
+  .hero-chip.warn{background:rgba(255,255,255,.95);border-color:#fff;color:#8A4B06}
+  .hero-chip.warn::before{background:#D97706}
+  .hero-chip.ok{background:rgba(255,255,255,.95);border-color:#fff;color:var(--brand-ink)}
+  .hero-chip.ok::before{background:#07A857}
+  .hero-chip.bad{background:rgba(255,255,255,.95);border-color:#fff;color:#A32020}
+  .hero-chip.bad::before{background:#DC2626}
+
+  .rej-box{
+    margin:22px auto 0;max-width:460px;text-align:left;
+    background:var(--bad-bg);border:1px solid var(--bad-line);
+    border-radius:16px;padding:18px 20px;
+  }
+  .rej-t{font-size:14px;color:var(--bad-ink);line-height:1.5;font-weight:600}
+  .rej-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+  .rej-acts .btn,.rej-acts .btn-ghost{flex:1 1 auto;text-align:center;justify-content:center}
+  .rej-box .fineprint{margin-top:12px}
+
+  .pill{
+    display:inline-flex;align-items:center;gap:8px;
+    background:#fff;color:var(--brand-ink);
+    border:none;border-radius:999px;
+    padding:13px 26px;
+    font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    text-decoration:none;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.14);
+    transition:transform .15s;
+  }
+  .pill:hover{transform:translateY(-1px)}
+  .pill svg{width:15px;height:15px}
+
+  /* ---------- content ---------- */
+  .wrap{max-width:860px;margin:0 auto;padding:0 16px 56px}
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:32px 28px;
+    margin-bottom:22px;
+  }
+  .card.lift{margin-top:-38px;position:relative;z-index:2;text-align:center}
+
+  .status-msg{font-size:17px;color:var(--ink-2);max-width:46ch;margin:0 auto;line-height:1.5}
+  .order-no{display:flex;flex-direction:column;align-items:center;gap:10px;margin:18px 0 0}
+  .order-no .badge{font-size:12.5px;padding:6px 12px}
+  .courier-btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--surface);border:1px solid var(--line-strong);
+    border-radius:999px;padding:8px 16px;
+    font-size:12.5px;font-weight:700;color:var(--ink-2);text-decoration:none;
+    transition:border-color .15s,color .15s,background .15s;
+  }
+  .courier-btn:hover{border-color:var(--brand);color:var(--brand-ink);background:var(--brand-tint)}
+  .courier-btn svg{width:15px;height:15px;flex:none}
+
+  .track{
+    margin:14px auto 0;max-width:420px;
+    background:var(--surface-2);border:1px solid var(--line);
+    border-radius:14px;padding:16px 18px;
+  }
+  .track-k{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+  .track-v{
+    display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:21px;font-weight:700;letter-spacing:.09em;color:var(--ink);
+  }
+  .icon-btn{
+    background:none;border:none;padding:4px;border-radius:7px;cursor:pointer;
+    color:var(--faint);display:grid;place-items:center;
+  }
+  .icon-btn:hover{color:var(--brand-ink);background:var(--brand-tint)}
+  .icon-btn svg{width:17px;height:17px}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    border:none;border-radius:12px;cursor:pointer;text-decoration:none;
+    font-weight:800;letter-spacing:.05em;text-transform:uppercase;font-size:13px;
+    padding:15px 30px;transition:transform .15s,background .15s;
+  }
+  .btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 20px rgba(7,168,87,.26)}
+  .btn-primary:hover{background:var(--brand-deep);transform:translateY(-1px)}
+  .btn svg{width:16px;height:16px}
+  .btn-row{margin-top:24px}
+
+  .eta{
+    display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    background:var(--brand-tint);border:1px solid var(--brand-tint-line);
+    color:var(--brand-ink);border-radius:999px;
+    padding:8px 16px;font-size:13px;font-weight:700;
+  }
+  .eta svg{width:14px;height:14px;flex:none}
+
+  /* ---------- плащане ---------- */
+  .pay-box{
+    margin:22px auto 0;max-width:460px;text-align:left;
+    background:var(--surface-2);border:1px solid var(--line-strong);
+    border-radius:16px;padding:18px 20px;
+  }
+  .pay-sum{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .pay-k{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);width:100%}
+  .pay-v{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+  .pay-n{font-size:12.5px;color:var(--muted)}
+  .pay-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .pay-acts .btn{flex:1 1 auto}
+  .upload{
+    flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;
+    border:1px dashed var(--line-strong);border-radius:12px;padding:14px 18px;
+    font-size:12.5px;font-weight:700;color:var(--ink-2);cursor:pointer;text-align:center;
+  }
+  .upload:hover{border-color:var(--brand);color:var(--brand-ink);background:var(--brand-tint)}
+  .upload input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+  .upload:focus-within{outline:2px solid var(--brand);outline-offset:2px}
+  .pay-ok{
+    display:flex;gap:9px;align-items:flex-start;margin-top:14px;
+    background:var(--brand-tint);border:1px solid var(--brand-tint-line);
+    border-radius:12px;padding:11px 14px;font-size:13px;color:var(--brand-ink);line-height:1.45;
+  }
+  .kv-pay{margin-top:4px}
+  .kv-pay .kv-row{padding:11px 0}
+  .kv-pay .kv-row:first-child{padding-top:18px;border-top:1px solid var(--line)}
+  .pay-chip{
+    display:inline-block;font-size:12px;font-weight:700;
+    background:var(--surface-2);border:1px solid var(--line);color:var(--muted);
+    border-radius:999px;padding:3px 12px;
+  }
+  .pay-chip.warn{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn-ink)}
+  .pay-chip.ok{background:var(--brand-tint);border-color:var(--brand-tint-line);color:var(--brand-ink)}
+  .pay-chip.bad{background:var(--bad-bg);border-color:var(--bad-line);color:var(--bad-ink)}
+
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:14px;flex-wrap:wrap;margin-bottom:6px;
+  }
+  .card-head h2{font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .badge{
+    background:var(--surface-2);border:1px solid var(--line);
+    color:var(--muted);border-radius:999px;
+    padding:6px 14px;font-size:12.5px;font-weight:600;white-space:nowrap;
+  }
+  .sub{font-size:14px;color:var(--muted);margin-top:2px}
+
+  /* ---------- documents ---------- */
+  .docs{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+  .doc{
+    display:flex;align-items:center;gap:14px;
+    border:1px solid var(--line);border-radius:14px;
+    padding:15px 16px;background:var(--surface);
+    transition:border-color .15s,background .15s;
+  }
+  .doc-ic{
+    width:40px;height:40px;border-radius:11px;flex:none;
+    display:grid;place-items:center;
+    background:var(--brand-tint);color:var(--brand-ink);
+  }
+  .doc-ic svg{width:19px;height:19px}
+  .doc-txt{min-width:0;flex:1}
+  .doc-t{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.3}
+  .doc-s{font-size:12.5px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+  .doc-s.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.04em;font-weight:600;color:var(--ink-2)}
+  .doc-s:empty{display:none}
+  .doc-act{
+    flex:none;border:1px solid var(--line-strong);background:var(--surface);
+    color:var(--ink-2);border-radius:10px;padding:9px 15px;
+    font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;
+    display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+  }
+  .doc-act:hover{border-color:var(--brand);color:var(--brand-ink);background:var(--brand-tint)}
+  .doc-act svg{width:14px;height:14px}
+
+  .docs.is-locked .doc{background:var(--surface-2);border-style:dashed;opacity:.72}
+  .docs.is-locked .doc-ic{background:var(--surface-2);color:var(--faint);border:1px solid var(--line)}
+  .docs.is-locked .doc-t{color:var(--muted)}
+  .docs.is-locked .doc-act{
+    pointer-events:none;color:var(--faint);border-color:var(--line);background:transparent;
+  }
+  .lock-note{
+    display:flex;align-items:flex-start;gap:10px;margin-top:16px;
+    background:var(--surface-2);border:1px dashed var(--line-strong);
+    border-radius:12px;padding:12px 14px;
+    font-size:12px;color:var(--muted);line-height:1.5;
+  }
+  .lock-note svg{width:14px;height:14px;flex:none;margin-top:2px;color:var(--faint)}
+  .fineprint{margin-top:14px;font-size:11.5px;color:var(--faint);line-height:1.55}
+  .fineprint b{color:var(--muted);font-weight:700}
+
+  /* ---------- маскирани данни ---------- */
+  .kv{margin:18px 0 0;padding:0;display:flex;flex-direction:column}
+  .kv-row{display:flex;gap:18px;align-items:baseline;padding:13px 0;border-top:1px solid var(--line)}
+  .kv-row:first-child{border-top:none;padding-top:6px}
+  .kv dt{flex:0 0 168px;margin:0;font-size:13px;font-weight:600;color:var(--muted)}
+  .kv dd{margin:0;flex:1;min-width:0;font-size:15px;font-weight:600;color:var(--ink);overflow-wrap:anywhere;line-height:1.45}
+  .kv dd.is-masked{color:var(--faint);letter-spacing:.03em}
+
+  .gate{margin-top:20px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .gate-note{display:flex;gap:10px;font-size:13px;color:var(--muted);line-height:1.5}
+  .gate-note svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--faint)}
+  .gate-note b{color:var(--ink-2);font-weight:700}
+  .gate-start{margin-top:15px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .gate-ok{
+    margin-top:20px;display:flex;align-items:center;gap:11px;flex-wrap:wrap;
+    background:var(--brand-tint);border:1px solid var(--brand-tint-line);
+    border-radius:14px;padding:13px 16px;font-size:13px;color:var(--brand-ink);line-height:1.45;
+  }
+  .gate-ok svg{width:16px;height:16px;flex:none}
+  .gate-ok span{flex:1;min-width:190px}
+
+  /* ---------- order ---------- */
+  .item{display:flex;align-items:center;gap:18px;padding-top:20px;margin-top:18px;border-top:1px solid var(--line)}
+  .thumb{
+    width:104px;height:78px;border-radius:12px;flex:none;
+    background:var(--surface-2);border:1px solid var(--line);
+    display:grid;place-items:center;color:var(--faint);
+  }
+  .thumb svg{width:38px;height:38px}
+  .item-txt{flex:1;min-width:0}
+  .kicker{font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--brand-ink)}
+  .item-t{font-size:17px;font-weight:700;letter-spacing:-.01em;margin-top:3px;line-height:1.25}
+  .item-s{font-size:13px;color:var(--muted);margin-top:3px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+  .chip{background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:600}
+  .chip.ok{background:var(--brand-tint);border-color:var(--brand-tint-line);color:var(--brand-ink)}
+  .price{text-align:right;flex:none}
+  .price b{font-size:20px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .price span{display:block;font-size:12px;color:var(--faint);margin-top:2px}
+
+  /* ---------- история на поръчките ---------- */
+  .orders{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column}
+  .order{
+    display:grid;align-items:center;gap:14px;
+    grid-template-columns:minmax(150px,1.4fr) auto 1fr auto auto;
+    padding:14px 0;border-top:1px solid var(--line);
+  }
+  .order:first-child{border-top:none}
+  .order-n{font-size:14px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+  .order-n em{
+    display:inline-block;margin-left:8px;font-style:normal;
+    font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    background:var(--brand-tint);border:1px solid var(--brand-tint-line);color:var(--brand-ink);
+    border-radius:5px;padding:1px 6px;vertical-align:1px;
+  }
+  .order-d{font-size:12.5px;color:var(--muted);white-space:nowrap}
+  .order-s{
+    justify-self:start;font-size:12px;font-weight:700;color:var(--muted);
+    background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:4px 12px;white-space:nowrap;
+  }
+  .order-s.live{background:var(--brand-tint);border-color:var(--brand-tint-line);color:var(--brand-ink)}
+  .order-s.off{color:var(--faint)}
+  .order-p{font-size:14px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+  span.order-a{font-size:12px;color:var(--faint);white-space:nowrap}
+
+  /* ---------- меню „Заяви промяна" ---------- */
+  .menu-wrap{position:relative;flex:none;align-self:flex-start}
+  .menu-wrap--gate{display:block;margin-top:14px}
+  .menu-btn{display:inline-flex;align-items:center;gap:8px}
+  .menu-btn svg{width:12px;height:12px;transition:transform .15s}
+  .menu-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+  .menu-wrap--gate .menu{left:0;right:auto}
+  .menu{
+    position:absolute;right:0;top:calc(100% + 8px);z-index:30;
+    min-width:262px;margin:0;padding:6px;list-style:none;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;box-shadow:var(--shadow);
+  }
+  .menu-item{
+    display:block;width:100%;text-align:left;background:none;border:none;
+    cursor:pointer;padding:10px 12px;border-radius:9px;
+  }
+  .menu-item:hover{background:var(--surface-2)}
+  .menu-item strong{display:block;font-size:13.5px;font-weight:600;color:var(--ink)}
+  .menu-item em{display:block;font-style:normal;font-size:11.5px;color:var(--faint);margin-top:3px;line-height:1.45}
+  .menu-item em:empty{display:none}
+  .menu-item[disabled]{cursor:default}
+  .menu-item[disabled]:hover{background:none}
+  .menu-item[disabled] strong{color:var(--faint)}
+
+  /* ---------- support ---------- */
+  .support{
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    background:var(--brand-tint);border:1px solid var(--brand-tint-line);
+    border-radius:var(--radius);padding:22px 26px;margin-bottom:22px;
+  }
+  .support-ic{width:42px;height:42px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--brand);color:#fff}
+  .support-ic svg{width:21px;height:21px}
+  .support-txt{flex:1;min-width:190px}
+  .support-txt b{display:block;font-size:16px;font-weight:700;color:var(--ink)}
+  .support-txt span{font-size:14px;color:var(--ink-2)}
+  .btn-ghost{
+    background:var(--surface);color:var(--ink);border:1px solid var(--line);
+    border-radius:11px;padding:12px 20px;font-size:13.5px;font-weight:700;
+    cursor:pointer;text-decoration:none;white-space:nowrap;
+  }
+  .btn-ghost:hover{border-color:var(--brand);color:var(--brand-ink)}
+
+  /* ---------- register ---------- */
+  .register{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;
+  }
+  .reg-notice{display:flex;gap:13px;padding:20px 28px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+  .reg-notice svg{width:18px;height:18px;flex:none;margin-top:2px;color:var(--muted)}
+  .reg-notice b{display:block;font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
+  .reg-notice p{font-size:13.5px;color:var(--muted);line-height:1.6;max-width:70ch}
+  .reg-expiry{margin-top:9px!important;font-size:12.5px!important;color:var(--faint)!important}
+  .reg-expiry b{color:var(--ink-2);font-weight:700}
+  .reg-main{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding:22px 28px}
+  .reg-main p{flex:1;min-width:250px;font-size:13.5px;color:var(--muted);line-height:1.6;max-width:62ch}
+  .reg-main p b{color:var(--ink-2);font-weight:600}
+  .register-cta{flex:none}
+  .btn-reg{
+    background:var(--brand);color:#fff;border:none;border-radius:12px;
+    padding:14px 28px;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap;
+  }
+  .btn-reg:hover{background:var(--brand-deep)}
+  .reg-time{display:block;font-size:11.5px;color:var(--faint);margin-top:8px;text-align:center}
+
+  .reg-form{padding:24px 28px;border-top:1px solid var(--line)}
+  .reg-form h3{font-size:17px;font-weight:800;letter-spacing:-.015em}
+  .reg-lead{font-size:13.5px;color:var(--muted);margin-top:5px;line-height:1.55;max-width:66ch}
+  .field-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:18px}
+  .field{display:flex;flex-direction:column;gap:6px;min-width:0}
+  .field span{font-size:12px;font-weight:700;color:var(--ink-2)}
+  .field input{
+    font:inherit;font-size:14.5px;width:100%;
+    padding:11px 13px;border-radius:11px;
+    border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);
+  }
+  .field input::placeholder{color:var(--faint)}
+  .field input:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
+  .field input.err{border-color:#DC2626}
+  .field input[readonly]{background:var(--surface-2);color:var(--muted);cursor:default}
+  .field-note{font-size:11px!important;font-weight:500!important;color:var(--faint)!important;line-height:1.4}
+  .field-note:empty{display:none}
+  .check{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.5}
+  .check input{margin:2px 0 0;width:16px;height:16px;flex:none;accent-color:var(--brand)}
+  .check.err{color:#DC2626}
+  .reg-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:20px}
+
+  .reg-done{display:flex;gap:15px;padding:24px 28px;border-top:1px solid var(--line);background:var(--brand-tint)}
+  .reg-done-ic{width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;background:var(--brand);color:#fff}
+  .reg-done-ic svg{width:20px;height:20px}
+  .reg-done b{font-size:15.5px;font-weight:800;color:var(--ink)}
+  .reg-done p{font-size:13.5px;color:var(--ink-2);line-height:1.55;margin-top:4px;max-width:62ch}
+  .reg-done p b{font-size:inherit;font-weight:700}
+  .reg-done .fineprint{margin-top:9px}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);background:var(--surface);padding:26px 16px calc(26px + env(safe-area-inset-bottom,0px))}
+  .foot-in{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .foot-l{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted)}
+  .foot-mark{font-size:16px;font-weight:800;letter-spacing:-.03em;color:var(--brand-ink)}
+  .foot-logo{height:20px;width:auto;display:block}
+  .foot-nav{display:flex;gap:20px}
+  .foot-nav a{font-size:13px;color:var(--muted);text-decoration:none}
+  .foot-nav a:hover{color:var(--brand-ink)}
+
+  /* ---------- toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));
+    transform:translate(-50%,14px);
+    background:var(--demo-bg);color:#fff;border-radius:11px;
+    padding:11px 18px;font-size:13px;font-weight:600;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+    opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:80;
+    max-width:min(90vw,380px);text-align:center;
+  }
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
+  a:focus-visible,button:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:8px}
+
+  @media (max-width:900px){
+    .hero-in{width:100%;max-width:100%}
+    .logo{margin-bottom:14px}
+    .who{margin:0 auto 20px}
+    .steps{
+      grid-template-columns:1fr;
+      width:100%;
+      max-width:380px;
+      margin:0 auto 26px;
+      padding:20px 22px;
+      gap:0;
+      text-align:left;
+      box-sizing:border-box;
+      background:rgba(255,255,255,.1);
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:18px;
+    }
+    .step{flex-direction:row;align-items:flex-start;gap:14px;padding:0 0 16px;text-align:left}
+    .step:last-child{padding-bottom:0}
+    .step::before{
+      content:"";position:absolute;top:46px;bottom:-2px;left:21px;right:auto;
+      border-top:none;border-left:2px dotted rgba(255,255,255,.5);
+    }
+    .step:first-child::before{display:block}
+    .step:last-child::before{display:none}
+    .step-body{align-items:flex-start;padding-top:4px;min-width:0}
+    .step-label{max-width:none;font-size:13px}
+    .step-note{align-self:flex-start}
+    .step-time{font-size:11px}
+    .hero{padding:28px 16px 54px;border-bottom-left-radius:50% 6%;border-bottom-right-radius:50% 6%}
+    .hero h1{max-width:18ch;font-size:clamp(24px,7vw,36px)}
+    .card{padding:24px 18px}
+    .item{flex-wrap:wrap;gap:14px}
+    .price{text-align:left;width:100%}
+    .doc{flex-wrap:wrap}
+    .doc-act{width:100%;justify-content:center}
+    .kv-row{flex-direction:column;gap:3px;align-items:flex-start}
+    .kv dt{flex:none}
+    .reg-notice,.reg-main{padding-left:18px;padding-right:18px}
+    .reg-notice{flex-wrap:wrap}
+    .menu-wrap{width:100%}
+    .menu-btn{width:100%;justify-content:center}
+    .menu{left:0;right:0;min-width:0}
+    .gate{padding:14px}
+    .order{grid-template-columns:1fr auto;gap:6px 12px}
+    .order-n{grid-column:1}
+    .order-p{grid-column:2;grid-row:1;text-align:right}
+    .order-d{grid-column:1}
+    .order-s{grid-column:2;grid-row:2;justify-self:end}
+    .order-a{grid-column:1/-1;margin-top:6px}
+    button.order-a{width:100%;justify-content:center}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+  }
+</style>
+
+<!-- ============ ДЕМО ЛЕНТА (не е част от страницата) ============ -->
+</head>
+<body>
+<div class="demo">
+  <div class="demo-in">
+    <span class="demo-lbl">статус</span>
+    <div class="demo-btns" id="demoBtns" role="group" aria-label="Превключване на статус"></div>
+  </div>
+</div>
+
+<div class="demo-side">
+  <div class="demo-side-in">
+      <span class="demo-tag">ДЕМО</span>
+      <p class="demo-side-title">Как изглежда страницата според профила и начина на плащане</p>
+      <span class="demo-lbl">клиент</span>
+      <div class="demo-btns" id="srcBtns" role="group" aria-label="Тип клиент">
+        <button class="demo-btn" type="button" data-src="email">поръчка с имейл</button>
+        <button class="demo-btn" type="button" data-src="phone">само телефон</button>
+        <button class="demo-btn" type="button" data-src="in">логнат профил</button>
+      </div>
+      <span class="demo-div"></span>
+      <span class="demo-lbl">плащане</span>
+      <div class="demo-btns" id="payBtns" role="group" aria-label="Начин на плащане">
+        <button class="demo-btn" type="button" data-pay="cod">наложен платеж</button>
+        <button class="demo-btn" type="button" data-pay="card">с карта</button>
+        <button class="demo-btn" type="button" data-pay="bank">банков превод</button>
+        <button class="demo-btn" type="button" data-pay="lease">на изплащане</button>
+      </div>
+      <span class="demo-lbl" id="credLbl" hidden>решение</span>
+      <div class="demo-btns" id="credBtns" role="group" aria-label="Решение по кредита" hidden>
+        <button class="demo-btn" type="button" data-cred="pending">очаква</button>
+        <button class="demo-btn" type="button" data-cred="approved">одобрен</button>
+        <button class="demo-btn" type="button" data-cred="signed">подписан</button>
+        <button class="demo-btn" type="button" data-cred="rejected">отказан</button>
+      </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-in">
+    <div class="logo">
+      <img src="logo-plasico-white.svg" alt="Plasico" width="140" height="55"/>
+    </div>
+
+    <p class="who" id="who" hidden>Влезли сте като <b id="whoMail"></b></p>
+
+    <ol class="steps" id="steps"></ol>
+
+    <h1 id="heroTitle">Поръчката е при куриера.</h1>
+
+    <span class="hero-chip" id="payStatusHero"></span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ СТАТУС ============ -->
+  <section class="card lift" id="status">
+    <p class="status-msg" id="statusMsg">Поръчката напусна нашия склад и е приета в депото на Еконт. Товарителницата и документите вече са налични по-долу.</p>
+
+    <div class="order-no">
+      <span class="badge">Поръчка #PL-12923249</span>
+      <a class="courier-btn" id="courierLink" href="https://www.speedy.bg/public/index.php/en/track-shipment?shipmentNumber=105384729104" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+        Доставчик Speedy
+      </a>
+    </div>
+
+    <div class="track" id="trackBox">
+      <div class="track-k">Номер на товарителница</div>
+      <div class="track-v">
+        <span id="trackNo">1053 8472 9104</span>
+        <button class="icon-btn" type="button" id="copyBtn" aria-label="Копирай номера">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="btn-row" id="trackBtnRow">
+      <a class="btn btn-primary" id="trackLink" href="https://www.speedy.bg/public/index.php/en/track-shipment?shipmentNumber=105384729104" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Проследете доставката си
+      </a>
+    </div>
+
+    <div class="rej-box" id="rejBox" hidden>
+      <p class="rej-t" id="rejText"></p>
+      <div class="rej-acts">
+        <button class="btn btn-primary btn-sm" type="button" id="reapply"></button>
+        <button class="btn-ghost" type="button" data-demo="Демо: отваря се избор на друг начин на плащане.">Плати по друг начин</button>
+      </div>
+      <p class="fineprint">Поръчката остава запазена. Ако не предприемете нищо до 5 работни дни, ще я анулираме автоматично.</p>
+    </div>
+
+    <div class="pay-box" id="payBox" hidden>
+      <div class="pay-sum">
+        <span class="pay-k">Сума за плащане</span>
+        <span class="pay-v">1348,99 €</span>
+        <span class="pay-n">по проформа фактура № 0000145892</span>
+      </div>
+      <div class="pay-acts" id="payActs">
+        <button class="btn btn-primary btn-sm" type="button" data-demo="Демо: тук се изтегля проформа фактурата.">Изтегли проформа фактура</button>
+        <label class="upload">
+          <input type="file" id="payFile" accept=".pdf,.jpg,.jpeg,.png">
+          <span>Прикачи платежно нареждане</span>
+        </label>
+      </div>
+      <p class="pay-ok" id="payOk" hidden></p>
+      <p class="fineprint">Плащането се отразява до 1 работен ден. Ако прикачите платежното нареждане, обработваме поръчката веднага след проверка.</p>
+    </div>
+
+    <div><span class="eta" id="eta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <span id="etaText">Очаквана доставка: 23–24 Септември</span>
+    </span></div>
+  </section>
+
+  <!-- ============ СЪДЪРЖАНИЕ НА ПОРЪЧКАТА ============ -->
+  <section class="card" id="order-details">
+    <div class="card-head">
+      <h2>Ето какво съдържа вашата поръчка:</h2>
+    </div>
+
+    <div class="item">
+      <span class="thumb">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>
+      </span>
+      <span class="item-txt">
+        <span class="kicker">Лаптоп</span>
+        <span class="item-t">Apple MacBook Air 15.3" M3 Midnight</span>
+        <span class="item-s">16 GB · 512 GB SSD · арт. 12923249</span>
+        <span class="chips">
+          <span class="chip">Количество: 1</span>
+          <span class="chip ok">✓ В наличност</span>
+        </span>
+      </span>
+      <span class="price">
+        <b>1348,99 €</b>
+        <span>с включен ДДС</span>
+      </span>
+    </div>
+
+    <dl class="kv kv-pay">
+      <div class="kv-row">
+        <dt>Начин на плащане</dt>
+        <dd id="payLabel"></dd>
+      </div>
+      <div class="kv-row">
+        <dt>Статус на плащането</dt>
+        <dd><span class="pay-chip" id="payStatus"></span></dd>
+      </div>
+    </dl>
+  </section>
+
+  <!-- ============ ДАННИ ЗА ДОСТАВКА ============ -->
+  <section class="card" id="recipient">
+    <div class="card-head">
+      <h2>Данни за доставка</h2>
+      <span class="badge" id="recBadge">Скрити</span>
+    </div>
+    <p class="sub">Доставка с Еконт, до адрес на получателя.</p>
+
+    <dl class="kv" id="kv">
+      <div class="kv-row">
+        <dt>Получател</dt>
+        <dd data-real="Десислав Драгнев" data-mask="Де•••••• Др•••••"></dd>
+      </div>
+      <div class="kv-row">
+        <dt>Телефон за връзка</dt>
+        <dd data-real="+359 887 412 305" data-mask="+359 8•• ••• •05"></dd>
+      </div>
+      <div class="kv-row" id="kvEmail">
+        <dt>Имейл</dt>
+        <dd data-real="d.dragnev@abv.bg" data-mask="d.d••••••@abv.bg"></dd>
+      </div>
+      <div class="kv-row">
+        <dt>Адрес за доставка</dt>
+        <dd data-real="гр. София 1750, ж.к. Младост 4, бл. 483, вх. Б, ет. 5, ап. 17" data-mask="гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••"></dd>
+      </div>
+    </dl>
+
+    <div class="gate" id="gate">
+      <p class="gate-note">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></svg>
+        <span>От съображения за сигурност данните са скрити. Страницата е отворена с личния ви линк от SMS или имейл — покажете ги, когато сте сами пред екрана.</span>
+      </p>
+
+      <div class="gate-start">
+        <button class="btn btn-primary btn-sm" type="button" id="showData">Покажи данните</button>
+      </div>
+    </div>
+
+    <span class="menu-wrap menu-wrap--gate">
+      <button class="btn btn-primary menu-btn" type="button" id="reqBtn" aria-expanded="false" aria-controls="reqMenu">
+        Заяви промяна
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <ul class="menu" id="reqMenu" hidden>
+        <li><button class="menu-item" type="button" data-req="name"><strong>Име и телефон на получателя</strong><em></em></button></li>
+        <li><button class="menu-item" type="button" data-req="addr"><strong>Адрес за доставка</strong><em></em></button></li>
+        <li><button class="menu-item" type="button" data-req="inv"><strong>Данни за фактура</strong><em></em></button></li>
+      </ul>
+    </span>
+
+    <div class="gate-ok" id="gateOk" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      <span>Данните са видими. При следващото отваряне на страницата отново ще бъдат скрити.</span>
+      <button class="linkbtn" type="button" id="hideAgain">Скрий</button>
+    </div>
+  </section>
+
+  <!-- ============ ТОВАРИТЕЛНИЦА И ДОКУМЕНТИ ============ -->
+  <section class="card" id="docs">
+    <div class="card-head">
+      <h2>Товарителница и документи</h2>
+      <span class="badge" id="docsBadge">Налични</span>
+    </div>
+    <p class="sub" id="docsSub">Проследяване при куриера и документите по поръчката.</p>
+
+    <div class="lock-note" id="lockNote">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <span>Ще бъдат активни, когато стоката се предаде към депото на куриера.</span>
+    </div>
+
+    <div class="docs" id="docsList">
+      <div class="doc" id="docProforma" hidden>
+        <span class="doc-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/></svg>
+        </span>
+        <span class="doc-txt">
+          <span class="doc-t">Проформа фактура №&nbsp;0000145892</span>
+          <span class="doc-s" data-ready="PDF · платена"></span>
+        </span>
+        <button class="doc-act" type="button" data-label="Изтегли" data-demo="Демо: тук се изтегля проформа фактурата.">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          <span class="doc-act-t">Изтегли</span>
+        </button>
+      </div>
+
+      <div class="doc">
+        <span class="doc-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>
+        </span>
+        <span class="doc-txt">
+          <span class="doc-t">Фактура №&nbsp;0000145892</span>
+          <span class="doc-s" data-ready="PDF · оригинал"></span>
+        </span>
+        <button class="doc-act" type="button" data-label="Изтегли" data-demo="Демо: тук се изтегля PDF файлът на фактурата.">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          <span class="doc-act-t">Изтегли</span>
+        </button>
+      </div>
+
+      <div class="doc">
+        <span class="doc-ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </span>
+        <span class="doc-txt">
+          <span class="doc-t">Гаранционни карти</span>
+          <span class="doc-s" data-ready="PDF"></span>
+        </span>
+        <button class="doc-act" type="button" data-label="Изтегли" data-demo="Демо: тук се изтегля PDF файлът на гаранционната карта.">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          <span class="doc-act-t">Изтегли</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="fineprint" id="docsFine"></p>
+  </section>
+
+  <!-- ============ ИСТОРИЯ (само за влязъл клиент) ============ -->
+  <section class="card" id="history" hidden>
+    <div class="card-head">
+      <h2>Вашите поръчки</h2>
+      <a class="badge" href="#" data-demo="Демо: отваря се пълният списък с поръчки в профила.">Виж всички</a>
+    </div>
+    <p class="sub">Всяка поръчка в профила ви пази фактурата и гаранционните карти без срок.</p>
+
+    <ul class="orders">
+      <li class="order is-current">
+        <span class="order-n">#PL-12923249<em>текуща</em></span>
+        <span class="order-d">21 септ. 2026</span>
+        <span class="order-s live">При куриера</span>
+        <span class="order-p">1348,99 €</span>
+        <span class="order-a">На тази страница</span>
+      </li>
+      <li class="order">
+        <span class="order-n">#PL-12688103</span>
+        <span class="order-d">14 юни 2026</span>
+        <span class="order-s">Доставена</span>
+        <span class="order-p">289,50 €</span>
+        <button class="doc-act order-a" type="button" data-demo="Демо: отваря се страницата на поръчката.">Отвори</button>
+      </li>
+      <li class="order">
+        <span class="order-n">#PL-12401977</span>
+        <span class="order-d">3 март 2026</span>
+        <span class="order-s">Доставена</span>
+        <span class="order-p">1 742,00 €</span>
+        <button class="doc-act order-a" type="button" data-demo="Демо: отваря се страницата на поръчката.">Отвори</button>
+      </li>
+      <li class="order">
+        <span class="order-n">#PL-12190446</span>
+        <span class="order-d">28 ноем. 2025</span>
+        <span class="order-s off">Отказана</span>
+        <span class="order-p">76,90 €</span>
+        <button class="doc-act order-a" type="button" data-demo="Демо: отваря се страницата на поръчката.">Отвори</button>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============ РЕГИСТРАЦИЯ ============ -->
+  <div class="register">
+    <div class="reg-notice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><path d="M12 8h.01"/></svg>
+      <div>
+        <b>Само за преглед</b>
+        <p>За промени: 0700 20 810 или имейла за потвърждение.</p>
+        <p class="reg-expiry" id="regExpiryLine">Линк активен до <b id="regExpiry"></b>. В профила документите ви са винаги налични безсрочно.</p>
+      </div>
+    </div>
+    <div class="reg-main" id="regKnown">
+      <p>
+        <b>Вие вече имате профил в Plasico.</b>
+        Влезте в него, за да виждате всички свои поръчки, фактури и гаранционни карти на едно място — без ограничение във времето и без да търсите линка от SMS.
+      </p>
+      <span class="register-cta">
+        <button class="btn-reg" type="button" id="loginSend">Изпрати ми линк за вход</button>
+        <span class="reg-time" id="loginTo"></span>
+      </span>
+    </div>
+
+    <div class="reg-main" id="regIntro" hidden>
+      <p>
+        <b>Тази страница е създадена специално за проследяване на поръчки — както за регистрирани, така и за нерегистрирани клиенти.</b>
+        За да имате подредена на едно място цялата информация от вашите поръчки, фактури и документи — без да търсите линка от SMS при всяко отваряне — ви съветваме да се регистрирате.
+      </p>
+      <span class="register-cta">
+        <button class="btn-reg" type="button" id="regOpen">Регистрирай се в 1 стъпка</button>
+        <span class="reg-time">Отнема под 1 минута</span>
+      </span>
+    </div>
+
+    <div class="reg-form" id="regForm" hidden>
+      <h3>Създайте профил</h3>
+      <p class="reg-lead" id="regLead"></p>
+
+      <div class="field-grid">
+        <label class="field">
+          <span>Име и фамилия</span>
+          <input id="regName" type="text" autocomplete="name" placeholder="Десислав Драгнев">
+        </label>
+        <label class="field">
+          <span>Имейл</span>
+          <input id="regEmail" type="email" autocomplete="email" placeholder="ime@primer.bg">
+          <span class="field-note" id="regEmailNote"></span>
+        </label>
+        <label class="field">
+          <span>Парола</span>
+          <input id="regPass" type="password" autocomplete="new-password" placeholder="Поне 8 знака">
+        </label>
+      </div>
+
+      <label class="check" id="regTermsWrap">
+        <input type="checkbox" id="regTerms">
+        <span>Съгласен съм с Общите условия и Политиката за поверителност на Plasico.</span>
+      </label>
+
+      <div class="reg-actions">
+        <button class="btn-reg" type="button" id="regSubmit">Създай профил</button>
+        <button class="linkbtn" type="button" id="regCancel">Откажи</button>
+      </div>
+
+      <p class="fineprint">След като натиснете, ще ви изпратим имейл за потвърждение. Профилът се активира с един клик в него.</p>
+    </div>
+
+    <div class="reg-done" id="regDone" hidden>
+      <span class="reg-done-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
+      </span>
+      <div>
+        <b id="regDoneTitle">Проверете пощата си</b>
+        <p id="regDoneText"></p>
+        <p class="fineprint">Не виждате имейла? Проверете папка „Спам" или <button class="linkbtn" type="button" id="regResend">го изпратете отново</button>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ПОДКРЕПА (винаги последна) ============ -->
+  <div class="support">
+    <span class="support-ic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M4.9 4.9l4.6 4.6M14.5 14.5l4.6 4.6M19.1 4.9l-4.6 4.6M9.5 14.5l-4.6 4.6"/></svg>
+    </span>
+    <span class="support-txt">
+      <b>Имате въпроси относно доставката?</b>
+      <span>Нашият екип е на линия на 0700 20 810 от 09:00 до 18:00 ч.</span>
+    </span>
+    <a class="btn-ghost" href="#" data-demo="Демо: тук се отваря формата за контакт.">Свържете се с нас</a>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <span class="foot-l">
+      <img class="foot-logo" src="logo-plasico.svg" alt="Plasico" width="90" height="36"/>
+      © 2026 Всички права запазени.
+    </span>
+    <nav class="foot-nav">
+      <a href="#" data-demo="Демо линк.">Контакти</a>
+      <a href="#" data-demo="Демо линк.">За нас</a>
+      <a href="#" data-demo="Демо линк.">Начало</a>
+    </nav>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ данни ============ */
+
+  var ICONS = {
+    doc:    '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 14l2 2 4-4"/>',
+    credit: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    box:    '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7L12 12l8.7-5"/><path d="M12 22V12"/>',
+    card:   '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/>',
+    depot:  '<path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/>',
+    truck:  '<path d="M1 3h13v13H1z"/><path d="M14 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/>'
+  };
+
+  /* стъпките, по id — вмъкват се според начина на плащане */
+  var STEP = {
+    "new": {
+      label:"Регистрирана поръчка", note:"", icon:"doc", time:"21 Сеп, 09:42", short:"Регистрирана",
+      title:"Получихме вашата поръчка!",
+      msg:"Поръчката е регистрирана в нашата система. Ще ви уведомим на всяка следваща стъпка — не е нужно да правите нищо.",
+      eta:"Очаквана доставка: 23–25 Септември"
+    },
+    credit: {
+      label:"Очаква решение по кредита", note:"Пощенска · УниКредит", icon:"credit", time:"21 Сеп, 10:05", short:"Кредит",
+      title:"Очакваме решение по кредита.",
+      msg:"Имате генерирана поръчка, за която очакваме решение от Пощенска банка или УниКредит. Освен ако не желаете промяна по поръчката, не е необходимо да правите нова — решението обикновено идва до един работен ден и ще ви уведомим веднага.",
+      eta:"Очаквана доставка: 24–26 Септември"
+    },
+    proc: {
+      label:"Обработва се", note:"1–3 раб. дни", icon:"box", time:"21 Сеп, 11:15", short:"Обработва се",
+      title:"Подготвяме вашата поръчка.",
+      msg:"Складът ни комплектова стоката и подготвя документите по поръчката. Тази стъпка отнема между 1 и 3 работни дни.",
+      eta:"Очаквана доставка: 23–25 Септември"
+    },
+    pay: {
+      label:"Очаква плащане", note:"проформа фактура", icon:"card", time:"21 Сеп, 12:40", short:"Очаква плащане",
+      title:"Очакваме вашето плащане.",
+      msg:"Издадохме проформа фактура. Поръчката тръгва към куриера веднага щом видим плащането по сметката.",
+      eta:"Доставка 1–2 дни след отразяване на плащането"
+    },
+    depot: {
+      label:"Изпратена към депо на куриера", note:"товарителница + документи", icon:"depot", time:"21 Сеп, 17:30", short:"В депо",
+      title:"Поръчката е при куриера.",
+      msg:"Поръчката напусна нашия склад и е приета в депото на Еконт. Товарителницата и документите вече са налични по-долу.",
+      eta:"Очаквана доставка: 23 Септември"
+    },
+    out: {
+      label:"Предадена на куриер за разнос", note:"очаквайте обаждане", icon:"truck", time:"23 Сеп, 08:05", short:"За разнос",
+      title:"Вашата поръчка пътува към вас!",
+      msg:"Куриерът е тръгнал с вашата пратка. Ще получите обаждане на телефона от поръчката преди доставката.",
+      eta:"Очаквана доставка: днес, до 18:00 ч."
+    }
+  };
+
+  var BASE = ["new", "proc", "depot", "out"];
+
+  var PAYS = {
+    cod:   {label:"Наложен платеж",           detail:"в брой или с карта при получаване",  insert:null},
+    card:  {label:"Плащане с карта онлайн",   detail:"Visa •••• 4417",                     insert:null},
+    bank:  {label:"Банков превод",            detail:"по проформа фактура",                insert:{id:"pay",    after:"proc"}},
+    lease: {label:"Покупка на изплащане",     detail:"12 вноски по 118,25 €", insert:{id:"credit", after:"new"}}
+  };
+
+  /* ============ състояние ============ */
+
+  var LENDERS = ["Пощенска банка", "УниКредит"];
+  var LEND  = 0;         // индекс в LENDERS
+  var CRED  = "pending"; // pending | approved | signed | rejected
+  var PAY   = "cod";     // cod | card | bank | lease
+  var MODE  = "email";   // email | phone | in
+  var cur   = 0;         // индекс в текущата верига
+  var shown = false;     // показани лични данни
+  var chain = BASE.slice();
+
+  function logged(){ return MODE === "in"; }
+  function idx(id){ return chain.indexOf(id); }
+  function curId(){ return chain[cur]; }
+  function shipped(){ return cur >= idx("depot"); }
+
+  function buildChain(){
+    var ins = PAYS[PAY].insert;
+    chain = BASE.slice();
+    if (ins) chain.splice(chain.indexOf(ins.after) + 1, 0, ins.id);
+  }
+
+  function lender(){ return LENDERS[LEND]; }
+  function other(){ return LENDERS[1 - LEND]; }
+
+  function creditView(){
+    var L = lender();
+    if (CRED === "approved") return {
+      label:"Кредитът е одобрен", note:"предстои подпис",
+      title:"Кредитът е одобрен!",
+      msg:L + " одобри кредита. Предстои подписване на договора — изпратихме ви линк за електронно подписване на имейл и SMS. Поръчката тръгва към обработка веднага след подписа."
+    };
+    if (CRED === "signed") return {
+      label:"Кредитът е подписан", note:L,
+      title:"Договорът е подписан.",
+      msg:"Договорът с " + L + " е подписан. Поръчката премина към обработка."
+    };
+    if (CRED === "rejected") return {
+      label:"Кредитът е отказан", note:L,
+      title:"Кредитът е отказан.",
+      msg:L + " не одобри кредита. Поръчката ви е запазена — можете да кандидатствате при друг кредитор или да смените начина на плащане."
+    };
+    return {
+      label:"Очаква решение по кредита", note:L,
+      title:"Очакваме решение по кредита.",
+      msg:"Имате генерирана поръчка, за която очакваме решение от " + L + ". Освен ако не желаете промяна по поръчката, не е необходимо да правите нова — решението обикновено идва до един работен ден и ще ви уведомим веднага. Ако кредиторът поиска допълнителни документи, ще се свържем с вас."
+    };
+  }
+
+  /* ============ срок на достъп ============ */
+
+  var ORDER_DATE  = new Date(2026, 8, 21);
+  var ACCESS_DAYS = 30;
+  var MONTHS = ["януари","февруари","март","април","май","юни",
+                "юли","август","септември","октомври","ноември","декември"];
+  var expiryDate = new Date(ORDER_DATE.getTime() + ACCESS_DAYS * 864e5);
+  var expiryStr  = expiryDate.getDate() + " " + MONTHS[expiryDate.getMonth()] + " " + expiryDate.getFullYear() + " г.";
+
+  function leftLabel(){
+    var today = new Date(); today.setHours(0,0,0,0);
+    var d = Math.max(0, Math.round((expiryDate - today) / 864e5));
+    if (d === 0) return "изтича днес";
+    if (d === 1) return "остава 1 ден";
+    return "остават " + d + " дни";
+  }
+
+  /* ============ елементи ============ */
+
+  var stepsEl  = document.getElementById("steps");
+  var demoBtns = document.getElementById("demoBtns");
+  var heroTitle= document.getElementById("heroTitle");
+  var statusMsg= document.getElementById("statusMsg");
+  var etaText  = document.getElementById("etaText");
+  var trackBox = document.getElementById("trackBox");
+  var trackRow = document.getElementById("trackBtnRow");
+  var docsList = document.getElementById("docsList");
+  var docsBadge= document.getElementById("docsBadge");
+  var docsSub  = document.getElementById("docsSub");
+  var lockNote = document.getElementById("lockNote");
+  var docsFine = document.getElementById("docsFine");
+  var payBox   = document.getElementById("payBox");
+  var payActs  = document.getElementById("payActs");
+  var payOk    = document.getElementById("payOk");
+  var toastEl  = document.getElementById("toast");
+  var toastT   = null;
+
+  function toast(text){
+    toastEl.textContent = text;
+    toastEl.classList.add("on");
+    clearTimeout(toastT);
+    toastT = setTimeout(function(){ toastEl.classList.remove("on"); }, 2400);
+  }
+
+  function esc(s){
+    return String(s).replace(/[&<>"]/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];
+    });
+  }
+
+  /* ============ stepper ============ */
+
+  function buildSteps(){
+    stepsEl.style.setProperty("--step-count", String(chain.length));
+    stepsEl.innerHTML = chain.map(function(id){
+      var s = STEP[id];
+      return '<li class="step" data-id="' + id + '">' +
+        '<span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICONS[s.icon] + '</svg></span>' +
+        '<span class="step-body">' +
+          '<span class="step-label">' + s.label + '</span>' +
+          (s.note ? '<span class="step-note">' + s.note + '</span>' : '') +
+          '<span class="step-time"></span>' +
+        '</span></li>';
+    }).join("");
+
+    demoBtns.innerHTML = chain.map(function(id, n){
+      return '<button class="demo-btn" type="button" data-go="' + n + '">' +
+             (n + 1) + " · " + STEP[id].short + '</button>';
+    }).join("");
+  }
+
+  /* ============ рисуване ============ */
+
+  function paintSteps(){
+    Array.prototype.forEach.call(stepsEl.children, function(el, n){
+      var s = STEP[el.dataset.id];
+      el.classList.remove("is-done","is-current","is-upcoming");
+      el.classList.add(n < cur ? "is-done" : (n === cur ? "is-current" : "is-upcoming"));
+      if (el.dataset.id === "credit"){
+        var cv = creditView();
+        el.querySelector(".step-label").textContent = cv.label;
+        el.querySelector(".step-note").textContent  = cv.note;
+      }
+      el.querySelector(".step-time").textContent =
+        n <= cur ? s.time : (s.note ? "" : "Предстои");
+    });
+    Array.prototype.forEach.call(demoBtns.children, function(b){
+      b.setAttribute("aria-pressed", String(Number(b.dataset.go) === cur));
+    });
+  }
+
+  function paintStatus(){
+    var s = STEP[curId()];
+    var onCredit = (PAY === "lease" && curId() === "credit");
+    var cv = onCredit ? creditView() : null;
+
+    heroTitle.textContent = cv ? cv.title : s.title;
+    statusMsg.textContent = cv ? cv.msg : s.msg;
+    etaText.textContent   = s.eta;
+    document.getElementById("eta").hidden = (onCredit && CRED === "rejected");
+
+    var rejected = (onCredit && CRED === "rejected");
+    document.getElementById("rejBox").hidden = !rejected;
+    if (rejected){
+      document.getElementById("rejText").textContent =
+        "Отказ от " + lender() + ". Това не спира поръчката — тя е запазена и можете да опитате при друг кредитор.";
+      document.getElementById("reapply").textContent = "Кандидатствай в " + other();
+    }
+
+    trackBox.hidden = !shipped();
+    trackRow.hidden = !shipped();
+    syncTrackLink();
+
+    var needsPay = (PAY === "bank" && curId() === "pay");
+    payBox.hidden = !needsPay;
+    if (!needsPay){ payOk.hidden = true; payActs.hidden = false; }
+  }
+
+  function payState(){
+    if (PAY === "card") return {text:"Платено на 21 септ. 2026", cls:"ok"};
+    if (PAY === "cod")  return {text:"Плащане при доставка", cls:""};
+    if (PAY === "bank"){
+      if (cur < idx("pay"))     return {text:"Предстои издаване на проформа", cls:""};
+      if (curId() === "pay")    return {text:"Очаква плащане", cls:"warn"};
+      return {text:"Платено", cls:"ok"};
+    }
+    if (CRED === "rejected")  return {text:"Отказан кредит · " + lender(), cls:"bad"};
+    if (CRED === "approved")  return {text:"Одобрен · предстои подпис", cls:"warn"};
+    if (CRED === "signed" || cur > idx("credit")) return {text:"Договорът е подписан", cls:"ok"};
+    if (cur < idx("credit"))  return {text:"Заявка към " + lender(), cls:""};
+    return {text:"Очаква одобрение · " + lender(), cls:"warn"};
+  }
+
+  function paintPayment(){
+    var p = PAYS[PAY];
+    document.getElementById("payLabel").textContent =
+      p.label + " · " + (PAY === "lease" ? lender() + " · 12 вноски по 118,25 €" : p.detail);
+
+    var st = payState();
+    var chip = document.getElementById("payStatus");
+    chip.textContent = st.text;
+    chip.className = "pay-chip" + (st.cls ? " " + st.cls : "");
+
+    var hero = document.getElementById("payStatusHero");
+    hero.textContent = st.text;
+    hero.className = "hero-chip" + (st.cls ? " " + st.cls : "");
+
+    document.getElementById("docProforma").hidden = (PAY !== "bank");
+
+    var show = (PAY === "lease");
+    document.getElementById("credBtns").hidden = !show;
+    document.getElementById("credLbl").hidden  = !show;
+    Array.prototype.forEach.call(document.querySelectorAll("#credBtns .demo-btn"), function(b){
+      b.setAttribute("aria-pressed", String(b.dataset.cred === CRED));
+    });
+  }
+
+  /* ============ документи ============ */
+
+  function paintDocs(){
+    var ok = shipped();
+
+    docsList.classList.toggle("is-locked", !ok);
+    lockNote.hidden = ok;
+    docsBadge.textContent = ok ? "Налични" : "Очакват изпращане";
+    docsSub.textContent = ok
+      ? "Проследяване при куриера и документи по поръчката."
+      : "Ще бъдат заключени, докато поръчката не тръгне към куриера.";
+
+    Array.prototype.forEach.call(docsList.querySelectorAll(".doc"), function(row){
+      var btn = row.querySelector(".doc-act");
+      var sub = row.querySelector(".doc-s");
+      btn.disabled = !ok;
+      if (sub) sub.textContent = ok ? (sub.dataset.ready || "") : "";
+    });
+
+    docsFine.innerHTML = logged()
+      ? "Документите се пазят в профила ви без ограничение във времето."
+      : "Документите " + (ok ? "са" : "ще бъдат") +
+        " достъпни за изтегляне до <b>" + expiryStr + "</b> — " + leftLabel() + ".";
+
+    paintReqMenu();
+  }
+
+  /* ============ лични данни ============ */
+
+  var ORDER_EMAIL   = "d.dragnev@abv.bg";
+  var ORDER_EMAIL_M = "d.d••••••@abv.bg";
+
+  var kvVals   = Array.prototype.slice.call(document.querySelectorAll("#kv dd"));
+  var gate     = document.getElementById("gate");
+  var gateOk   = document.getElementById("gateOk");
+  var recBadge = document.getElementById("recBadge");
+  var regEmail = document.getElementById("regEmail");
+
+  function paintIdentity(){
+    kvVals.forEach(function(dd){
+      dd.textContent = shown ? dd.dataset.real : dd.dataset.mask;
+      dd.classList.toggle("is-masked", !shown);
+    });
+    recBadge.textContent = logged() ? "Вашите данни" : (shown ? "Видими" : "Скрити");
+    gate.hidden   = shown || logged();
+    gateOk.hidden = !shown || logged();
+
+    if (regEmail && regEmail.readOnly){
+      regEmail.value = shown ? ORDER_EMAIL : ORDER_EMAIL_M;
+    }
+    var lt = document.getElementById("loginTo");
+    if (lt) lt.textContent = "на " + (shown ? ORDER_EMAIL : ORDER_EMAIL_M) + " · без парола";
+  }
+
+  document.getElementById("showData").addEventListener("click", function(){
+    shown = true; paintIdentity();
+  });
+
+  document.getElementById("hideAgain").addEventListener("click", function(){
+    shown = false; paintIdentity();
+    document.getElementById("showData").focus({preventScroll:true});
+  });
+
+  /* ============ тип клиент ============ */
+
+  var regIntro = document.getElementById("regIntro");
+  var regForm  = document.getElementById("regForm");
+  var regDone  = document.getElementById("regDone");
+
+  function paintAccess(){
+    var hasEmail = MODE !== "phone";
+    var isIn     = MODE === "in";
+
+    document.getElementById("kvEmail").hidden = !hasEmail;
+    document.getElementById("history").hidden = !isIn;
+    document.getElementById("who").hidden     = !isIn;
+    document.getElementById("whoMail").textContent = ORDER_EMAIL;
+
+    Array.prototype.forEach.call(document.querySelectorAll("#srcBtns .demo-btn"), function(b){
+      b.setAttribute("aria-pressed", String(b.dataset.src === MODE));
+    });
+
+    document.getElementById("regKnown").hidden = !(hasEmail && !isIn);
+    regIntro.hidden = !(!hasEmail && !isIn);
+    regForm.hidden  = true;
+    regDone.hidden  = true;
+
+    document.getElementById("regExpiryLine").innerHTML = isIn
+      ? "През профила документите ви са винаги налични безсрочно."
+      : "Линк активен до <b>" + expiryStr + " · " + leftLabel() + "</b>. В профила документите ви са винаги налични безсрочно.";
+
+    if (isIn) shown = true;
+
+    if (hasEmail){
+      regEmail.value = shown ? ORDER_EMAIL : ORDER_EMAIL_M;
+      regEmail.readOnly = true;
+      document.getElementById("regEmailNote").textContent = "Имейлът от поръчката — не може да се променя.";
+      document.getElementById("regLead").textContent =
+        "Профилът се създава с имейла от поръчката — с него ще влизате всеки път. Вътре ще намерите тази и всички ваши поръчки с този имейл, заедно с фактурите и гаранционните карти.";
+    } else {
+      if (regEmail.readOnly){ regEmail.value = ""; }
+      regEmail.readOnly = false;
+      document.getElementById("regEmailNote").textContent = "Поръчката е без имейл — този тук става вашето име за вход.";
+      document.getElementById("regLead").textContent =
+        "Поръчката е направена без имейл. Въведеният тук имейл става вашето име за вход в профила, а поръчката се запазва в него заедно с фактурата и гаранционните карти.";
+    }
+    paintIdentity();
+  }
+
+  /* ============ пълно рисуване ============ */
+
+  function renderAll(){
+    paintSteps();
+    paintStatus();
+    paintPayment();
+    paintDocs();
+    paintAccess();
+  }
+
+  function goto(n){
+    cur = Math.max(0, Math.min(chain.length - 1, n));
+    renderAll();
+  }
+
+  function setPay(id){
+    var wasId = curId();
+    PAY = id;
+    buildChain();
+    buildSteps();
+    var keep = chain.indexOf(wasId);
+    cur = keep >= 0 ? keep : Math.min(cur, chain.length - 1);
+    Array.prototype.forEach.call(document.querySelectorAll("#payBtns .demo-btn"), function(b){
+      b.setAttribute("aria-pressed", String(b.dataset.pay === PAY));
+    });
+    renderAll();
+  }
+
+  /* ============ демо контроли ============ */
+
+  demoBtns.addEventListener("click", function(e){
+    var b = e.target.closest(".demo-btn");
+    if (b) goto(Number(b.dataset.go));
+  });
+
+  document.getElementById("payBtns").addEventListener("click", function(e){
+    var b = e.target.closest(".demo-btn");
+    if (b) setPay(b.dataset.pay);
+  });
+
+  document.getElementById("credBtns").addEventListener("click", function(e){
+    var b = e.target.closest(".demo-btn");
+    if (!b) return;
+    CRED = b.dataset.cred;
+    cur = (CRED === "signed") ? idx("proc") : idx("credit");
+    renderAll();
+  });
+
+  document.getElementById("reapply").addEventListener("click", function(){
+    LEND = 1 - LEND;
+    CRED = "pending";
+    cur = idx("credit");
+    renderAll();
+    toast("Заявката е изпратена към " + lender() + ".");
+  });
+
+  document.getElementById("srcBtns").addEventListener("click", function(e){
+    var b = e.target.closest(".demo-btn");
+    if (!b) return;
+    MODE = b.dataset.src;
+    if (MODE !== "in") shown = false;
+    paintAccess();
+    paintDocs();
+  });
+
+  /* ============ плащане: прикачване на платежно ============ */
+
+  document.getElementById("payFile").addEventListener("change", function(e){
+    var f = e.target.files && e.target.files[0];
+    if (!f) return;
+    payActs.hidden = true;
+    payOk.hidden = false;
+    payOk.innerHTML = "Получихме <b>" + esc(f.name) + "</b>. Ще проверим плащането и ще продължим с обработката — ще ви уведомим.";
+  });
+
+  /* ============ копиране на товарителницата ============ */
+
+  var TRACK_URL = "https://www.speedy.bg/public/index.php/en/track-shipment?shipmentNumber=";
+  var trackLink = document.getElementById("trackLink");
+  var courierLink = document.getElementById("courierLink");
+
+  function trackNumber(){
+    return document.getElementById("trackNo").textContent.replace(/\s+/g, "");
+  }
+
+  function syncTrackLink(){
+    var href = TRACK_URL + encodeURIComponent(trackNumber());
+    if (trackLink) trackLink.href = href;
+    if (courierLink) courierLink.href = href;
+  }
+
+  document.getElementById("copyBtn").addEventListener("click", function(){
+    var no = document.getElementById("trackNo").textContent.trim();
+    try {
+      navigator.clipboard.writeText(no).then(
+        function(){ toast("Номерът е копиран."); },
+        function(){ toast("Номер: " + no); }
+      );
+    } catch(e){ toast("Номер: " + no); }
+  });
+
+  syncTrackLink();
+
+  /* ============ меню „Заяви промяна“ ============ */
+
+  var reqBtn  = document.getElementById("reqBtn");
+  var reqMenu = document.getElementById("reqMenu");
+
+  var REQ = {
+    addr: { label:"Адрес за доставка", until:"proc",
+            why:"След издаването на товарителница може да се промени само от приложението на доставчика." },
+    inv:  { label:"Данни за фактура", until:"proc",
+            why:"Фактурата е издадена — корекцията изисква кредитно известие и минава през оператор на 0700 20 810." },
+    name: { label:"Име и телефон на получателя", until:"depot",
+            why:"Пратката е предадена на куриер за разнос." }
+  };
+
+  function paintReqMenu(){
+    Array.prototype.forEach.call(reqMenu.querySelectorAll(".menu-item"), function(it){
+      var cfg = REQ[it.dataset.req];
+      var ok  = cur <= idx(cfg.until);
+      it.disabled = !ok;
+      it.querySelector("em").textContent = ok ? "" : cfg.why;
+    });
+  }
+
+  function closeMenu(){
+    reqMenu.hidden = true;
+    reqBtn.setAttribute("aria-expanded", "false");
+  }
+
+  reqBtn.addEventListener("click", function(e){
+    e.stopPropagation();
+    var open = reqMenu.hidden;
+    reqMenu.hidden = !open;
+    reqBtn.setAttribute("aria-expanded", String(open));
+  });
+
+  reqMenu.addEventListener("click", function(e){
+    var it = e.target.closest(".menu-item");
+    if (!it || it.disabled) return;
+    closeMenu();
+    toast("Демо: отваря се формата за заявка — " + REQ[it.dataset.req].label + ".");
+  });
+
+  document.addEventListener("click", function(e){
+    if (!reqMenu.hidden && !e.target.closest(".menu-wrap")) closeMenu();
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && !reqMenu.hidden){ closeMenu(); reqBtn.focus(); }
+  });
+
+  /* ============ регистрация / вход ============ */
+
+  var regName  = document.getElementById("regName");
+  var regPass  = document.getElementById("regPass");
+  var regTerms = document.getElementById("regTerms");
+
+  function showDone(title, html){
+    document.getElementById("regDoneTitle").textContent = title;
+    document.getElementById("regDoneText").innerHTML = html;
+    regDone.hidden = false;
+    regDone.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  function clearErr(){
+    [regName, regEmail, regPass].forEach(function(f){ f.classList.remove("err"); });
+    document.getElementById("regTermsWrap").classList.remove("err");
+  }
+
+  document.getElementById("regOpen").addEventListener("click", function(){
+    regIntro.hidden = true;
+    regForm.hidden = false;
+    regName.focus();
+  });
+
+  document.getElementById("regCancel").addEventListener("click", function(){
+    clearErr();
+    regForm.hidden = true;
+    regIntro.hidden = false;
+    document.getElementById("regOpen").focus({preventScroll:true});
+  });
+
+  document.getElementById("regSubmit").addEventListener("click", function(){
+    clearErr();
+    if (!regName.value.trim()){
+      regName.classList.add("err"); regName.focus();
+      toast("Моля, въведете име и фамилия."); return;
+    }
+    if (!regEmail.readOnly && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(regEmail.value.trim())){
+      regEmail.classList.add("err"); regEmail.focus();
+      toast("Проверете имейл адреса."); return;
+    }
+    if (regPass.value.length < 8){
+      regPass.classList.add("err"); regPass.focus();
+      toast("Паролата трябва да е поне 8 знака."); return;
+    }
+    if (!regTerms.checked){
+      document.getElementById("regTermsWrap").classList.add("err");
+      toast("Необходимо е съгласие с Общите условия."); return;
+    }
+    showDone("Проверете пощата си",
+      "Изпратихме имейл до <b>" + esc(regEmail.value.trim()) + "</b>. Отворете го и натиснете " +
+      "„Потвърди имейла“, за да активирате профила си — дотогава той не е активен.");
+    regForm.hidden = true;
+  });
+
+  document.getElementById("loginSend").addEventListener("click", function(){
+    showDone("Проверете пощата си",
+      "Изпратихме линк за вход до <b>" + esc(shown ? ORDER_EMAIL : ORDER_EMAIL_M) + "</b>. " +
+      "Отворете го и ще влезете в профила си автоматично. Линкът е валиден 15 минути и се използва еднократно.");
+    document.getElementById("regKnown").hidden = true;
+  });
+
+  document.getElementById("regResend").addEventListener("click", function(){
+    toast("Изпратихме имейла отново.");
+  });
+
+  /* ============ демо линкове ============ */
+
+  document.addEventListener("click", function(e){
+    var el = e.target.closest("[data-demo]");
+    if (!el || el.disabled) return;
+    e.preventDefault();
+    toast(el.getAttribute("data-demo"));
+  });
+
+  /* ============ старт ============ */
+
+  buildChain();
+  buildSteps();
+  setPay("cod");
+  goto(2);
+})();
+</script>
+</body>
+</html>

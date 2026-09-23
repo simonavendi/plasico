@@ -10,6 +10,8 @@
     { "source": "/поръчка", "destination": "/poruchka.html" },
     { "source": "/progress", "destination": "/progress.html" },
     { "source": "/progress/", "destination": "/progress.html" },
+    { "source": "/orderdetails", "destination": "/orderdetails.html" },
+    { "source": "/orderdetails/", "destination": "/orderdetails.html" },
     { "source": "/magazini", "destination": "/magazini.html" },
     { "source": "/serviz", "destination": "/serviz.html" },
     { "source": "/za-nas", "destination": "/za-nas.html" },
