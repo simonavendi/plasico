@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="bg" data-theme="light">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Онлайн чат | Plasico.bg</title>
+  <meta name="description" content="Пишете на Plasico — онлайн чат за продукти, цени и препоръки."/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A5%3C/text%3E%3C/svg%3E" type="image/svg+xml"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green: #07a857;
+      --ink: #111827;
+      --muted: #6b7280;
+      --bg: #f3f4f6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 50% at 100% 0%, rgba(7,168,87,.12), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 0% 100%, rgba(7,168,87,.08), transparent 50%),
+        var(--bg);
+    }
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 120px;
+    }
+    a.back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    a.back:hover { text-decoration: underline; }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+    }
+    p.lead {
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 36em;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.06);
+    }
+    .card h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .hours {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← Начало</a>
+    <h1>Онлайн чат</h1>
+    <p class="lead">
+      Отворете зеления бутон долу вдясно, за да пишете на Plasico.
+      Можете да питате за продукти, цени, характеристики и наличности.
+    </p>
+    <div class="card">
+      <h2>Пласико — тук сме</h2>
+      <p>
+        Работно време за моментални отговори: понеделник–петък, 9:00–18:00.
+        Извън него оставете съобщение и имейл — ще ви върнем отговор.
+      </p>
+      <div class="hours">Зеленият кръгъл бутон долу вдясно отваря чата.</div>
+    </div>
+  </div>
+  <script src="/js/local-intelekta-chat.js"></script>
+</body>
+</html>
