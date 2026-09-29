@@ -17,11 +17,12 @@
 	var SEND_ARROW =
 		"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 5l7 7-7 7'/%3E%3C/svg%3E\")";
 
-	var TITLE_ONLINE = 'Пласико - на линия';
+	var TITLE_ONLINE = 'Пласико на линия';
 	var SUB_ONLINE =
-		'Пишете ни - отговаряме веднага в рамките на работното ни време 9-18:00 понеделник до петък.';
-	var TITLE_OFFLINE = 'Пласико - офлайн';
-	var SUB_OFFLINE = 'Пишете ни, ще получите отговор в работно време по имейл.';
+		'Пишете ни - отговаряме веднага в рамките на работното ни време 9:00-18:00 понеделник до петък.';
+	var TITLE_OFFLINE = 'Пласико офлайн';
+	var SUB_OFFLINE =
+		'Пишете ни, ще получите отговор в работно време 9:00-18:00 понеделник до петък по имейл.';
 
 	var NOTE_ONLINE =
 		'Ако не можете да изчакате, оставете имейл - ще ви пишем там.';
@@ -178,7 +179,7 @@
 				try {
 					title.setAttribute('data-plasico-title', modeKey);
 					title.textContent = '';
-					title.appendChild(document.createTextNode('Пласико - '));
+					title.appendChild(document.createTextNode('Пласико '));
 					var dot = document.createElement('span');
 					dot.className =
 						'plasico-status-dot ' + (offline ? 'is-offline' : 'is-online');
