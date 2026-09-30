@@ -4,6 +4,22 @@ Local redesign of the [Plasico Hot Summer Sale 2026](https://plasico.bg/hot-summ
 
 **Live preview:** https://plasico.vercel.app/
 
+## Local development
+
+The site is fully static, so no build step or dependencies are required. A small
+zero-dependency Node server mirrors the production `vercel.json` routing (clean
+URLs, `/` → `hot-summer-sale-2026.html`, campaign subpages, and JSON cache
+headers):
+
+```bash
+node scripts/dev-server.mjs --port 3000
+# then open http://localhost:3000/
+```
+
+This matches how Vercel serves `outputDirectory` (`plasico/plasico.bg`) without
+needing the Vercel CLI or authentication. Use `vercel dev` only if you have the
+project linked and want the exact Vercel runtime.
+
 ## Source of truth
 
 | File | Role |
