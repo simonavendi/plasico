@@ -282,8 +282,11 @@
     font-weight:800;letter-spacing:.05em;text-transform:uppercase;font-size:13px;
     padding:15px 30px;transition:transform .15s,background .15s;
   }
+  .btn[hidden]{display:none!important}
   .btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 20px rgba(7,168,87,.26)}
   .btn-primary:hover{background:var(--brand-deep);transform:translateY(-1px)}
+  .btn-danger{background:var(--bad-ink);color:#fff;box-shadow:0 8px 20px rgba(180,35,35,.22)}
+  .btn-danger:hover{background:#912018;transform:translateY(-1px)}
   .btn-sm{padding:11px 18px;font-size:12px;border-radius:10px;letter-spacing:.04em}
   .btn svg{width:16px;height:16px}
   .btn-row{margin-top:24px}
@@ -295,6 +298,7 @@
     padding:8px 16px;font-size:13px;font-weight:700;
   }
   .eta svg{width:14px;height:14px;flex:none}
+  .cancel-order{display:block;margin:14px auto 0}
 
   /* ---------- плащане ---------- */
   .pay-box{
@@ -392,16 +396,32 @@
   /* ---------- маскирани данни ---------- */
   .kv{margin:18px 0 0;padding:0;display:flex;flex-direction:column}
   .kv-row{display:flex;gap:18px;align-items:baseline;padding:13px 0;border-top:1px solid var(--line)}
+  .kv-row[hidden]{display:none!important}
   .kv-row:first-child{border-top:none;padding-top:6px}
+  .kv-row.is-editing{
+    align-items:center;background:var(--brand-tint);border:1px solid var(--brand-tint-line);
+    border-radius:12px;padding:12px 14px;margin-top:4px;
+  }
   .kv dt{flex:0 0 168px;margin:0;font-size:13px;font-weight:600;color:var(--muted)}
   .kv dd{margin:0;flex:1;min-width:0;font-size:15px;font-weight:600;color:var(--ink);overflow-wrap:anywhere;line-height:1.45}
   .kv dd.is-masked{color:var(--faint);letter-spacing:.03em}
+  .kv-edit{display:flex;flex:1;gap:8px;align-items:center;flex-wrap:wrap;min-width:0}
+  .kv-edit input{
+    font:inherit;font-size:15px;font-weight:600;flex:1;min-width:160px;
+    padding:9px 12px;border-radius:10px;border:1px solid var(--line-strong);
+    background:var(--surface);color:var(--ink);
+  }
+  .kv-edit input:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
+  .kv-edit .btn{padding:9px 14px;font-size:12px;border-radius:10px}
 
   .gate{margin-top:20px;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .gate[hidden]{display:none!important}
   .gate-note{display:flex;gap:10px;font-size:13px;color:var(--muted);line-height:1.5}
+  .gate-note[hidden]{display:none!important}
   .gate-note svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--faint)}
   .gate-note b{color:var(--ink-2);font-weight:700}
   .gate-start{margin-top:15px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .gate-note[hidden] + .gate-start{margin-top:0}
   .gate-start .menu-wrap--gate{flex:none;width:auto;margin:0}
   .gate-start .menu-btn{
     width:auto;padding:11px 18px;font-size:12px;border-radius:10px;
@@ -412,11 +432,14 @@
     background:var(--brand-tint);border:1px solid var(--brand-tint-line);
     border-radius:14px;padding:13px 16px;font-size:13px;color:var(--brand-ink);line-height:1.45;
   }
+  .gate-ok[hidden]{display:none!important}
   .gate-ok svg{width:16px;height:16px;flex:none}
   .gate-ok span{flex:1;min-width:190px}
 
   /* ---------- order ---------- */
-  .item{display:flex;align-items:center;gap:18px;padding-top:20px;margin-top:18px;border-top:1px solid var(--line)}
+  .order-summary{margin-top:6px}
+  .item{display:flex;align-items:flex-start;gap:18px;padding:18px 0;border-top:1px solid var(--line)}
+  .item:first-child{border-top:none;padding-top:12px}
   .thumb{
     width:104px;height:78px;border-radius:12px;flex:none;
     background:var(--surface-2);border:1px solid var(--line);
@@ -426,14 +449,31 @@
   .thumb img{width:100%;height:100%;object-fit:contain;display:block}
   .item-txt{flex:1;min-width:0}
   .kicker{font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--brand-ink)}
-  .item-t{font-size:17px;font-weight:700;letter-spacing:-.01em;margin-top:3px;line-height:1.25}
-  .item-s{font-size:13px;color:var(--muted);margin-top:3px}
+  .item-t{font-size:16px;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+  .item-s{font-size:13px;color:var(--muted);margin-top:4px}
+  .item-note{display:block;font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.45}
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
   .chip{background:var(--surface-2);border:1px solid var(--line);color:var(--ink-2);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:600}
   .chip.ok{background:var(--brand-tint);border-color:var(--brand-tint-line);color:var(--brand-ink)}
-  .price{text-align:right;flex:none}
-  .price b{font-size:20px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .price{text-align:right;flex:none;padding-top:2px}
+  .price b{font-size:18px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
   .price span{display:block;font-size:12px;color:var(--faint);margin-top:2px}
+  .summary-totals{
+    margin-top:6px;padding-top:16px;border-top:1px solid var(--line);
+    display:flex;flex-direction:column;gap:10px;
+  }
+  .sum-row{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    font-size:14px;color:var(--ink-2);font-weight:600;
+  }
+  .sum-row b{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:800;white-space:nowrap}
+  .sum-row.is-discount{color:var(--muted);font-weight:500}
+  .sum-row.is-discount b{color:var(--brand);font-weight:800}
+  .sum-row.is-total{
+    margin-top:6px;padding-top:14px;border-top:1px solid var(--line);
+    font-size:13px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);
+  }
+  .sum-row.is-total b{font-size:22px;letter-spacing:-.02em;color:var(--brand);text-transform:none}
 
   /* ---------- история на поръчките ---------- */
   .orders{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column}
@@ -509,12 +549,14 @@
     border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;
   }
   .reg-notice{display:flex;gap:13px;padding:20px 28px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+  .reg-notice[hidden]{display:none!important}
   .reg-notice svg{width:18px;height:18px;flex:none;margin-top:2px;color:var(--muted)}
   .reg-notice b{display:block;font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
   .reg-notice p{font-size:13.5px;color:var(--muted);line-height:1.6;max-width:70ch}
   .reg-expiry{margin-top:9px!important;font-size:12.5px!important;color:var(--faint)!important}
   .reg-expiry b{color:var(--ink-2);font-weight:700}
   .reg-main{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding:22px 28px}
+  .reg-main[hidden]{display:none!important}
   .reg-main--stack{flex-direction:column;align-items:stretch;gap:14px}
   .reg-main-body{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;width:100%}
   .reg-main-body .register-cta{margin-left:auto}
@@ -543,14 +585,13 @@
   .field input:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
   .field input.err{border-color:#DC2626}
   .field input[readonly]{background:var(--surface-2);color:var(--muted);cursor:default}
-  .field-note{font-size:11px!important;font-weight:500!important;color:var(--faint)!important;line-height:1.4}
-  .field-note:empty{display:none}
   .check{display:flex;gap:10px;align-items:flex-start;margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.5}
   .check input{margin:2px 0 0;width:16px;height:16px;flex:none;accent-color:var(--brand)}
   .check.err{color:#DC2626}
   .reg-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:20px}
 
   .reg-done{display:flex;gap:15px;padding:24px 28px;border-top:1px solid var(--line);background:var(--brand-tint)}
+  .reg-done[hidden]{display:none!important}
   .reg-done-ic{width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;background:var(--brand);color:#fff}
   .reg-done-ic svg{width:20px;height:20px}
   .reg-done b{font-size:15.5px;font-weight:800;color:var(--ink)}
@@ -742,7 +783,7 @@
     <div class="pay-box" id="payBox" hidden>
       <div class="pay-sum">
         <span class="pay-k">Сума за плащане</span>
-        <span class="pay-v">368,99 €</span>
+        <span class="pay-v">624,98 €</span>
         <span class="pay-n">по проформа фактура № 0000145892</span>
       </div>
       <div class="pay-acts" id="payActs">
@@ -756,10 +797,14 @@
       <p class="fineprint">Плащането се отразява до 1 работен ден. Ако прикачите платежното нареждане, обработваме поръчката веднага след проверка.</p>
     </div>
 
-    <div><span class="eta" id="eta">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-      <span id="etaText">Очаквана доставка: 23–24 Септември</span>
-    </span></div>
+    <div>
+      <span class="eta" id="eta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span id="etaText">Очаквана доставка: 23–24 Септември</span>
+      </span>
+      <button class="btn btn-danger btn-sm cancel-order" type="button" id="cancelOrder" hidden
+        data-demo="Демо: тук се отказва поръчката.">Откажи поръчката</button>
+    </div>
   </section>
 
   <!-- ============ СЪДЪРЖАНИЕ НА ПОРЪЧКАТА ============ -->
@@ -768,21 +813,55 @@
       <h2>Ето какво съдържа вашата поръчка:</h2>
     </div>
 
-    <div class="item">
-      <span class="thumb">
-        <img src="orderdetails-officeg.png" alt="Компютър OfficeG" width="104" height="78"/>
-      </span>
-      <span class="item-txt">
-        <span class="item-t">Компютър OfficeG (Intel Celeron G5905, 8GB, 256GB SSD)</span>
-        <span class="chips">
-          <span class="chip">Количество: 1</span>
-          <span class="chip ok">✓ В наличност</span>
+    <div class="order-summary">
+      <div class="item">
+        <span class="thumb">
+          <img src="orderdetails-officeg.png" alt="Компютър OfficeG" width="104" height="78"/>
         </span>
-      </span>
-      <span class="price">
-        <b>368,99 €</b>
-        <span>с включен ДДС</span>
-      </span>
+        <span class="item-txt">
+          <span class="item-t">Компютър OfficeG (Intel Celeron G5905, 8GB, 256GB SSD)</span>
+          <span class="item-s">Настолни Компютри</span>
+          <span class="item-note">Приложен е код за −10% от оферта (−41,00 €)</span>
+          <span class="chips">
+            <span class="chip">Количество: 1</span>
+          </span>
+        </span>
+        <span class="price">
+          <b>368,99 €</b>
+        </span>
+      </div>
+
+      <div class="item">
+        <span class="thumb">
+          <img src="orderdetails-acer-aspire-lite-15.png" alt="Acer Aspire Lite 15" width="104" height="78"/>
+        </span>
+        <span class="item-txt">
+          <span class="item-t">Acer Aspire Lite 15 AL15-32P-C49X, 15.6&quot; FHD IPS, Intel Celeron N4500, 8GB, 256GB SSD, Silver</span>
+          <span class="item-s">Лаптопи</span>
+          <span class="item-note">Приложен е код за −10% от оферта (−28,00 €)</span>
+          <span class="chips">
+            <span class="chip">Количество: 1</span>
+          </span>
+        </span>
+        <span class="price">
+          <b>251,99 €</b>
+        </span>
+      </div>
+
+      <div class="summary-totals">
+        <div class="sum-row is-discount">
+          <span>Отстъпка FLASH (−10%)</span>
+          <b>−69,00 €</b>
+        </div>
+        <div class="sum-row">
+          <span>Доставка · Speedy</span>
+          <b>4,00 €</b>
+        </div>
+        <div class="sum-row is-total">
+          <span>Сума за плащане с ДДС</span>
+          <b>624,98 €</b>
+        </div>
+      </div>
     </div>
 
     <dl class="kv kv-pay">
@@ -803,31 +882,30 @@
       <h2>Данни за доставка</h2>
       <span class="badge" id="recBadge">Скрити</span>
     </div>
-    <p class="sub">Доставка с Еконт, до адрес на получателя.</p>
 
     <dl class="kv" id="kv">
       <div class="kv-row">
         <dt>Получател</dt>
-        <dd data-real="Десислав Драгнев" data-mask="Де•••••• Др•••••"></dd>
+        <dd class="is-masked" data-real="Десислав Драгнев" data-mask="Де•••••• Др•••••">Де•••••• Др•••••</dd>
       </div>
-      <div class="kv-row">
+      <div class="kv-row" id="kvPhone">
         <dt>Телефон за връзка</dt>
-        <dd data-real="+359 887 412 305" data-mask="+359 8•• ••• •05"></dd>
+        <dd id="kvPhoneVal" class="is-masked" data-real="+359 887 412 305" data-mask="+359 8•• ••• •05">+359 8•• ••• •05</dd>
       </div>
       <div class="kv-row" id="kvEmail">
         <dt>Имейл</dt>
-        <dd data-real="d.dragnev@abv.bg" data-mask="d.d••••••@abv.bg"></dd>
+        <dd id="kvEmailVal" class="is-masked" data-real="d.dragnev@abv.bg" data-mask="d.d••••••@abv.bg">d.d••••••@abv.bg</dd>
       </div>
       <div class="kv-row">
         <dt>Адрес за доставка</dt>
-        <dd data-real="гр. София 1750, ж.к. Младост 4, бл. 483, вх. Б, ет. 5, ап. 17" data-mask="гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••"></dd>
+        <dd class="is-masked" data-real="гр. София 1750, ж.к. Младост 4, бл. 483, вх. Б, ет. 5, ап. 17" data-mask="гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••">гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••</dd>
       </div>
     </dl>
 
     <div class="gate" id="gate">
       <p class="gate-note" id="gateNote">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></svg>
-        <span id="gateNoteText">От съображения за сигурност данните са скрити. Страницата е отворена с личния ви линк от SMS или имейл — покажете ги, когато сте сами пред екрана.</span>
+        <span id="gateNoteText">От съображения за сигурност данните са скрити. Страницата е отворена с личния ви линк — покажете ги, когато сте сами пред екрана.</span>
       </p>
 
       <div class="gate-start">
@@ -839,7 +917,8 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <ul class="menu" id="reqMenu" hidden>
-            <li><button class="menu-item" type="button" data-req="name"><strong>Телефон на получателя</strong><em></em></button></li>
+            <li><button class="menu-item" type="button" data-req="phone"><strong>Телефон на получателя</strong><em></em></button></li>
+            <li><button class="menu-item" type="button" data-req="email"><strong>Имейл</strong><em></em></button></li>
             <li><button class="menu-item" type="button" data-req="addr"><strong>Адрес за доставка</strong><em></em></button></li>
             <li><button class="menu-item" type="button" data-req="inv"><strong>Данни за фактура</strong><em></em></button></li>
           </ul>
@@ -917,7 +996,6 @@
   <section class="card" id="history" hidden>
     <div class="card-head">
       <h2>Вашите поръчки</h2>
-      <a class="badge" href="#" data-demo="Демо: отваря се пълният списък с поръчки в профила.">Виж всички</a>
     </div>
     <p class="sub">Всяка поръчка в профила ви пази фактурата и гаранционните карти без срок.</p>
 
@@ -926,7 +1004,7 @@
         <span class="order-n">#PL-12923249<em>текуща</em></span>
         <span class="order-d">21 септ. 2026</span>
         <span class="order-s live">При куриера</span>
-        <span class="order-p">368,99 €</span>
+        <span class="order-p">624,98 €</span>
         <span class="order-a">На тази страница</span>
       </li>
       <li class="order">
@@ -934,28 +1012,25 @@
         <span class="order-d">14 юни 2026</span>
         <span class="order-s">Доставена</span>
         <span class="order-p">289,50 €</span>
-        <button class="doc-act order-a" type="button" data-demo="Демо: отваря се страницата на поръчката.">Отвори</button>
       </li>
       <li class="order">
         <span class="order-n">#PL-12401977</span>
         <span class="order-d">3 март 2026</span>
         <span class="order-s">Доставена</span>
         <span class="order-p">1 742,00 €</span>
-        <button class="doc-act order-a" type="button" data-demo="Демо: отваря се страницата на поръчката.">Отвори</button>
       </li>
       <li class="order">
         <span class="order-n">#PL-12190446</span>
         <span class="order-d">28 ноем. 2025</span>
         <span class="order-s off">Отказана</span>
         <span class="order-p">76,90 €</span>
-        <button class="doc-act order-a" type="button" data-demo="Демо: отваря се страницата на поръчката.">Отвори</button>
       </li>
     </ul>
   </section>
 
   <!-- ============ РЕГИСТРАЦИЯ ============ -->
   <div class="register">
-    <div class="reg-notice">
+    <div class="reg-notice" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-5"/><path d="M12 8h.01"/></svg>
       <div>
         <b>Само за преглед</b>
@@ -963,18 +1038,6 @@
         <p class="reg-expiry" id="regExpiryLine">Линк активен до <b id="regExpiry"></b> В профила документите ви са винаги налични безсрочно.</p>
       </div>
     </div>
-    <div class="reg-main reg-main--stack" id="regKnown">
-      <div class="reg-main-body">
-        <p>
-          <b>Вие вече имате профил в Plasico.</b>
-          Влезте в него, за да виждате всички свои поръчки, фактури и гаранционни карти на едно място — без ограничение във времето и без да търсите линка от SMS.
-        </p>
-        <span class="register-cta">
-          <button class="btn-reg" type="button" id="loginBody">Вход</button>
-        </span>
-      </div>
-    </div>
-
     <div class="reg-main" id="regIntro" hidden>
       <p>
         <b>Проследявайте поръчките си тук — с или без профил.</b>
@@ -984,6 +1047,18 @@
         <button class="btn-reg" type="button" id="regOpen">Регистрирай се</button>
         <span class="reg-time">Отнема под 1 минута</span>
       </span>
+    </div>
+
+    <div class="reg-main reg-main--stack" id="regKnown" hidden>
+      <div class="reg-main-body">
+        <p>
+          <b>Вие вече имате профил в Plasico.</b>
+          Влезте в него, за да виждате всички свои поръчки, фактури и гаранционни карти на едно място.
+        </p>
+        <span class="register-cta">
+          <button class="btn-reg" type="button" id="loginBody">Вход</button>
+        </span>
+      </div>
     </div>
 
     <div class="reg-form" id="regForm" hidden>
@@ -998,7 +1073,6 @@
         <label class="field">
           <span>Имейл</span>
           <input id="regEmail" type="email" autocomplete="email" placeholder="ime@primer.bg">
-          <span class="field-note" id="regEmailNote"></span>
         </label>
         <label class="field">
           <span>Парола</span>
@@ -1038,7 +1112,7 @@
     </span>
     <span class="support-txt">
       <b>Имате въпроси относно доставката?</b>
-      <span>Нашият екип е на линия на 0700 20 810 от 09:00 до 18:00 ч.</span>
+      <span>Нашият екип е на линия на 0700 20 810 от 09:00 до 18:00 ч., пон–петък.</span>
     </span>
     <a class="btn-ghost" href="#" data-demo="Демо: тук се отваря формата за контакт.">Свържете се с нас</a>
   </div>
@@ -1197,6 +1271,7 @@
   var heroTitle= document.getElementById("heroTitle");
   var statusMsg= document.getElementById("statusMsg");
   var etaText  = document.getElementById("etaText");
+  var cancelOrder = document.getElementById("cancelOrder");
   var trackBox = document.getElementById("trackBox");
   var trackRow = document.getElementById("trackBtnRow");
   var docsList = document.getElementById("docsList");
@@ -1273,6 +1348,9 @@
     statusMsg.textContent = cv ? cv.msg : s.msg;
     etaText.textContent   = s.eta;
     document.getElementById("eta").hidden = (onCredit && CRED === "rejected");
+
+    var id = curId();
+    cancelOrder.hidden = !(id === "new" || id === "proc");
 
     var rejected = (onCredit && CRED === "rejected");
     document.getElementById("rejBox").hidden = !rejected;
@@ -1368,25 +1446,41 @@
   var recBadge = document.getElementById("recBadge");
   var regEmail = document.getElementById("regEmail");
 
+  var fieldEditing = null;
+  var kvPhoneRow = document.getElementById("kvPhone");
+  var kvPhoneVal = document.getElementById("kvPhoneVal");
+  var kvEmailRow = document.getElementById("kvEmail");
+  var kvEmailVal = document.getElementById("kvEmailVal");
+
   function paintIdentity(){
+    var reveal = shown;
+
     kvVals.forEach(function(dd){
-      dd.textContent = shown ? dd.dataset.real : dd.dataset.mask;
-      dd.classList.toggle("is-masked", !shown);
+      if (fieldEditing && (dd === kvPhoneVal || dd === kvEmailVal) &&
+          ((fieldEditing === "phone" && dd === kvPhoneVal) ||
+           (fieldEditing === "email" && dd === kvEmailVal))) return;
+      dd.textContent = reveal ? dd.dataset.real : dd.dataset.mask;
+      dd.classList.toggle("is-masked", !reveal);
     });
-    recBadge.textContent = logged() ? "Вашите данни" : (shown ? "Видими" : "Скрити");
-    gate.hidden = logged();
-    gateOk.hidden = true;
-    document.getElementById("showData").hidden = shown || logged();
-    document.getElementById("hideAgain").hidden = !shown || logged();
+
+    /* all MODEs: Скрити ↔ Видими; gate always available to reveal */
+    recBadge.textContent = shown ? "Видими" : "Скрити";
+
+    gate.hidden = false;
+    gateOk.hidden = !shown;
+    document.getElementById("showData").hidden = shown;
+    document.getElementById("hideAgain").hidden = !shown;
+
+    var gateNote = document.getElementById("gateNote");
+    if (gateNote) gateNote.hidden = shown; /* security copy only while masked */
     var note = document.getElementById("gateNoteText");
     if (note){
-      note.textContent = shown
-        ? "Данните са видими. При следващото отваряне на страницата отново ще бъдат скрити."
-        : "От съображения за сигурност данните са скрити. Страницата е отворена с личния ви линк от SMS или имейл — покажете ги, когато сте сами пред екрана.";
+      note.textContent =
+        "От съображения за сигурност данните са скрити. Страницата е отворена с личния ви линк — покажете ги, когато сте сами пред екрана.";
     }
 
     if (regEmail && regEmail.readOnly){
-      regEmail.value = shown ? ORDER_EMAIL : ORDER_EMAIL_M;
+      regEmail.value = reveal ? ORDER_EMAIL : ORDER_EMAIL_M;
     }
     var lt = document.getElementById("loginTo");
     if (lt){ lt.hidden = true; lt.textContent = ""; }
@@ -1405,6 +1499,7 @@
   /* ============ тип клиент ============ */
 
   var regIntro = document.getElementById("regIntro");
+  var regKnown = document.getElementById("regKnown");
   var regForm  = document.getElementById("regForm");
   var regDone  = document.getElementById("regDone");
 
@@ -1421,8 +1516,9 @@
       b.setAttribute("aria-pressed", String(b.dataset.src === MODE));
     });
 
-    document.getElementById("regKnown").hidden = !(hasEmail && !isIn);
-    regIntro.hidden = true;
+    /* guests (email/phone): register CTA; logged-in: existing-account login */
+    regIntro.hidden = isIn;
+    regKnown.hidden = !isIn;
     regForm.hidden  = true;
     regDone.hidden  = true;
 
@@ -1430,18 +1526,14 @@
       ? "През профила документите ви са винаги налични безсрочно."
       : "Линк активен до <b>" + expiryStr + " · " + leftLabel() + "</b> В профила документите ви са винаги налични безсрочно.";
 
-    if (isIn) shown = true;
-
     if (hasEmail){
       regEmail.value = shown ? ORDER_EMAIL : ORDER_EMAIL_M;
       regEmail.readOnly = true;
-      document.getElementById("regEmailNote").textContent = "Имейлът от поръчката — не може да се променя.";
       document.getElementById("regLead").textContent =
         "Профилът се създава с имейла от поръчката — с него ще влизате всеки път. Вътре ще намерите тази и всички ваши поръчки с този имейл, заедно с фактурите и гаранционните карти.";
     } else {
       if (regEmail.readOnly){ regEmail.value = ""; }
       regEmail.readOnly = false;
-      document.getElementById("regEmailNote").textContent = "Поръчката е без имейл — този тук става вашето име за вход.";
       document.getElementById("regLead").textContent =
         "Поръчката е направена без имейл. Въведеният тук имейл става вашето име за вход в профила, а поръчката се запазва в него заедно с фактурата и гаранционните карти.";
     }
@@ -1508,7 +1600,7 @@
     var b = e.target.closest(".demo-btn");
     if (!b) return;
     MODE = b.dataset.src;
-    if (MODE !== "in") shown = false;
+    shown = false; /* always remask on mode switch, including logged-in */
     paintAccess();
     paintDocs();
   });
@@ -1561,22 +1653,135 @@
             why:"След издаването на товарителница може да се промени само от приложението на доставчика." },
     inv:  { label:"Данни за фактура", until:"proc",
             why:"Фактурата е издадена — корекцията изисква кредитно известие и минава през оператор на 0700 20 810." },
-    name: { label:"Телефон на получателя", until:"depot",
-            why:"Пратката е предадена на куриер за разнос." }
+    phone: { label:"Телефон на получателя", until:"depot",
+            why:"Пратката е предадена на куриер за разнос." },
+    email: { label:"Имейл", always:true }
+  };
+
+  var FIELD_EDIT = {
+    phone: {
+      row: kvPhoneRow, dd: kvPhoneVal,
+      type: "tel", autocomplete: "tel", inputmode: "tel",
+      aria: "Телефон за връзка", empty: "Въведете телефон.",
+      ok: "Заявката за нов телефон е приета.",
+      mask: function(v){
+        var digits = v.replace(/\D/g, "");
+        return digits.length >= 2 ? "+359 8•• ••• •" + digits.slice(-2) : v;
+      }
+    },
+    email: {
+      row: kvEmailRow, dd: kvEmailVal,
+      type: "email", autocomplete: "email", inputmode: "email",
+      aria: "Имейл", empty: "Въведете имейл.",
+      ok: "Заявката за нов имейл е приета.",
+      validate: function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); },
+      invalid: "Проверете имейл адреса.",
+      mask: function(v){
+        var at = v.indexOf("@");
+        if (at < 2) return v;
+        return v.charAt(0) + "." + "•".repeat(Math.min(6, Math.max(1, at - 2))) + v.slice(at);
+      },
+      onSave: function(v){
+        ORDER_EMAIL = v;
+        ORDER_EMAIL_M = kvEmailVal.dataset.mask;
+        var whoMail = document.getElementById("whoMail");
+        if (whoMail) whoMail.textContent = v;
+      }
+    }
   };
 
   function paintReqMenu(){
     Array.prototype.forEach.call(reqMenu.querySelectorAll(".menu-item"), function(it){
       var cfg = REQ[it.dataset.req];
-      var ok  = cur <= idx(cfg.until);
+      if (!cfg) return;
+      var ok = cfg.always || cur <= idx(cfg.until);
       it.disabled = !ok;
-      it.querySelector("em").textContent = ok ? "" : cfg.why;
+      var em = it.querySelector("em");
+      if (em) em.textContent = ok ? "" : (cfg.why || "");
+      if (it.dataset.req === "email"){
+        it.closest("li").hidden = !!kvEmailRow.hidden;
+      }
     });
   }
 
   function closeMenu(){
     reqMenu.hidden = true;
     reqBtn.setAttribute("aria-expanded", "false");
+  }
+
+  function endFieldEdit(commit){
+    if (!fieldEditing) return true;
+    var key = fieldEditing;
+    var cfg = FIELD_EDIT[key];
+    var edit = cfg.row.querySelector(".kv-edit");
+    var input = edit && edit.querySelector("input");
+    if (commit){
+      var v = input ? input.value.trim() : "";
+      if (!v){
+        toast(cfg.empty);
+        if (input) input.focus();
+        return false;
+      }
+      if (cfg.validate && !cfg.validate(v)){
+        toast(cfg.invalid || cfg.empty);
+        if (input) input.focus();
+        return false;
+      }
+      cfg.dd.dataset.real = v;
+      cfg.dd.dataset.mask = cfg.mask(v);
+      if (cfg.onSave) cfg.onSave(v);
+    }
+    if (edit) edit.replaceWith(cfg.dd);
+    cfg.row.classList.remove("is-editing");
+    fieldEditing = null;
+    paintIdentity();
+    return true;
+  }
+
+  function startFieldEdit(key){
+    var cfg = FIELD_EDIT[key];
+    if (!cfg || !cfg.row || cfg.row.hidden) return;
+    if (fieldEditing && fieldEditing !== key){
+      if (!endFieldEdit(false)) return;
+    }
+    if (fieldEditing === key){
+      var existing = cfg.row.querySelector(".kv-edit input");
+      if (existing){ existing.focus(); existing.select(); }
+      return;
+    }
+    fieldEditing = key;
+    cfg.row.classList.add("is-editing");
+    var wrap = document.createElement("div");
+    wrap.className = "kv-edit";
+    wrap.innerHTML =
+      '<input type="' + cfg.type + '" autocomplete="' + cfg.autocomplete + '"' +
+      (cfg.inputmode ? ' inputmode="' + cfg.inputmode + '"' : "") +
+      ' aria-label="' + cfg.aria + '">' +
+      '<button class="btn btn-primary" type="button" data-field-act="save">Запази</button>' +
+      '<button class="btn btn-ghost" type="button" data-field-act="cancel">Отказ</button>';
+    var input = wrap.querySelector("input");
+    input.value = cfg.dd.dataset.real || "";
+    cfg.dd.replaceWith(wrap);
+    wrap.addEventListener("click", function(e){
+      var act = e.target.getAttribute("data-field-act");
+      if (act === "save"){
+        if (endFieldEdit(true)) toast(cfg.ok);
+      } else if (act === "cancel"){
+        endFieldEdit(false);
+      }
+    });
+    input.addEventListener("keydown", function(e){
+      if (e.key === "Enter"){
+        e.preventDefault();
+        if (endFieldEdit(true)) toast(cfg.ok);
+      } else if (e.key === "Escape"){
+        e.preventDefault();
+        endFieldEdit(false);
+      }
+    });
+    cfg.row.scrollIntoView({behavior:"smooth", block:"center"});
+    input.focus();
+    input.select();
   }
 
   reqBtn.addEventListener("click", function(e){
@@ -1590,6 +1795,10 @@
     var it = e.target.closest(".menu-item");
     if (!it || it.disabled) return;
     closeMenu();
+    if (it.dataset.req === "phone" || it.dataset.req === "email"){
+      startFieldEdit(it.dataset.req);
+      return;
+    }
     toast("Демо: отваря се формата за заявка — " + REQ[it.dataset.req].label + ".");
   });
 
@@ -1606,7 +1815,8 @@
   var regPass  = document.getElementById("regPass");
   var regTerms = document.getElementById("regTerms");
 
-  function showDone(title, html){
+  function showLoginDone(title, html){
+    if (MODE !== "in") return;
     document.getElementById("regDoneTitle").textContent = title;
     document.getElementById("regDoneText").innerHTML = html;
     regDone.hidden = false;
@@ -1649,17 +1859,17 @@
       document.getElementById("regTermsWrap").classList.add("err");
       toast("Необходимо е съгласие с Общите условия."); return;
     }
-    showDone("Проверете пощата си",
-      "Изпратихме имейл до <b>" + esc(regEmail.value.trim()) + "</b>. Отворете го и натиснете " +
-      "„Потвърди имейла“, за да активирате профила си — дотогава той не е активен.");
+    toast("Изпратихме имейл за потвърждение до " + regEmail.value.trim() + ".");
     regForm.hidden = true;
+    regIntro.hidden = false;
   });
 
   function sendLoginLink(){
-    showDone("Проверете пощата си",
-      "Изпратихме линк за вход до <b>" + esc(shown ? ORDER_EMAIL : ORDER_EMAIL_M) + "</b>. " +
+    if (MODE !== "in") return;
+    showLoginDone("Проверете пощата си",
+      "Изпратихме линк за вход до <b>" + esc(ORDER_EMAIL) + "</b>. " +
       "Отворете го и ще влезете в профила си автоматично. Линкът е валиден 15 минути и се използва еднократно.");
-    document.getElementById("regKnown").hidden = true;
+    regKnown.hidden = true;
   }
 
   document.getElementById("loginBody").addEventListener("click", sendLoginLink);
