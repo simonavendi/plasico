@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="bg" data-theme="light">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
@@ -39,60 +39,7 @@
     --bad-bg:#FEF2F2;
     --bad-line:#FECACA;
     --bad-ink:#B42323;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --brand:#07A857;
-      --brand-deep:#0A8F4C;
-      --brand-ink:#3DD68C;
-      --brand-tint:#0F2A1E;
-      --brand-tint-line:#1D4535;
-      --ground:#0B1220;
-      --surface:#131C2B;
-      --surface-2:#0F1826;
-      --ink:#E9EFF6;
-      --ink-2:#C6D2E0;
-      --muted:#94A3B8;
-      --faint:#7A8AA0;
-      --line:#233149;
-      --line-strong:#33445F;
-      --shadow:0 12px 34px rgba(0,0,0,.42);
-      --shadow-sm:0 2px 8px rgba(0,0,0,.3);
-      --demo-bg:#060C16;
-      --demo-chip:#18253A;
-      --warn-bg:#2A1C0B;
-      --warn-line:#4A3211;
-      --warn-ink:#F0B056;
-      --bad-bg:#2A1214;
-      --bad-line:#4C1F22;
-      --bad-ink:#F08A8A;
-    }
-  }
-  :root[data-theme="dark"]{
-    --brand:#07A857;
-    --brand-deep:#0A8F4C;
-    --brand-ink:#3DD68C;
-    --brand-tint:#0F2A1E;
-    --brand-tint-line:#1D4535;
-    --ground:#0B1220;
-    --surface:#131C2B;
-    --surface-2:#0F1826;
-    --ink:#E9EFF6;
-    --ink-2:#C6D2E0;
-    --muted:#94A3B8;
-    --faint:#7A8AA0;
-    --line:#233149;
-    --line-strong:#33445F;
-    --shadow:0 12px 34px rgba(0,0,0,.42);
-    --shadow-sm:0 2px 8px rgba(0,0,0,.3);
-    --demo-bg:#060C16;
-    --demo-chip:#18253A;
-    --warn-bg:#2A1C0B;
-    --warn-line:#4A3211;
-    --warn-ink:#F0B056;
-    --bad-bg:#2A1214;
-    --bad-line:#4C1F22;
-    --bad-ink:#F08A8A;
+    color-scheme: light;
   }
 
   *{box-sizing:border-box}
@@ -337,6 +284,7 @@
   }
   .btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 20px rgba(7,168,87,.26)}
   .btn-primary:hover{background:var(--brand-deep);transform:translateY(-1px)}
+  .btn-sm{padding:11px 18px;font-size:12px;border-radius:10px;letter-spacing:.04em}
   .btn svg{width:16px;height:16px}
   .btn-row{margin-top:24px}
 
@@ -453,7 +401,12 @@
   .gate-note{display:flex;gap:10px;font-size:13px;color:var(--muted);line-height:1.5}
   .gate-note svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--faint)}
   .gate-note b{color:var(--ink-2);font-weight:700}
-  .gate-start{margin-top:15px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .gate-start{margin-top:15px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .gate-start .menu-wrap--gate{flex:none;width:auto;margin:0}
+  .gate-start .menu-btn{
+    width:auto;padding:11px 18px;font-size:12px;border-radius:10px;
+    white-space:nowrap;justify-content:center;
+  }
   .gate-ok{
     margin-top:20px;display:flex;align-items:center;gap:11px;flex-wrap:wrap;
     background:var(--brand-tint);border:1px solid var(--brand-tint-line);
@@ -467,9 +420,10 @@
   .thumb{
     width:104px;height:78px;border-radius:12px;flex:none;
     background:var(--surface-2);border:1px solid var(--line);
-    display:grid;place-items:center;color:var(--faint);
+    display:grid;place-items:center;color:var(--faint);overflow:hidden;
   }
   .thumb svg{width:38px;height:38px}
+  .thumb img{width:100%;height:100%;object-fit:contain;display:block}
   .item-txt{flex:1;min-width:0}
   .kicker{font-size:10.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--brand-ink)}
   .item-t{font-size:17px;font-weight:700;letter-spacing:-.01em;margin-top:3px;line-height:1.25}
@@ -508,7 +462,7 @@
 
   /* ---------- меню „Заяви промяна" ---------- */
   .menu-wrap{position:relative;flex:none;align-self:flex-start}
-  .menu-wrap--gate{display:block;margin-top:14px}
+  .menu-wrap--gate{display:inline-flex;margin-top:0}
   .menu-btn{display:inline-flex;align-items:center;gap:8px}
   .menu-btn svg{width:12px;height:12px;transition:transform .15s}
   .menu-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
@@ -561,6 +515,9 @@
   .reg-expiry{margin-top:9px!important;font-size:12.5px!important;color:var(--faint)!important}
   .reg-expiry b{color:var(--ink-2);font-weight:700}
   .reg-main{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding:22px 28px}
+  .reg-main--stack{flex-direction:column;align-items:stretch;gap:14px}
+  .reg-main-body{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;width:100%}
+  .reg-main-body .register-cta{margin-left:auto}
   .reg-main p{flex:1;min-width:250px;font-size:13.5px;color:var(--muted);line-height:1.6;max-width:62ch}
   .reg-main p b{color:var(--ink-2);font-weight:600}
   .register-cta{flex:none}
@@ -667,6 +624,8 @@
     .reg-notice{flex-wrap:wrap}
     .menu-wrap{width:100%}
     .menu-btn{width:100%;justify-content:center}
+    .gate-start .menu-wrap--gate{width:auto}
+    .gate-start .menu-btn{width:auto}
     .menu{left:0;right:0;min-width:0}
     .gate{padding:14px}
     .order{grid-template-columns:1fr auto;gap:6px 12px}
@@ -676,6 +635,9 @@
     .order-s{grid-column:2;grid-row:2;justify-self:end}
     .order-a{grid-column:1/-1;margin-top:6px}
     button.order-a{width:100%;justify-content:center}
+  }
+  @media (min-width:901px){
+    .gate-start{flex-wrap:nowrap}
   }
   @media (prefers-reduced-motion:reduce){
     *{transition:none!important;animation:none!important}
@@ -780,7 +742,7 @@
     <div class="pay-box" id="payBox" hidden>
       <div class="pay-sum">
         <span class="pay-k">Сума за плащане</span>
-        <span class="pay-v">1348,99 €</span>
+        <span class="pay-v">368,99 €</span>
         <span class="pay-n">по проформа фактура № 0000145892</span>
       </div>
       <div class="pay-acts" id="payActs">
@@ -808,19 +770,17 @@
 
     <div class="item">
       <span class="thumb">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>
+        <img src="orderdetails-officeg.png" alt="Компютър OfficeG" width="104" height="78"/>
       </span>
       <span class="item-txt">
-        <span class="kicker">Лаптоп</span>
-        <span class="item-t">Apple MacBook Air 15.3" M3 Midnight</span>
-        <span class="item-s">16 GB · 512 GB SSD · арт. 12923249</span>
+        <span class="item-t">Компютър OfficeG (Intel Celeron G5905, 8GB, 256GB SSD)</span>
         <span class="chips">
           <span class="chip">Количество: 1</span>
           <span class="chip ok">✓ В наличност</span>
         </span>
       </span>
       <span class="price">
-        <b>1348,99 €</b>
+        <b>368,99 €</b>
         <span>с включен ДДС</span>
       </span>
     </div>
@@ -865,44 +825,43 @@
     </dl>
 
     <div class="gate" id="gate">
-      <p class="gate-note">
+      <p class="gate-note" id="gateNote">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></svg>
-        <span>От съображения за сигурност данните са скрити. Страницата е отворена с личния ви линк от SMS или имейл — покажете ги, когато сте сами пред екрана.</span>
+        <span id="gateNoteText">От съображения за сигурност данните са скрити. Страницата е отворена с личния ви линк от SMS или имейл — покажете ги, когато сте сами пред екрана.</span>
       </p>
 
       <div class="gate-start">
         <button class="btn btn-primary btn-sm" type="button" id="showData">Покажи данните</button>
+        <button class="btn btn-primary btn-sm" type="button" id="hideAgain" hidden>Скрий</button>
+        <span class="menu-wrap menu-wrap--gate">
+          <button class="btn btn-primary menu-btn btn-sm" type="button" id="reqBtn" aria-expanded="false" aria-controls="reqMenu">
+            Заяви промяна
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <ul class="menu" id="reqMenu" hidden>
+            <li><button class="menu-item" type="button" data-req="name"><strong>Телефон на получателя</strong><em></em></button></li>
+            <li><button class="menu-item" type="button" data-req="addr"><strong>Адрес за доставка</strong><em></em></button></li>
+            <li><button class="menu-item" type="button" data-req="inv"><strong>Данни за фактура</strong><em></em></button></li>
+          </ul>
+        </span>
       </div>
     </div>
-
-    <span class="menu-wrap menu-wrap--gate">
-      <button class="btn btn-primary menu-btn" type="button" id="reqBtn" aria-expanded="false" aria-controls="reqMenu">
-        Заяви промяна
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-      </button>
-      <ul class="menu" id="reqMenu" hidden>
-        <li><button class="menu-item" type="button" data-req="name"><strong>Име и телефон на получателя</strong><em></em></button></li>
-        <li><button class="menu-item" type="button" data-req="addr"><strong>Адрес за доставка</strong><em></em></button></li>
-        <li><button class="menu-item" type="button" data-req="inv"><strong>Данни за фактура</strong><em></em></button></li>
-      </ul>
-    </span>
 
     <div class="gate-ok" id="gateOk" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
       <span>Данните са видими. При следващото отваряне на страницата отново ще бъдат скрити.</span>
-      <button class="linkbtn" type="button" id="hideAgain">Скрий</button>
     </div>
   </section>
 
   <!-- ============ ТОВАРИТЕЛНИЦА И ДОКУМЕНТИ ============ -->
-  <section class="card" id="docs">
+  <section class="card" id="docs" hidden>
     <div class="card-head">
       <h2>Товарителница и документи</h2>
       <span class="badge" id="docsBadge">Налични</span>
     </div>
     <p class="sub" id="docsSub">Проследяване при куриера и документите по поръчката.</p>
 
-    <div class="lock-note" id="lockNote">
+    <div class="lock-note" id="lockNote" hidden>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       <span>Ще бъдат активни, когато стоката се предаде към депото на куриера.</span>
     </div>
@@ -967,7 +926,7 @@
         <span class="order-n">#PL-12923249<em>текуща</em></span>
         <span class="order-d">21 септ. 2026</span>
         <span class="order-s live">При куриера</span>
-        <span class="order-p">1348,99 €</span>
+        <span class="order-p">368,99 €</span>
         <span class="order-a">На тази страница</span>
       </li>
       <li class="order">
@@ -1001,27 +960,28 @@
       <div>
         <b>Само за преглед</b>
         <p>За промени: 0700 20 810 или имейла за потвърждение.</p>
-        <p class="reg-expiry" id="regExpiryLine">Линк активен до <b id="regExpiry"></b>. В профила документите ви са винаги налични безсрочно.</p>
+        <p class="reg-expiry" id="regExpiryLine">Линк активен до <b id="regExpiry"></b> В профила документите ви са винаги налични безсрочно.</p>
       </div>
     </div>
-    <div class="reg-main" id="regKnown">
-      <p>
-        <b>Вие вече имате профил в Plasico.</b>
-        Влезте в него, за да виждате всички свои поръчки, фактури и гаранционни карти на едно място — без ограничение във времето и без да търсите линка от SMS.
-      </p>
-      <span class="register-cta">
-        <button class="btn-reg" type="button" id="loginSend">Изпрати ми линк за вход</button>
-        <span class="reg-time" id="loginTo"></span>
-      </span>
+    <div class="reg-main reg-main--stack" id="regKnown">
+      <div class="reg-main-body">
+        <p>
+          <b>Вие вече имате профил в Plasico.</b>
+          Влезте в него, за да виждате всички свои поръчки, фактури и гаранционни карти на едно място — без ограничение във времето и без да търсите линка от SMS.
+        </p>
+        <span class="register-cta">
+          <button class="btn-reg" type="button" id="loginBody">Вход</button>
+        </span>
+      </div>
     </div>
 
     <div class="reg-main" id="regIntro" hidden>
       <p>
-        <b>Тази страница е създадена специално за проследяване на поръчки — както за регистрирани, така и за нерегистрирани клиенти.</b>
-        За да имате подредена на едно място цялата информация от вашите поръчки, фактури и документи — без да търсите линка от SMS при всяко отваряне — ви съветваме да се регистрирате.
+        <b>Проследявайте поръчките си тук — с или без профил.</b>
+        Регистрирайте се, за да държите фактурите и документите на едно място.
       </p>
       <span class="register-cta">
-        <button class="btn-reg" type="button" id="regOpen">Регистрирай се в 1 стъпка</button>
+        <button class="btn-reg" type="button" id="regOpen">Регистрирай се</button>
         <span class="reg-time">Отнема под 1 минута</span>
       </span>
     </div>
@@ -1148,10 +1108,10 @@
       eta:"Очаквана доставка: 23 Септември"
     },
     out: {
-      label:"Предадена на куриер за разнос", note:"очаквайте обаждане", icon:"truck", time:"23 Сеп, 08:05", short:"За разнос",
-      title:"Вашата поръчка пътува към вас!",
-      msg:"Куриерът е тръгнал с вашата пратка. Ще получите обаждане на телефона от поръчката преди доставката.",
-      eta:"Очаквана доставка: днес, до 18:00 ч."
+      label:"Доставена", note:"получена", icon:"truck", time:"23 Сеп, 16:40", short:"Доставена",
+      title:"Поръчката е доставена.",
+      msg:"Куриерът е предал пратката. Благодарим ви, че пазарувахте от Plasico!",
+      eta:"Доставена на 23 Септември"
     }
   };
 
@@ -1376,7 +1336,7 @@
     var ok = shipped();
 
     docsList.classList.toggle("is-locked", !ok);
-    lockNote.hidden = ok;
+    lockNote.hidden = true;
     docsBadge.textContent = ok ? "Налични" : "Очакват изпращане";
     docsSub.textContent = ok
       ? "Проследяване при куриера и документи по поръчката."
@@ -1414,18 +1374,27 @@
       dd.classList.toggle("is-masked", !shown);
     });
     recBadge.textContent = logged() ? "Вашите данни" : (shown ? "Видими" : "Скрити");
-    gate.hidden   = shown || logged();
-    gateOk.hidden = !shown || logged();
+    gate.hidden = logged();
+    gateOk.hidden = true;
+    document.getElementById("showData").hidden = shown || logged();
+    document.getElementById("hideAgain").hidden = !shown || logged();
+    var note = document.getElementById("gateNoteText");
+    if (note){
+      note.textContent = shown
+        ? "Данните са видими. При следващото отваряне на страницата отново ще бъдат скрити."
+        : "От съображения за сигурност данните са скрити. Страницата е отворена с личния ви линк от SMS или имейл — покажете ги, когато сте сами пред екрана.";
+    }
 
     if (regEmail && regEmail.readOnly){
       regEmail.value = shown ? ORDER_EMAIL : ORDER_EMAIL_M;
     }
     var lt = document.getElementById("loginTo");
-    if (lt) lt.textContent = "на " + (shown ? ORDER_EMAIL : ORDER_EMAIL_M) + " · без парола";
+    if (lt){ lt.hidden = true; lt.textContent = ""; }
   }
 
   document.getElementById("showData").addEventListener("click", function(){
     shown = true; paintIdentity();
+    document.getElementById("hideAgain").focus({preventScroll:true});
   });
 
   document.getElementById("hideAgain").addEventListener("click", function(){
@@ -1445,7 +1414,7 @@
 
     document.getElementById("kvEmail").hidden = !hasEmail;
     document.getElementById("history").hidden = !isIn;
-    document.getElementById("who").hidden     = !isIn;
+    document.getElementById("who").hidden = true;
     document.getElementById("whoMail").textContent = ORDER_EMAIL;
 
     Array.prototype.forEach.call(document.querySelectorAll("#srcBtns .demo-btn"), function(b){
@@ -1453,13 +1422,13 @@
     });
 
     document.getElementById("regKnown").hidden = !(hasEmail && !isIn);
-    regIntro.hidden = !(!hasEmail && !isIn);
+    regIntro.hidden = true;
     regForm.hidden  = true;
     regDone.hidden  = true;
 
     document.getElementById("regExpiryLine").innerHTML = isIn
       ? "През профила документите ви са винаги налични безсрочно."
-      : "Линк активен до <b>" + expiryStr + " · " + leftLabel() + "</b>. В профила документите ви са винаги налични безсрочно.";
+      : "Линк активен до <b>" + expiryStr + " · " + leftLabel() + "</b> В профила документите ви са винаги налични безсрочно.";
 
     if (isIn) shown = true;
 
@@ -1592,7 +1561,7 @@
             why:"След издаването на товарителница може да се промени само от приложението на доставчика." },
     inv:  { label:"Данни за фактура", until:"proc",
             why:"Фактурата е издадена — корекцията изисква кредитно известие и минава през оператор на 0700 20 810." },
-    name: { label:"Име и телефон на получателя", until:"depot",
+    name: { label:"Телефон на получателя", until:"depot",
             why:"Пратката е предадена на куриер за разнос." }
   };
 
@@ -1658,7 +1627,7 @@
   document.getElementById("regCancel").addEventListener("click", function(){
     clearErr();
     regForm.hidden = true;
-    regIntro.hidden = false;
+    regIntro.hidden = true;
     document.getElementById("regOpen").focus({preventScroll:true});
   });
 
@@ -1686,12 +1655,14 @@
     regForm.hidden = true;
   });
 
-  document.getElementById("loginSend").addEventListener("click", function(){
+  function sendLoginLink(){
     showDone("Проверете пощата си",
       "Изпратихме линк за вход до <b>" + esc(shown ? ORDER_EMAIL : ORDER_EMAIL_M) + "</b>. " +
       "Отворете го и ще влезете в профила си автоматично. Линкът е валиден 15 минути и се използва еднократно.");
     document.getElementById("regKnown").hidden = true;
-  });
+  }
+
+  document.getElementById("loginBody").addEventListener("click", sendLoginLink);
 
   document.getElementById("regResend").addEventListener("click", function(){
     toast("Изпратихме имейла отново.");
