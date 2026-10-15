@@ -503,6 +503,7 @@
   /* ---------- меню „Заяви промяна" ---------- */
   .menu-wrap{position:relative;flex:none;align-self:flex-start}
   .menu-wrap--gate{display:inline-flex;margin-top:0}
+  .menu-wrap--gate[hidden]{display:none!important}
   .menu-btn{display:inline-flex;align-items:center;gap:8px}
   .menu-btn svg{width:12px;height:12px;transition:transform .15s}
   .menu-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
@@ -547,6 +548,7 @@
   .register{
     background:var(--surface);border:1px solid var(--line);
     border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;
+    margin-bottom:22px;
   }
   .reg-notice{display:flex;gap:13px;padding:20px 28px;background:var(--surface-2);border-bottom:1px solid var(--line)}
   .reg-notice[hidden]{display:none!important}
@@ -555,14 +557,13 @@
   .reg-notice p{font-size:13.5px;color:var(--muted);line-height:1.6;max-width:70ch}
   .reg-expiry{margin-top:9px!important;font-size:12.5px!important;color:var(--faint)!important}
   .reg-expiry b{color:var(--ink-2);font-weight:700}
-  .reg-main{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding:22px 28px}
+  .reg-main{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:22px 28px}
   .reg-main[hidden]{display:none!important}
   .reg-main--stack{flex-direction:column;align-items:stretch;gap:14px}
   .reg-main-body{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;width:100%}
-  .reg-main-body .register-cta{margin-left:auto}
   .reg-main p{flex:1;min-width:250px;font-size:13.5px;color:var(--muted);line-height:1.6;max-width:62ch}
   .reg-main p b{color:var(--ink-2);font-weight:600}
-  .register-cta{flex:none}
+  .register-cta{flex:none;margin-left:auto;text-align:center}
   .btn-reg{
     background:var(--brand);color:#fff;border:none;border-radius:12px;
     padding:14px 28px;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap;
@@ -1523,6 +1524,11 @@
     gateOk.hidden = !shown;
     document.getElementById("showData").hidden = shown;
     document.getElementById("hideAgain").hidden = !shown;
+    var reqWrap = document.querySelector(".menu-wrap--gate");
+    if (reqWrap){
+      if (logged() && typeof closeMenu === "function") closeMenu();
+      reqWrap.hidden = logged();
+    }
 
     var gateNote = document.getElementById("gateNote");
     if (gateNote) gateNote.hidden = shown; /* security copy only while masked */
