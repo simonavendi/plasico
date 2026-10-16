@@ -194,8 +194,7 @@
     border-radius:5px;padding:2px 7px;margin-top:1px;
   }
   .step.is-upcoming .step-note{color:rgba(255,255,255,.45);background:rgba(255,255,255,.07)}
-  .step-time{font-size:10px;color:var(--hero-dim);letter-spacing:.01em;min-height:14px}
-  .step.is-upcoming .step-time{color:var(--hero-faint)}
+  .step-time{display:none}
 
   .hero h1{
     font-size:clamp(28px,6vw,44px);
@@ -247,24 +246,6 @@
     transition:border-color .15s,color .15s,background .15s;
   }
   .courier-btn svg{width:15px;height:15px;flex:none}
-
-  .track{
-    margin:14px auto 0;max-width:420px;
-    background:var(--surface-2);border:1px solid var(--line);
-    border-radius:14px;padding:16px 18px;
-  }
-  .track-k{font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
-  .track-v{
-    display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px;
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:21px;font-weight:700;letter-spacing:.09em;color:var(--ink);
-  }
-  .icon-btn{
-    background:none;border:none;padding:4px;border-radius:7px;cursor:pointer;
-    color:var(--faint);display:grid;place-items:center;
-  }
-  .icon-btn:hover{color:var(--brand-ink);background:var(--brand-tint)}
-  .icon-btn svg{width:17px;height:17px}
 
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:9px;
@@ -729,7 +710,9 @@
       <span class="demo-div"></span>
       <span class="demo-lbl">доставка</span>
       <div class="demo-btns" id="flowBtns" role="group" aria-label="Тип доставка">
-        <button class="demo-btn" type="button" data-flow="courier" aria-pressed="true">куриер</button>
+        <button class="demo-btn" type="button" data-flow="courier" aria-pressed="true">адрес</button>
+        <button class="demo-btn" type="button" data-flow="office">офис</button>
+        <button class="demo-btn" type="button" data-flow="automat">автомат</button>
         <button class="demo-btn" type="button" data-flow="store">магазин</button>
         <button class="demo-btn" type="button" data-flow="cancelled">отказана</button>
       </div>
@@ -780,24 +763,14 @@
       <span class="badge">Поръчка #PL-12923249</span>
       <span class="courier-btn" id="courierLink">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
-        Доставчик Speedy
+        Куриер Speedy
       </span>
-    </div>
-
-    <div class="track" id="trackBox">
-      <div class="track-k">Номер на товарителница</div>
-      <div class="track-v">
-        <span id="trackNo">1053 8472 9104</span>
-        <button class="icon-btn" type="button" id="copyBtn" aria-label="Копирай номера">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        </button>
-      </div>
     </div>
 
     <div class="btn-row" id="trackBtnRow">
       <a class="btn btn-primary" id="trackLink" href="https://www.speedy.bg/public/index.php/en/track-shipment?shipmentNumber=105384729104" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Вижте детайлите по товарителницата
+        вижте детайлите от куриера
       </a>
     </div>
 
@@ -828,7 +801,7 @@
 
     <div><span class="eta" id="eta">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-      <span id="etaText">Очаквана доставка: 23–24 Септември</span>
+      <span id="etaText">Очаквайте доставка 1-4 дни след приемане на поръчката</span>
     </span></div>
   </section>
 
@@ -921,9 +894,9 @@
         <dt>Имейл</dt>
         <dd id="kvEmailVal" class="is-masked" data-real="d.dragnev@abv.bg" data-mask="d.d••••••@abv.bg">d.d••••••@abv.bg</dd>
       </div>
-      <div class="kv-row">
-        <dt>Адрес за доставка</dt>
-        <dd class="is-masked" data-real="гр. София 1750, ж.к. Младост 4, бл. 483, вх. Б, ет. 5, ап. 17" data-mask="гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••">гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••</dd>
+      <div class="kv-row" id="kvAddr">
+        <dt id="kvAddrDt">Адрес за доставка</dt>
+        <dd id="kvAddrVal" class="is-masked" data-real="гр. София 1750, ж.к. Младост 4, бл. 483, вх. Б, ет. 5, ап. 17" data-mask="гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••">гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••</dd>
       </div>
     </dl>
 
@@ -1200,9 +1173,9 @@
   /* стъпките, по id — веригата зависи от FLOW + плащане */
   var STEP = {
     accepted: {
-      label:"Приета", note:"", icon:"doc", time:"21 Сеп, 09:42", short:"Приета",
+      label:"Регистрирана", note:"", icon:"doc", time:"21 Сеп, 09:42", short:"Регистрирана",
       title:"Получихме вашата поръчка!",
-      msg:"Поръчката е приета. Подготвяме я за следващата стъпка и ще ви уведомим при всяка промяна.",
+      msg:"Поръчката е регистрирана. Подготвяме я за следващата стъпка и ще ви уведомим при всяка промяна.",
       eta:"Очаквана доставка: 23–25 Септември"
     },
     credit: {
@@ -1241,22 +1214,36 @@
       msg:"Стоката е пристигнала и е подготвена за вземане от посочения магазин. Носете документ за самоличност.",
       eta:"Готова за вземане от 22 Септември"
     },
+    office_ready: {
+      label:"Готова в офис", note:"готова за вземане", icon:"depot", time:"22 Сеп, 12:00", short:"В офис",
+      title:"Поръчката ви е готова в офиса.",
+      msg:"Пратката е пристигнала в избрания офис на Speedy и е готова за вземане. Носете документ за самоличност.",
+      eta:"Готова за вземане от 22 Септември"
+    },
+    automat_ready: {
+      label:"Във автомат", note:"готова за вземане", icon:"depot", time:"22 Сеп, 12:00", short:"Автомат",
+      title:"Поръчката ви е във автомата.",
+      msg:"Пратката е пристигнала в избрания автомат и е готова за вземане. Ще получите код за отваряне по SMS.",
+      eta:"Готова за вземане от 22 Септември"
+    },
     picked: {
-      label:"Взета", note:"получена от магазин", icon:"box", time:"23 Сеп, 15:20", short:"Взета",
+      label:"Взета", note:"получена", icon:"box", time:"23 Сеп, 15:20", short:"Взета",
       title:"Поръчката е взета.",
-      msg:"Потвърдихме вземането от магазина. Благодарим ви, че пазарувахте от Plasico!",
+      msg:"Потвърдихме вземането. Благодарим ви, че пазарувахте от Plasico!",
       eta:"Взета на 23 Септември"
     }
   };
 
   var FLOWS = {
     courier:   ["accepted", "sent", "delivered"],
+    office:    ["accepted", "sent", "office_ready", "picked"],
+    automat:   ["accepted", "sent", "automat_ready", "picked"],
     store:     ["accepted", "sent", "store_ready", "picked"],
     cancelled: ["accepted", "cancelled"]
   };
 
   /* after rejection / cancel — no shipping steps */
-  var NO_SHIP_STEPS = { sent:1, delivered:1, store_ready:1, picked:1 };
+  var NO_SHIP_STEPS = { sent:1, delivered:1, store_ready:1, office_ready:1, automat_ready:1, picked:1 };
 
   var PAYS = {
     cod:   {label:"Наложен платеж",           detail:"в брой или с карта при получаване",  insert:null},
@@ -1273,7 +1260,7 @@
   var BANK  = "pending"; // pending | paid  (банков превод)
   var PAY   = "cod";     // cod | card | bank | lease
   var MODE  = "email";   // email | phone | in
-  var FLOW  = "courier"; // courier | store | cancelled
+  var FLOW  = "courier"; // courier | office | automat | store | cancelled
   var cur   = 0;         // индекс в текущата верига
   var shown = false;     // показани лични данни
   var chain = FLOWS.courier.slice();
@@ -1351,7 +1338,6 @@
   var statusMsg= document.getElementById("statusMsg");
   var etaText  = document.getElementById("etaText");
   var cancelOrder = document.getElementById("cancelOrder");
-  var trackBox = document.getElementById("trackBox");
   var trackRow = document.getElementById("trackBtnRow");
   var docsList = document.getElementById("docsList");
   var docsBadge= document.getElementById("docsBadge");
@@ -1408,11 +1394,11 @@
       } else if (el.dataset.id === "pay"){
         el.querySelector(".step-label").textContent =
           (PAY === "bank" && BANK === "pending" && n === cur) ? "Очаква плащане" : "Получено плащане";
-      } else if (FLOW === "store" && el.dataset.id === "sent"){
+      } else if ((FLOW === "store" || FLOW === "office" || FLOW === "automat") && el.dataset.id === "sent"){
         el.querySelector(".step-label").textContent = "Изпратена";
+      } else if (el.dataset.id === "picked"){
+        el.querySelector(".step-label").textContent = "Взета";
       }
-      el.querySelector(".step-time").textContent =
-        n <= cur ? s.time : "Предстои";
     });
     Array.prototype.forEach.call(demoBtns.children, function(b){
       b.setAttribute("aria-pressed", String(Number(b.dataset.go) === cur));
@@ -1427,16 +1413,31 @@
     var id = curId();
     heroTitle.textContent = cv ? cv.title : s.title;
     statusMsg.textContent = cv ? cv.msg : s.msg;
-    etaText.textContent   = s.eta;
+    etaText.textContent = "Очаквайте доставка 1-4 дни след приемане на поръчката";
     if (!cv && id === "pay" && PAY === "bank" && BANK === "pending"){
       heroTitle.textContent = "Очакваме вашето плащане.";
       statusMsg.textContent = "Издадохме проформа фактура. Поръчката продължава веднага щом видим плащането по сметката.";
-      etaText.textContent = "Доставка 1–2 дни след отразяване на плащането";
     }
     if (!cv && FLOW === "store" && id === "sent"){
       heroTitle.textContent = "Поръчката е изпратена към магазина.";
       statusMsg.textContent = "Поръчката пътува към избрания магазин. Ще ви уведомим, когато е готова за вземане.";
-      etaText.textContent = "Очаквана готовност: 22–23 Септември";
+    }
+    if (!cv && FLOW === "office" && id === "sent"){
+      heroTitle.textContent = "Поръчката е изпратена към офиса.";
+      statusMsg.textContent = "Поръчката пътува към избрания офис на Speedy. Ще ви уведомим, когато е готова за вземане.";
+    }
+    if (!cv && FLOW === "automat" && id === "sent"){
+      heroTitle.textContent = "Поръчката е изпратена към автомата.";
+      statusMsg.textContent = "Поръчката пътува към избрания автомат. Ще ви уведомим, когато е готова за вземане.";
+    }
+    if (!cv && id === "picked"){
+      if (FLOW === "office"){
+        statusMsg.textContent = "Потвърдихме вземането от офиса на Speedy. Благодарим ви, че пазарувахте от Plasico!";
+      } else if (FLOW === "automat"){
+        statusMsg.textContent = "Потвърдихме вземането от автомата. Благодарим ви, че пазарувахте от Plasico!";
+      } else if (FLOW === "store"){
+        statusMsg.textContent = "Потвърдихме вземането от магазина. Благодарим ви, че пазарувахте от Plasico!";
+      }
     }
     document.getElementById("eta").hidden = (onCredit && CRED === "rejected");
 
@@ -1444,7 +1445,6 @@
 
     document.getElementById("rejBox").hidden = true;
 
-    trackBox.hidden = !shipped();
     trackRow.hidden = !shipped();
     syncTrackLink();
 
@@ -1507,10 +1507,18 @@
     docsSub.textContent = ok
       ? (FLOW === "store"
           ? "Документи по поръчката и информация за вземане от магазин."
-          : "Проследяване при куриера и документи по поръчката.")
+          : FLOW === "office"
+            ? "Документи по поръчката и информация за вземане от офис."
+            : FLOW === "automat"
+              ? "Документи по поръчката и информация за вземане от автомат."
+              : "Проследяване при куриера и документи по поръчката.")
       : (FLOW === "store"
           ? "Ще бъдат заключени, докато поръчката не бъде изпратена към магазина."
-          : "Ще бъдат заключени, докато поръчката не тръгне към куриера.");
+          : FLOW === "office"
+            ? "Ще бъдат заключени, докато поръчката не бъде изпратена към офиса."
+            : FLOW === "automat"
+              ? "Ще бъдат заключени, докато поръчката не бъде изпратена към автомата."
+              : "Ще бъдат заключени, докато поръчката не тръгне към куриера.");
 
     Array.prototype.forEach.call(docsList.querySelectorAll(".doc"), function(row){
       var btn = row.querySelector(".doc-act");
@@ -1543,6 +1551,45 @@
   var kvPhoneVal = document.getElementById("kvPhoneVal");
   var kvEmailRow = document.getElementById("kvEmail");
   var kvEmailVal = document.getElementById("kvEmailVal");
+  var kvAddrDt   = document.getElementById("kvAddrDt");
+  var kvAddrVal  = document.getElementById("kvAddrVal");
+
+  var ADDR = {
+    courier: {
+      dt: "Адрес за доставка",
+      real: "гр. София 1750, ж.к. Младост 4, бл. 483, вх. Б, ет. 5, ап. 17",
+      mask: "гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••"
+    },
+    office: {
+      dt: "Офис за вземане",
+      real: "Speedy офис · София, бул. Цариградско шосе 115",
+      mask: "Speedy офис · София, бул. Ц•••••••••••• •••"
+    },
+    automat: {
+      dt: "Автомат за вземане",
+      real: "Speedy автомат · София, The Mall, бул. Цариградско шосе 115",
+      mask: "Speedy автомат · София, The Mall, бул. Ц•••••••••••• •••"
+    },
+    store: {
+      dt: "Магазин за вземане",
+      real: "Plasico София · Младост, бул. Александър Малинов 78",
+      mask: "Plasico София · Мл•••••, бул. Ал•••••••••••• ••"
+    },
+    cancelled: {
+      dt: "Адрес за доставка",
+      real: "гр. София 1750, ж.к. Младост 4, бл. 483, вх. Б, ет. 5, ап. 17",
+      mask: "гр. София ••••, ж.к. Мл••••• •, бл. •••, вх. •, ет. •, ап. ••"
+    }
+  };
+
+  function paintDelivery(){
+    var a = ADDR[FLOW] || ADDR.courier;
+    if (kvAddrDt) kvAddrDt.textContent = a.dt;
+    if (kvAddrVal){
+      kvAddrVal.dataset.real = a.real;
+      kvAddrVal.dataset.mask = a.mask;
+    }
+  }
 
   function paintIdentity(){
     var reveal = shown;
@@ -1736,6 +1783,7 @@
   /* ============ пълно рисуване ============ */
 
   function renderAll(){
+    paintDelivery();
     paintSteps();
     paintStatus();
     paintPayment();
@@ -1863,28 +1911,15 @@
     toast("Получихме " + f.name + ". Ще проверим плащането и ще продължим с обработката.");
   });
 
-  /* ============ копиране на товарителницата ============ */
+  /* ============ линк към куриера ============ */
 
+  var TRACK_NO = "105384729104";
   var TRACK_URL = "https://www.speedy.bg/public/index.php/en/track-shipment?shipmentNumber=";
   var trackLink = document.getElementById("trackLink");
 
-  function trackNumber(){
-    return document.getElementById("trackNo").textContent.replace(/\s+/g, "");
-  }
-
   function syncTrackLink(){
-    if (trackLink) trackLink.href = TRACK_URL + encodeURIComponent(trackNumber());
+    if (trackLink) trackLink.href = TRACK_URL + encodeURIComponent(TRACK_NO);
   }
-
-  document.getElementById("copyBtn").addEventListener("click", function(){
-    var no = document.getElementById("trackNo").textContent.trim();
-    try {
-      navigator.clipboard.writeText(no).then(
-        function(){ toast("Номерът е копиран."); },
-        function(){ toast("Номер: " + no); }
-      );
-    } catch(e){ toast("Номер: " + no); }
-  });
 
   syncTrackLink();
 
@@ -1895,7 +1930,7 @@
 
   var REQ = {
     addr: { label:"Адрес за доставка", until:"accepted",
-            why:"След издаването на товарителница може да се промени само от приложението на доставчика." },
+            why:"След издаването на товарителница може да се промени само от приложението на куриера." },
     inv:  { label:"Данни за фактура", until:"accepted",
             why:"Фактурата е издадена — корекцията изисква кредитно известие и минава през оператор на 0700 20 810." },
     phone: { label:"Телефон на получателя", until:"sent",

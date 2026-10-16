@@ -33,7 +33,7 @@ flowchart TB
 | Ос | Променлива | Стойности | Демо UI |
 |---|---|---|---|
 | Клиент | `MODE` | `email` · `phone` · `in` | `#srcBtns` |
-| Доставка | `FLOW` | `courier` · `store` · `cancelled` | `#flowBtns` |
+| Доставка | `FLOW` | `courier` · `office` · `automat` · `store` · `cancelled` | `#flowBtns` |
 | Плащане | `PAY` | `cod` · `card` · `bank` · `lease` | `#payBtns` |
 | Банков превод | `BANK` | `pending` · `paid` | `#bankBtns` (само при `PAY=bank`) |
 | Кредит | `CRED` | `pending` · `approved` · `rejected` | `#credBtns` (само при `PAY=lease`) |
@@ -62,14 +62,18 @@ flowchart TB
 
 ```text
 courier:   accepted → sent → delivered
+office:    accepted → sent → office_ready → picked
+automat:   accepted → sent → automat_ready → picked
 store:     accepted → sent → store_ready → picked
 cancelled: accepted → cancelled
 ```
 
 | Стойност | Етикет | Бележки |
 |---|---|---|
-| `courier` | куриер | 3 стъпки; track Speedy след `sent` |
-| `store` | магазин | 4 стъпки; `sent` = към магазина |
+| `courier` | адрес | до адрес; 3 стъпки; track Speedy след `sent` |
+| `office` | офис | вземане от Speedy офис; 4 стъпки · „Готова в офис“ |
+| `automat` | автомат | копие на офис; стъпка „Във автомат“ |
+| `store` | магазин | вземане от Plasico магазин; 4 стъпки |
 | `cancelled` | отказана | без ship стъпки; `cur` скача на `cancelled` |
 
 ---
