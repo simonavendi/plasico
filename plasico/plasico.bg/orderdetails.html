@@ -77,6 +77,8 @@
   }
   .demo-hint{font-size:12.5px;color:#94A3B8;margin-right:auto}
   .demo-btns{display:flex;gap:6px;flex-wrap:wrap}
+  .demo-btns[hidden]{display:none!important}
+  .demo-lbl[hidden]{display:none!important}
   .demo-btn{
     background:var(--demo-chip);border:1px solid transparent;
     color:#C7D2E0;border-radius:999px;
@@ -240,7 +242,6 @@
     font-size:12.5px;font-weight:700;color:var(--ink-2);text-decoration:none;
     transition:border-color .15s,color .15s,background .15s;
   }
-  .courier-btn:hover{border-color:var(--brand);color:var(--brand-ink);background:var(--brand-tint)}
   .courier-btn svg{width:15px;height:15px;flex:none}
 
   .track{
@@ -306,11 +307,6 @@
   .upload:hover{border-color:var(--brand);color:var(--brand-ink);background:var(--brand-tint)}
   .upload input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
   .upload:focus-within{outline:2px solid var(--brand);outline-offset:2px}
-  .pay-ok{
-    display:flex;gap:9px;align-items:flex-start;margin-top:14px;
-    background:var(--brand-tint);border:1px solid var(--brand-tint-line);
-    border-radius:12px;padding:11px 14px;font-size:13px;color:var(--brand-ink);line-height:1.45;
-  }
   .kv-pay{margin-top:4px}
   .kv-pay .kv-row{padding:11px 0}
   .kv-pay .kv-row:first-child{padding-top:18px;border-top:1px solid var(--line)}
@@ -727,12 +723,24 @@
         <button class="demo-btn" type="button" data-src="in">логнат профил</button>
       </div>
       <span class="demo-div"></span>
+      <span class="demo-lbl">доставка</span>
+      <div class="demo-btns" id="flowBtns" role="group" aria-label="Тип доставка">
+        <button class="demo-btn" type="button" data-flow="courier" aria-pressed="true">куриер</button>
+        <button class="demo-btn" type="button" data-flow="store">магазин</button>
+        <button class="demo-btn" type="button" data-flow="cancelled">отказана</button>
+      </div>
+      <span class="demo-div"></span>
       <span class="demo-lbl">плащане</span>
       <div class="demo-btns" id="payBtns" role="group" aria-label="Начин на плащане">
         <button class="demo-btn" type="button" data-pay="cod">наложен платеж</button>
         <button class="demo-btn" type="button" data-pay="card">с карта</button>
         <button class="demo-btn" type="button" data-pay="bank">банков превод</button>
         <button class="demo-btn" type="button" data-pay="lease">на изплащане</button>
+      </div>
+      <span class="demo-lbl" id="bankLbl" hidden>плащане</span>
+      <div class="demo-btns" id="bankBtns" role="group" aria-label="Статус на банковия превод" hidden>
+        <button class="demo-btn" type="button" data-bank="pending">очаква плащане</button>
+        <button class="demo-btn" type="button" data-bank="paid">платено</button>
       </div>
       <span class="demo-lbl" id="credLbl" hidden>решение</span>
       <div class="demo-btns" id="credBtns" role="group" aria-label="Решение по кредита" hidden>
@@ -762,14 +770,14 @@
 
   <!-- ============ СТАТУС ============ -->
   <section class="card lift" id="status">
-    <p class="status-msg" id="statusMsg">Поръчката напусна нашия склад и е приета в депото на Еконт. Товарителницата и документите вече са налични по-долу.</p>
+    <p class="status-msg" id="statusMsg">Поръчката напусна нашия склад и е предадена на куриера.</p>
 
     <div class="order-no">
       <span class="badge">Поръчка #PL-12923249</span>
-      <a class="courier-btn" id="courierLink" href="https://www.speedy.bg/public/index.php/en/track-shipment?shipmentNumber=105384729104" target="_blank" rel="noopener noreferrer">
+      <span class="courier-btn" id="courierLink">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
         Доставчик Speedy
-      </a>
+      </span>
     </div>
 
     <div class="track" id="trackBox">
@@ -785,7 +793,7 @@
     <div class="btn-row" id="trackBtnRow">
       <a class="btn btn-primary" id="trackLink" href="https://www.speedy.bg/public/index.php/en/track-shipment?shipmentNumber=105384729104" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Проследете доставката си
+        Вижте детайлите по товарителницата
       </a>
     </div>
 
@@ -811,7 +819,6 @@
           <span>Прикачи платежно нареждане</span>
         </label>
       </div>
-      <p class="pay-ok" id="payOk" hidden></p>
       <p class="fineprint">Плащането се отразява до 1 работен ден. Ако прикачите платежното нареждане, обработваме поръчката веднага след проверка.</p>
     </div>
 
@@ -1181,15 +1188,17 @@
     box:    '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7L12 12l8.7-5"/><path d="M12 22V12"/>',
     card:   '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/>',
     depot:  '<path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/>',
-    truck:  '<path d="M1 3h13v13H1z"/><path d="M14 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/>'
+    store:  '<path d="M3 9l1.5-6h15L21 9"/><path d="M3 9v11h18V9"/><path d="M9 20v-6h6v6"/>',
+    truck:  '<path d="M1 3h13v13H1z"/><path d="M14 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/>',
+    cancel: '<circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/>'
   };
 
-  /* стъпките, по id — вмъкват се според начина на плащане */
+  /* стъпките, по id — веригата зависи от FLOW + плащане */
   var STEP = {
-    "new": {
-      label:"Регистрирана поръчка", note:"", icon:"doc", time:"21 Сеп, 09:42", short:"Регистрирана",
+    accepted: {
+      label:"Приета", note:"", icon:"doc", time:"21 Сеп, 09:42", short:"Приета",
       title:"Получихме вашата поръчка!",
-      msg:"Поръчката е регистрирана в нашата система. Ще ви уведомим на всяка следваща стъпка — не е нужно да правите нищо.",
+      msg:"Поръчката е приета. Подготвяме я за следващата стъпка и ще ви уведомим при всяка промяна.",
       eta:"Очаквана доставка: 23–25 Септември"
     },
     credit: {
@@ -1198,39 +1207,58 @@
       msg:"Имате генерирана поръчка, за която очакваме решение от Пощенска банка или УниКредит. Освен ако не желаете промяна по поръчката, не е необходимо да правите нова — решението обикновено идва до един работен ден и ще ви уведомим веднага.",
       eta:"Очаквана доставка: 24–26 Септември"
     },
-    proc: {
-      label:"Обработва се", note:"1–3 раб. дни", icon:"box", time:"21 Сеп, 11:15", short:"Обработва се",
-      title:"Подготвяме вашата поръчка.",
-      msg:"Складът ни комплектова стоката и подготвя документите по поръчката. Тази стъпка отнема между 1 и 3 работни дни.",
+    pay: {
+      label:"Получено плащане", note:"", icon:"card", time:"21 Сеп, 12:40", short:"Плащане",
+      title:"Получихме вашето плащане.",
+      msg:"Плащането по проформа фактурата е отразено. Поръчката продължава към следващата стъпка.",
       eta:"Очаквана доставка: 23–25 Септември"
     },
-    pay: {
-      label:"Очаква плащане", note:"проформа фактура", icon:"card", time:"21 Сеп, 12:40", short:"Очаква плащане",
-      title:"Очакваме вашето плащане.",
-      msg:"Издадохме проформа фактура. Поръчката тръгва към куриера веднага щом видим плащането по сметката.",
-      eta:"Доставка 1–2 дни след отразяване на плащането"
-    },
-    depot: {
-      label:"Изпратена към депо на куриера", note:"товарителница + документи", icon:"depot", time:"21 Сеп, 17:30", short:"В депо",
-      title:"Поръчката е при куриера.",
-      msg:"Поръчката напусна нашия склад и е приета в депото на Еконт. Товарителницата и документите вече са налични по-долу.",
+    sent: {
+      label:"Изпратена", note:"товарителница + документи", icon:"truck", time:"21 Сеп, 17:30", short:"Изпратена",
+      title:"Поръчката е изпратена.",
+      msg:"Поръчката напусна нашия склад и е предадена на куриера.",
       eta:"Очаквана доставка: 23 Септември"
     },
-    out: {
-      label:"Доставена", note:"получена", icon:"truck", time:"23 Сеп, 16:40", short:"Доставена",
+    delivered: {
+      label:"Доставена", note:"получена", icon:"depot", time:"23 Сеп, 16:40", short:"Доставена",
       title:"Поръчката е доставена.",
       msg:"Куриерът е предал пратката. Благодарим ви, че пазарувахте от Plasico!",
       eta:"Доставена на 23 Септември"
+    },
+    cancelled: {
+      label:"Отказана", note:"поръчката е прекратена", icon:"cancel", time:"22 Сеп, 14:10", short:"Отказана",
+      title:"Поръчката е отказана.",
+      msg:"Тази поръчка е отказана и няма да бъде доставена. Ако имате въпроси, обадете се на 0700 20 810.",
+      eta:"Отказана на 22 Септември"
+    },
+    store_ready: {
+      label:"Подготвена в магазин", note:"готова за вземане", icon:"store", time:"22 Сеп, 12:00", short:"В магазин",
+      title:"Поръчката ви е готова в магазина.",
+      msg:"Стокът е пристигнал и е подготвен за вземане от посочения магазин. Носете документ за самоличност.",
+      eta:"Готова за вземане от 22 Септември"
+    },
+    picked: {
+      label:"Взета", note:"получена от магазин", icon:"box", time:"23 Сеп, 15:20", short:"Взета",
+      title:"Поръчката е взета.",
+      msg:"Потвърдихме вземането от магазина. Благодарим ви, че пазарувахте от Plasico!",
+      eta:"Взета на 23 Септември"
     }
   };
 
-  var BASE = ["new", "proc", "depot", "out"];
+  var FLOWS = {
+    courier:   ["accepted", "sent", "delivered"],
+    store:     ["accepted", "sent", "store_ready", "picked"],
+    cancelled: ["accepted", "cancelled"]
+  };
+
+  /* after rejection / cancel — no shipping steps */
+  var NO_SHIP_STEPS = { sent:1, delivered:1, store_ready:1, picked:1 };
 
   var PAYS = {
     cod:   {label:"Наложен платеж",           detail:"в брой или с карта при получаване",  insert:null},
     card:  {label:"Плащане с карта онлайн",   detail:"Visa •••• 4417",                     insert:null},
-    bank:  {label:"Банков превод",            detail:"по проформа фактура",                insert:{id:"pay",    after:"proc"}},
-    lease: {label:"Покупка на изплащане",     detail:"12 вноски по 118,25 €", insert:{id:"credit", after:"new"}}
+    bank:  {label:"Банков превод",            detail:"по проформа фактура",                insert:{id:"pay",    after:"accepted"}},
+    lease: {label:"Покупка на изплащане",     detail:"12 вноски по 118,25 €", insert:{id:"credit", after:"accepted"}}
   };
 
   /* ============ състояние ============ */
@@ -1238,21 +1266,34 @@
   var LENDERS = ["Пощенска банка", "УниКредит"];
   var LEND  = 0;         // индекс в LENDERS
   var CRED  = "pending"; // pending | approved | signed | rejected
+  var BANK  = "pending"; // pending | paid  (банков превод)
   var PAY   = "cod";     // cod | card | bank | lease
   var MODE  = "email";   // email | phone | in
+  var FLOW  = "courier"; // courier | store | cancelled
   var cur   = 0;         // индекс в текущата верига
   var shown = false;     // показани лични данни
-  var chain = BASE.slice();
+  var chain = FLOWS.courier.slice();
 
   function logged(){ return MODE === "in"; }
   function idx(id){ return chain.indexOf(id); }
   function curId(){ return chain[cur]; }
-  function shipped(){ return cur >= idx("depot"); }
+  function shipped(){
+    var s = idx("sent");
+    return s >= 0 && cur >= s;
+  }
 
   function buildChain(){
+    var base = FLOWS[FLOW] || FLOWS.courier;
+    chain = base.slice();
     var ins = PAYS[PAY].insert;
-    chain = BASE.slice();
-    if (ins) chain.splice(chain.indexOf(ins.after) + 1, 0, ins.id);
+    if (ins){
+      var at = chain.indexOf(ins.after);
+      if (at >= 0) chain.splice(at + 1, 0, ins.id);
+    }
+    /* cancelled order or rejected credit (lease only): never show Изпратена / later ship steps */
+    if (FLOW === "cancelled" || (PAY === "lease" && CRED === "rejected")){
+      chain = chain.filter(function(id){ return !NO_SHIP_STEPS[id]; });
+    }
   }
 
   function lender(){ return LENDERS[LEND]; }
@@ -1316,7 +1357,6 @@
   var docsFine = document.getElementById("docsFine");
   var payBox   = document.getElementById("payBox");
   var payActs  = document.getElementById("payActs");
-  var payOk    = document.getElementById("payOk");
   var toastEl  = document.getElementById("toast");
   var toastT   = null;
 
@@ -1343,7 +1383,6 @@
         '<span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICONS[s.icon] + '</svg></span>' +
         '<span class="step-body">' +
           '<span class="step-label">' + s.label + '</span>' +
-          (s.note ? '<span class="step-note">' + s.note + '</span>' : '') +
           '<span class="step-time"></span>' +
         '</span></li>';
     }).join("");
@@ -1362,12 +1401,15 @@
       el.classList.remove("is-done","is-current","is-upcoming");
       el.classList.add(n < cur ? "is-done" : (n === cur ? "is-current" : "is-upcoming"));
       if (el.dataset.id === "credit"){
-        var cv = creditView();
-        el.querySelector(".step-label").textContent = cv.label;
-        el.querySelector(".step-note").textContent  = cv.note;
+        el.querySelector(".step-label").textContent = creditView().label;
+      } else if (el.dataset.id === "pay"){
+        el.querySelector(".step-label").textContent =
+          (PAY === "bank" && BANK === "pending" && n === cur) ? "Очаква плащане" : "Получено плащане";
+      } else if (FLOW === "store" && el.dataset.id === "sent"){
+        el.querySelector(".step-label").textContent = "Изпратена";
       }
       el.querySelector(".step-time").textContent =
-        n <= cur ? s.time : (s.note ? "" : "Предстои");
+        n <= cur ? s.time : "Предстои";
     });
     Array.prototype.forEach.call(demoBtns.children, function(b){
       b.setAttribute("aria-pressed", String(Number(b.dataset.go) === cur));
@@ -1379,13 +1421,23 @@
     var onCredit = (PAY === "lease" && curId() === "credit");
     var cv = onCredit ? creditView() : null;
 
+    var id = curId();
     heroTitle.textContent = cv ? cv.title : s.title;
     statusMsg.textContent = cv ? cv.msg : s.msg;
     etaText.textContent   = s.eta;
+    if (!cv && id === "pay" && PAY === "bank" && BANK === "pending"){
+      heroTitle.textContent = "Очакваме вашето плащане.";
+      statusMsg.textContent = "Издадохме проформа фактура. Поръчката продължава веднага щом видим плащането по сметката.";
+      etaText.textContent = "Доставка 1–2 дни след отразяване на плащането";
+    }
+    if (!cv && FLOW === "store" && id === "sent"){
+      heroTitle.textContent = "Поръчката е изпратена към магазина.";
+      statusMsg.textContent = "Поръчката пътува към избрания магазин. Ще ви уведомим, когато е готова за вземане.";
+      etaText.textContent = "Очаквана готовност: 22–23 Септември";
+    }
     document.getElementById("eta").hidden = (onCredit && CRED === "rejected");
 
-    var id = curId();
-    cancelOrder.hidden = !(id === "new" || id === "proc");
+    cancelOrder.hidden = !(FLOW !== "cancelled" && id === "accepted");
 
     var rejected = (onCredit && CRED === "rejected");
     document.getElementById("rejBox").hidden = !rejected;
@@ -1399,23 +1451,24 @@
     trackRow.hidden = !shipped();
     syncTrackLink();
 
-    var needsPay = (PAY === "bank" && curId() === "pay");
+    var needsPay = (PAY === "bank" && BANK === "pending" && curId() === "pay");
     payBox.hidden = !needsPay;
-    if (!needsPay){ payOk.hidden = true; payActs.hidden = false; }
+    if (!needsPay){ payActs.hidden = false; }
   }
 
   function payState(){
     if (PAY === "card") return {text:"Платено на 21 септ. 2026", cls:"ok"};
     if (PAY === "cod")  return {text:"Плащане при доставка", cls:""};
     if (PAY === "bank"){
-      if (cur < idx("pay"))     return {text:"Предстои издаване на проформа", cls:""};
-      if (curId() === "pay")    return {text:"Очаква плащане", cls:"warn"};
-      return {text:"Платено", cls:"ok"};
+      if (BANK === "paid" || (idx("pay") >= 0 && cur > idx("pay"))) return {text:"Платено", cls:"ok"};
+      if (curId() === "pay" || BANK === "pending") return {text:"Очаква плащане", cls:"warn"};
+      return {text:"Предстои издаване на проформа", cls:""};
     }
     if (CRED === "rejected")  return {text:"Отказан кредит · " + lender(), cls:"bad"};
     if (CRED === "approved")  return {text:"Одобрен · предстои подпис", cls:"warn"};
-    if (CRED === "signed" || cur > idx("credit")) return {text:"Договорът е подписан", cls:"ok"};
-    if (cur < idx("credit"))  return {text:"Заявка към " + lender(), cls:""};
+    var cIdx = idx("credit");
+    if (CRED === "signed" || (cIdx >= 0 && cur > cIdx)) return {text:"Договорът е подписан", cls:"ok"};
+    if (cIdx >= 0 && cur < cIdx)  return {text:"Заявка към " + lender(), cls:""};
     return {text:"Очаква одобрение · " + lender(), cls:"warn"};
   }
 
@@ -1431,11 +1484,18 @@
 
     document.getElementById("docProforma").hidden = (PAY !== "bank");
 
-    var show = (PAY === "lease");
-    document.getElementById("credBtns").hidden = !show;
-    document.getElementById("credLbl").hidden  = !show;
+    var showCred = (PAY === "lease");
+    document.getElementById("credBtns").hidden = !showCred;
+    document.getElementById("credLbl").hidden  = !showCred;
     Array.prototype.forEach.call(document.querySelectorAll("#credBtns .demo-btn"), function(b){
       b.setAttribute("aria-pressed", String(b.dataset.cred === CRED));
+    });
+
+    var showBank = (PAY === "bank");
+    document.getElementById("bankBtns").hidden = !showBank;
+    document.getElementById("bankLbl").hidden  = !showBank;
+    Array.prototype.forEach.call(document.querySelectorAll("#bankBtns .demo-btn"), function(b){
+      b.setAttribute("aria-pressed", String(b.dataset.bank === BANK));
     });
   }
 
@@ -1448,8 +1508,12 @@
     lockNote.hidden = true;
     docsBadge.textContent = ok ? "Налични" : "Очакват изпращане";
     docsSub.textContent = ok
-      ? "Проследяване при куриера и документи по поръчката."
-      : "Ще бъдат заключени, докато поръчката не тръгне към куриера.";
+      ? (FLOW === "store"
+          ? "Документи по поръчката и информация за вземане от магазин."
+          : "Проследяване при куриера и документи по поръчката.")
+      : (FLOW === "store"
+          ? "Ще бъдат заключени, докато поръчката не бъде изпратена към магазина."
+          : "Ще бъдат заключени, докато поръчката не тръгне към куриера.");
 
     Array.prototype.forEach.call(docsList.querySelectorAll(".doc"), function(row){
       var btn = row.querySelector(".doc-act");
@@ -1639,7 +1703,7 @@
     var isIn     = MODE === "in";
 
     document.getElementById("kvEmail").hidden = !hasEmail;
-    document.getElementById("history").hidden = !isIn;
+    document.getElementById("history").hidden = true; /* temporarily hidden everywhere */
     document.getElementById("who").hidden = !isIn;
     document.getElementById("whoMail").textContent = ORDER_EMAIL;
 
@@ -1694,8 +1758,41 @@
     buildSteps();
     var keep = chain.indexOf(wasId);
     cur = keep >= 0 ? keep : Math.min(cur, chain.length - 1);
+    if (FLOW === "cancelled"){
+      var cxl = idx("cancelled");
+      if (cxl >= 0) cur = cxl;
+    } else if (PAY === "lease"){
+      var cIdx = idx("credit");
+      if (cIdx >= 0) cur = cIdx;
+    } else if (PAY === "bank"){
+      BANK = "pending";
+      var pIdx = idx("pay");
+      if (pIdx >= 0) cur = pIdx;
+    }
     Array.prototype.forEach.call(document.querySelectorAll("#payBtns .demo-btn"), function(b){
       b.setAttribute("aria-pressed", String(b.dataset.pay === PAY));
+    });
+    renderAll();
+  }
+
+  function setFlow(id){
+    var wasId = curId();
+    FLOW = id;
+    buildChain();
+    buildSteps();
+    if (FLOW === "cancelled"){
+      var cxl = idx("cancelled");
+      cur = cxl >= 0 ? cxl : chain.length - 1;
+    } else {
+      var keep = chain.indexOf(wasId);
+      cur = keep >= 0 ? keep : Math.min(cur, chain.length - 1);
+      if (PAY === "lease"){
+        var cIdx = idx("credit");
+        if (cIdx >= 0 && (wasId === "cancelled" || wasId === "delivered" || wasId === "picked")) cur = cIdx;
+      }
+    }
+    Array.prototype.forEach.call(document.querySelectorAll("#flowBtns .demo-btn"), function(b){
+      b.setAttribute("aria-pressed", String(b.dataset.flow === FLOW));
     });
     renderAll();
   }
@@ -1707,23 +1804,46 @@
     if (b) goto(Number(b.dataset.go));
   });
 
+  document.getElementById("flowBtns").addEventListener("click", function(e){
+    var b = e.target.closest(".demo-btn");
+    if (b) setFlow(b.dataset.flow);
+  });
+
   document.getElementById("payBtns").addEventListener("click", function(e){
     var b = e.target.closest(".demo-btn");
     if (b) setPay(b.dataset.pay);
   });
 
+  document.getElementById("bankBtns").addEventListener("click", function(e){
+    var b = e.target.closest(".demo-btn");
+    if (!b || PAY !== "bank") return;
+    BANK = b.dataset.bank;
+    var pIdx = idx("pay");
+    /* и при очаква, и при платено — текуща е плащането; Изпратена/Доставена остават предстоящи */
+    if (pIdx >= 0) cur = pIdx;
+    renderAll();
+  });
+
   document.getElementById("credBtns").addEventListener("click", function(e){
     var b = e.target.closest(".demo-btn");
     if (!b) return;
+    var wasId = curId();
     CRED = b.dataset.cred;
-    cur = (CRED === "signed") ? idx("proc") : idx("credit");
+    buildChain();
+    buildSteps();
+    var cIdx = idx("credit");
+    var keep = chain.indexOf(wasId);
+    cur = cIdx >= 0 ? cIdx : (keep >= 0 ? keep : Math.min(cur, chain.length - 1));
     renderAll();
   });
 
   document.getElementById("reapply").addEventListener("click", function(){
     LEND = 1 - LEND;
     CRED = "pending";
+    buildChain();
+    buildSteps();
     cur = idx("credit");
+    if (cur < 0) cur = 0;
     renderAll();
     toast("Заявката е изпратена към " + lender() + ".");
   });
@@ -1743,24 +1863,20 @@
     var f = e.target.files && e.target.files[0];
     if (!f) return;
     payActs.hidden = true;
-    payOk.hidden = false;
-    payOk.innerHTML = "Получихме <b>" + esc(f.name) + "</b>. Ще проверим плащането и ще продължим с обработката — ще ви уведомим.";
+    toast("Получихме " + f.name + ". Ще проверим плащането и ще продължим с обработката.");
   });
 
   /* ============ копиране на товарителницата ============ */
 
   var TRACK_URL = "https://www.speedy.bg/public/index.php/en/track-shipment?shipmentNumber=";
   var trackLink = document.getElementById("trackLink");
-  var courierLink = document.getElementById("courierLink");
 
   function trackNumber(){
     return document.getElementById("trackNo").textContent.replace(/\s+/g, "");
   }
 
   function syncTrackLink(){
-    var href = TRACK_URL + encodeURIComponent(trackNumber());
-    if (trackLink) trackLink.href = href;
-    if (courierLink) courierLink.href = href;
+    if (trackLink) trackLink.href = TRACK_URL + encodeURIComponent(trackNumber());
   }
 
   document.getElementById("copyBtn").addEventListener("click", function(){
@@ -1781,11 +1897,11 @@
   var reqMenu = document.getElementById("reqMenu");
 
   var REQ = {
-    addr: { label:"Адрес за доставка", until:"proc",
+    addr: { label:"Адрес за доставка", until:"accepted",
             why:"След издаването на товарителница може да се промени само от приложението на доставчика." },
-    inv:  { label:"Данни за фактура", until:"proc",
+    inv:  { label:"Данни за фактура", until:"accepted",
             why:"Фактурата е издадена — корекцията изисква кредитно известие и минава през оператор на 0700 20 810." },
-    phone: { label:"Телефон на получателя", until:"depot",
+    phone: { label:"Телефон на получателя", until:"sent",
             why:"Пратката е предадена на куриер за разнос." },
     email: { label:"Имейл", always:true }
   };
@@ -2024,7 +2140,8 @@
   buildChain();
   buildSteps();
   setPay("cod");
-  goto(2);
+  setFlow("courier");
+  goto(1);
 })();
 </script>
 </body>
