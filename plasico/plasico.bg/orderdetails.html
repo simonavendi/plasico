@@ -144,6 +144,7 @@
     font-size:11.5px;font-weight:600;color:rgba(255,255,255,.85);
     overflow-wrap:anywhere;text-align:center;
   }
+  .who[hidden]{display:none!important}
   .who b{font-weight:800;color:#fff}
 
   /* stepper */
@@ -195,22 +196,6 @@
     font-weight:800;letter-spacing:-.025em;line-height:1.12;
     margin:0 auto 22px;max-width:14ch;
   }
-  .hero-chip{
-    display:inline-flex;align-items:center;gap:8px;
-    background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
-    color:#fff;border-radius:999px;padding:9px 20px;
-    font-size:13px;font-weight:700;letter-spacing:.01em;
-  }
-  .hero-chip::before{
-    content:"";width:7px;height:7px;border-radius:50%;background:#fff;flex:none;
-  }
-  .hero-chip.warn{background:rgba(255,255,255,.95);border-color:#fff;color:#8A4B06}
-  .hero-chip.warn::before{background:#D97706}
-  .hero-chip.ok{background:rgba(255,255,255,.95);border-color:#fff;color:var(--brand-ink)}
-  .hero-chip.ok::before{background:#07A857}
-  .hero-chip.bad{background:rgba(255,255,255,.95);border-color:#fff;color:#A32020}
-  .hero-chip.bad::before{background:#DC2626}
-
   .rej-box{
     margin:22px auto 0;max-width:460px;text-align:left;
     background:var(--bad-bg);border:1px solid var(--bad-line);
@@ -287,6 +272,8 @@
   .btn-primary:hover{background:var(--brand-deep);transform:translateY(-1px)}
   .btn-danger{background:var(--bad-ink);color:#fff;box-shadow:0 8px 20px rgba(180,35,35,.22)}
   .btn-danger:hover{background:#912018;transform:translateY(-1px)}
+  .btn-muted{background:#94A3B8;color:#fff;box-shadow:none}
+  .btn-muted:hover{background:#64748B;transform:translateY(-1px)}
   .btn-sm{padding:11px 18px;font-size:12px;border-radius:10px;letter-spacing:.04em}
   .btn svg{width:16px;height:16px}
   .btn-row{margin-top:24px}
@@ -298,7 +285,6 @@
     padding:8px 16px;font-size:13px;font-weight:700;
   }
   .eta svg{width:14px;height:14px;flex:none}
-  .cancel-order{display:block;margin:14px auto 0}
 
   /* ---------- плащане ---------- */
   .pay-box{
@@ -770,8 +756,6 @@
     <ol class="steps" id="steps"></ol>
 
     <h1 id="heroTitle">Поръчката е при куриера.</h1>
-
-    <span class="hero-chip" id="payStatusHero"></span>
   </div>
 </header>
 
@@ -832,14 +816,10 @@
       <p class="fineprint">Плащането се отразява до 1 работен ден. Ако прикачите платежното нареждане, обработваме поръчката веднага след проверка.</p>
     </div>
 
-    <div>
-      <span class="eta" id="eta">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span id="etaText">Очаквана доставка: 23–24 Септември</span>
-      </span>
-      <button class="btn btn-danger btn-sm cancel-order" type="button" id="cancelOrder" hidden
-        data-demo="Демо: тук се отказва поръчката.">Откажи поръчката</button>
-    </div>
+    <div><span class="eta" id="eta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <span id="etaText">Очаквана доставка: 23–24 Септември</span>
+    </span></div>
   </section>
 
   <!-- ============ СЪДЪРЖАНИЕ НА ПОРЪЧКАТА ============ -->
@@ -946,7 +926,9 @@
       <div class="gate-start">
         <button class="btn btn-primary btn-sm" type="button" id="showData">Покажи данните</button>
         <button class="btn btn-primary btn-sm" type="button" id="hideAgain" hidden>Скрий</button>
-        <span class="menu-wrap menu-wrap--gate">
+        <button class="btn btn-muted btn-sm" type="button" id="cancelOrder" hidden
+          data-demo="Демо: тук се отказва поръчката.">Откажи поръчката</button>
+        <span class="menu-wrap menu-wrap--gate" hidden>
           <button class="btn btn-primary menu-btn btn-sm" type="button" id="reqBtn" aria-expanded="false" aria-controls="reqMenu">
             Заяви промяна
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
@@ -1448,10 +1430,6 @@
     chip.textContent = st.text;
     chip.className = "pay-chip" + (st.cls ? " " + st.cls : "");
 
-    var hero = document.getElementById("payStatusHero");
-    hero.textContent = st.text;
-    hero.className = "hero-chip" + (st.cls ? " " + st.cls : "");
-
     document.getElementById("docProforma").hidden = (PAY !== "bank");
 
     var show = (PAY === "lease");
@@ -1526,8 +1504,8 @@
     document.getElementById("hideAgain").hidden = !shown;
     var reqWrap = document.querySelector(".menu-wrap--gate");
     if (reqWrap){
-      if (logged() && typeof closeMenu === "function") closeMenu();
-      reqWrap.hidden = logged();
+      if (typeof closeMenu === "function") closeMenu();
+      reqWrap.hidden = true; /* temporarily hidden everywhere */
     }
 
     var gateNote = document.getElementById("gateNote");
@@ -1663,7 +1641,7 @@
 
     document.getElementById("kvEmail").hidden = !hasEmail;
     document.getElementById("history").hidden = !isIn;
-    document.getElementById("who").hidden = true;
+    document.getElementById("who").hidden = !isIn;
     document.getElementById("whoMail").textContent = ORDER_EMAIL;
 
     Array.prototype.forEach.call(document.querySelectorAll("#srcBtns .demo-btn"), function(b){
