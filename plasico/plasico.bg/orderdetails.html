@@ -1300,7 +1300,6 @@
   }
 
   function lender(){ return LENDERS[LEND]; }
-  function other(){ return LENDERS[1 - LEND]; }
 
   function creditView(){
     var L = lender();
@@ -1442,13 +1441,7 @@
 
     cancelOrder.hidden = !(FLOW !== "cancelled" && id === "accepted");
 
-    var rejected = (onCredit && CRED === "rejected");
-    document.getElementById("rejBox").hidden = !rejected;
-    if (rejected){
-      document.getElementById("rejText").textContent =
-        "Отказ от " + lender() + ". Това не спира поръчката — тя е запазена и можете да опитате при друг кредитор.";
-      document.getElementById("reapply").textContent = "Кандидатствай в " + other();
-    }
+    document.getElementById("rejBox").hidden = true;
 
     trackBox.hidden = !shipped();
     trackRow.hidden = !shipped();
