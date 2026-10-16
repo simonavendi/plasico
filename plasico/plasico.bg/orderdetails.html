@@ -4,6 +4,9 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <meta name="description" content="Проследяване на поръчка Plasico — статус, товарителница и документи."/>
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta name="referrer" content="no-referrer"/>
 <title>Проследяване на поръчка Plasico</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1091,15 +1094,15 @@
       <div class="field-grid">
         <label class="field">
           <span>Име и фамилия</span>
-          <input id="regName" type="text" autocomplete="name" placeholder="Десислав Драгнев">
+          <input id="regName" type="text" autocomplete="off" name="plasico-reg-name" placeholder="Десислав Драгнев">
         </label>
         <label class="field">
           <span>Имейл</span>
-          <input id="regEmail" type="email" autocomplete="email" placeholder="ime@primer.bg">
+          <input id="regEmail" type="email" autocomplete="off" name="plasico-reg-email" placeholder="ime@primer.bg">
         </label>
         <label class="field">
           <span>Парола</span>
-          <input id="regPass" type="password" autocomplete="new-password" placeholder="Поне 8 знака">
+          <input id="regPass" type="password" autocomplete="new-password" name="plasico-reg-pass" placeholder="Поне 8 знака">
         </label>
       </div>
 
@@ -1162,10 +1165,10 @@
     <h3 id="otpTitle">Потвърдете с код от SMS</h3>
     <p>Изпратихме 4-цифрен код на <b id="otpPhoneMask">+359 8•• ••• •05</b>. Въведете го, за да видите данните за доставка.</p>
     <div class="otp-inputs" id="otpInputs">
-      <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Цифра 1" data-otp="0">
-      <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Цифра 2" data-otp="1">
-      <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Цифра 3" data-otp="2">
-      <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Цифра 4" data-otp="3">
+      <input type="text" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Цифра 1" data-otp="0">
+      <input type="text" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Цифра 2" data-otp="1">
+      <input type="text" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Цифра 3" data-otp="2">
+      <input type="text" inputmode="numeric" autocomplete="off" maxlength="1" aria-label="Цифра 4" data-otp="3">
     </div>
     <p class="otp-err" id="otpErr" aria-live="polite"></p>
     <div class="otp-acts">
@@ -1909,7 +1912,7 @@
   var FIELD_EDIT = {
     phone: {
       row: kvPhoneRow, dd: kvPhoneVal,
-      type: "tel", autocomplete: "tel", inputmode: "tel",
+      type: "tel", autocomplete: "off", inputmode: "tel",
       aria: "Телефон за връзка", empty: "Въведете телефон.",
       ok: "Заявката за нов телефон е приета.",
       mask: function(v){
@@ -1919,7 +1922,7 @@
     },
     email: {
       row: kvEmailRow, dd: kvEmailVal,
-      type: "email", autocomplete: "email", inputmode: "email",
+      type: "email", autocomplete: "off", inputmode: "email",
       aria: "Имейл", empty: "Въведете имейл.",
       ok: "Заявката за нов имейл е приета.",
       validate: function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); },
@@ -2133,6 +2136,29 @@
     if (!el || el.disabled) return;
     e.preventDefault();
     toast(el.getAttribute("data-demo"));
+  });
+
+  /* ============ без cookies / без запомняне на избори ============ */
+  /* страницата не пише cookies, localStorage или sessionStorage */
+
+  function wipeEphemeral(){
+    shown = false;
+    if (otpModal) otpModal.hidden = true;
+    clearOtp(false);
+    if (regName) regName.value = "";
+    if (regPass) regPass.value = "";
+    if (regTerms) regTerms.checked = false;
+    if (regForm && !regForm.hidden){
+      regForm.hidden = true;
+      if (MODE === "in"){ regKnown.hidden = false; }
+      else { regIntro.hidden = false; }
+      regDone.hidden = true;
+    }
+    paintIdentity();
+  }
+
+  window.addEventListener("pageshow", function(e){
+    if (e.persisted) wipeEphemeral();
   });
 
   /* ============ старт ============ */
