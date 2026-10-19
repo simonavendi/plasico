@@ -264,13 +264,21 @@
   .btn svg{width:16px;height:16px}
   .btn-row{margin-top:24px}
 
+  .eta-stack{
+    display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:16px;
+  }
   .eta{
-    display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+    display:inline-flex;align-items:center;gap:8px;
     background:var(--brand-tint);border:1px solid var(--brand-tint-line);
     color:var(--brand-ink);border-radius:999px;
     padding:8px 16px;font-size:13px;font-weight:700;
   }
+  .eta[hidden]{display:none!important}
   .eta svg{width:14px;height:14px;flex:none}
+  .eta--muted{
+    background:var(--surface-2);border-color:var(--line-strong);
+    color:var(--muted);font-weight:600;
+  }
 
   /* ---------- плащане ---------- */
   .pay-box{
@@ -678,6 +686,40 @@
     .order-s{grid-column:2;grid-row:2;justify-self:end}
     .order-a{grid-column:1/-1;margin-top:6px}
     button.order-a{width:100%;justify-content:center}
+
+    /* центриране на всички бутони на мобилно */
+    .btn-row,
+    .gate-start,
+    .pay-acts,
+    .rej-acts,
+    .otp-acts,
+    .reg-actions,
+    .kv-edit,
+    .support{
+      display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+      text-align:center;
+    }
+    .reg-main,
+    .reg-main-body{
+      justify-content:center;text-align:center;
+    }
+    .register-cta{
+      margin-left:0;width:100%;display:flex;flex-direction:column;align-items:center;
+    }
+    .btn,
+    .btn-ghost,
+    .btn-reg,
+    .upload,
+    .doc-act,
+    .menu-btn,
+    button.order-a{
+      margin-left:auto;margin-right:auto;
+    }
+    .gate-start .menu-wrap--gate{
+      width:100%;display:flex;justify-content:center;
+    }
+    .support-txt{text-align:center;min-width:0;flex:1 1 100%}
+    .support .btn-ghost{width:100%;max-width:320px;justify-content:center}
   }
   @media (min-width:901px){
     .gate-start{flex-wrap:nowrap}
@@ -799,10 +841,16 @@
       <p class="fineprint">Плащането се отразява до 1 работен ден. Ако прикачите платежното нареждане, обработваме поръчката веднага след проверка.</p>
     </div>
 
-    <div><span class="eta" id="eta">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-      <span id="etaText">Очаквайте доставка 1-4 дни след приемане на поръчката</span>
-    </span></div>
+    <div class="eta-stack">
+      <span class="eta" id="eta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span id="etaText">Очаквайте доставка 1-4 дни след приемане на поръчката</span>
+      </span>
+      <span class="eta eta--muted" id="pageTempNote">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Тази страница е временна и ще изчезне след 1 месец.
+      </span>
+    </div>
   </section>
 
   <!-- ============ СЪДЪРЖАНИЕ НА ПОРЪЧКАТА ============ -->
@@ -856,7 +904,7 @@
           <b>4,00 €</b>
         </div>
         <div class="sum-row is-total">
-          <span>Сума за плащане с ДДС</span>
+          <span>Сума с ДДС</span>
           <b>624,98 €</b>
         </div>
       </div>
